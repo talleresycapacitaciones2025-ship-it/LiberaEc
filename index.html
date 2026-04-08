@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LiberaEC · Asesoría violencia de género y digital · Ecuador</title>
+    <!-- Fuente profesional Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+        .app-container {
+            max-width: 550px;
+            width: 100%;
+            height: 95vh;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(88, 28, 135, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #6b21a5 0%, #4c1d95 100%);
+            color: white;
+            padding: 14px 16px 10px 16px;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.3px;
+        }
+        .header h1 span {
+            background: #a855f7;
+            padding: 2px 8px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+        .menu-icon {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+        .badge {
+            background: #a855f7;
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+        .disclaimer {
+            font-size: 0.65rem;
+            margin-top: 8px;
+            opacity: 0.9;
+            background: #4c1d95;
+            padding: 4px 8px;
+            border-radius: 14px;
+        }
+        .vault-bar {
+            background: #faf5ff;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9d5ff;
+            font-size: 0.75rem;
+            color: #4c1d95;
+        }
+        .vault-btn {
+            background: #7e22ce;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        /* Menú lateral con scroll */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: #1e1b4b;
+            color: white;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;  /* permite scroll */
+        }
+        .side-menu.open { left: 0; }
+        .menu-header { 
+            padding: 20px; 
+            border-bottom: 1px solid #4c1d95; 
+            font-weight: 600; 
+            font-size: 1.2rem; 
+            background: #2e1065; 
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .menu-category { 
+            padding: 12px 20px; 
+            font-weight: 600; 
+            background: #4c1d95; 
+            margin-top: 8px; 
+        }
+        .menu-item { 
+            padding: 10px 20px 10px 30px; 
+            cursor: pointer; 
+            border-bottom: 1px solid #4c1d95; 
+            font-size: 0.9rem;
+        }
+        .menu-item:hover { background: #7e22ce; }
+        .close-menu { 
+            background: none; 
+            border: none; 
+            color: white; 
+            font-size: 1.5rem; 
+            position: sticky;
+            top: 16px;
+            float: right;
+            cursor: pointer;
+            text-align: right;
+            display: block;
+            margin: 12px 16px 0 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        .overlay.show { display: block; }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #ffffff;
+        }
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 20px;
+            line-height: 1.4;
+            font-size: 0.9rem;
+            animation: fadeIn 0.2s ease;
+        }
+        .bot {
+            background: #f3e8ff;
+            color: #2e1065;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .user {
+            background: #7e22ce;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .input-area {
+            display: flex;
+            padding: 8px 12px;
+            background: white;
+            gap: 8px;
+            border-top: 1px solid #e9d5ff;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #d8b4fe;
+            border-radius: 30px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+        }
+        .input-area input:focus {
+            border-color: #7e22ce;
+        }
+        .input-area button {
+            background: #7e22ce;
+            border: none;
+            color: white;
+            padding: 0 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .footer-note {
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 6px;
+            color: #6b21a5;
+            background: #faf5ff;
+            border-top: 1px solid #e9d5ff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <div class="header-top">
+            <h1>⚖️ LiberaEC <span>beta</span></h1>
+            <button class="menu-icon" id="menuToggleBtn">☰</button>
+        </div>
+        <div class="badge">🇪🇨 Leyes de Ecuador · Violencia de género y digital</div>
+        <div class="disclaimer">⚠️ Chat informativo. Emergencia: <strong>9-1-1</strong> (ECU 911).</div>
+    </div>
+    <div class="vault-bar">
+        <span>🔒 Bóveda segura de evidencias</span>
+        <button class="vault-btn" id="vaultBtn">📂 Guardar</button>
+    </div>
+    <div class="messages" id="chatMessages">
+        <div class="message bot">
+            👋 Hola, soy <strong>LiberaEC</strong>. Te informo sobre violencia de género y <strong>violencia digital</strong> basada en leyes de Ecuador.<br><br>
+            Haz clic en el <strong>☰</strong> para abrir el menú. También puedes escribir tu pregunta directamente.<br><br>
+            <strong>Ejemplos:</strong> "me cela", "me controla", "no me da dinero", "me pide fotos", "me chantajea", "grooming", "sextorsión".
+        </div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Escribe tu pregunta..." autocomplete="off">
+        <button id="sendBtn">Enviar</button>
+    </div>
+    <div class="footer-note">💜 COIP, Ley Orgánica contra la Violencia a las Mujeres, COOTAD y Ordenanzas Cantonales</div>
+</div>
+
+<div class="side-menu" id="sideMenu">
+    <div style="text-align: right; padding: 8px 12px 0 0;">
+        <button class="close-menu" id="closeMenuBtn">✕</button>
+    </div>
+    <div class="menu-header">📋 Temas de ayuda</div>
+    <div class="menu-category">🚨 Violencia de género general</div>
+    <div class="menu-item" data-key="que_es">¿Qué es violencia de género?</div>
+    <div class="menu-item" data-key="senales">Señales de alerta</div>
+    <div class="menu-item" data-key="peligro">🆘 Estoy en peligro ahora</div>
+    <div class="menu-item" data-key="pruebas">📎 ¿Cómo reunir pruebas?</div>
+    <div class="menu-item" data-key="derechos">⚖️ Denuncia y derechos</div>
+    <div class="menu-item" data-key="ayuda">📍 ¿Dónde pedir ayuda?</div>
+    <div class="menu-item" data-key="pareja_mujeres">🏳️‍🌈 Violencia en parejas de mujeres</div>
+    <div class="menu-item" data-key="pareja_hombres">🏳️‍🌈 Violencia en parejas de hombres</div>
+    <div class="menu-category">💻 Violencia digital</div>
+    <div class="menu-item" data-key="vd_que">¿Qué es violencia digital?</div>
+    <div class="menu-item" data-key="vd_senales">Señales de violencia digital</div>
+    <div class="menu-item" data-key="vd_autocuidado">🛡️ Autocuidado digital</div>
+    <div class="menu-item" data-key="vd_denuncia">⚖️ Denunciar violencia digital</div>
+    <div class="menu-item" data-key="glosario_violencia_digital">📚 Otros tipos (glosario)</div>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<script>
+    // ==================== RESPUESTAS EXPLICATIVAS Y COMPLETAS (mismo contenido que antes) ====================
+    // (Se mantiene idéntico al código anterior, solo cambia el nombre del chatbot en los textos)
+    const respuestas = {
+        que_es: `🚨 <strong>¿Qué es la violencia de género?</strong><br><br>
+La violencia de género es cualquier acción u omisión que, basada en una relación desigual de poder, cause daño físico, psicológico, sexual, económico o patrimonial a una persona por su género u orientación sexual. En Ecuador, la <strong>Ley Orgánica Integral para Prevenir y Erradicar la Violencia contra las Mujeres</strong> reconoce 7 tipos:<br><br>
+1️⃣ <strong>Violencia física:</strong> golpes, empujones, cachetadas, jaloneos, quemaduras, lesiones.<br>
+2️⃣ <strong>Violencia psicológica:</strong> insultos, humillaciones, control, celos extremos, chantaje, manipulación, gaslighting, aislamiento.<br>
+3️⃣ <strong>Violencia sexual:</strong> actos sexuales sin consentimiento, acoso, exposición a pornografía, sextorsión, difusión de imágenes íntimas.<br>
+4️⃣ <strong>Violencia económica:</strong> controlar o negar el dinero, impedir trabajar o estudiar.<br>
+5️⃣ <strong>Violencia patrimonial:</strong> destruir o retener bienes, documentos o pertenencias.<br>
+6️⃣ <strong>Violencia simbólica:</strong> mensajes o estereotipos que perpetúan la subordinación.<br>
+7️⃣ <strong>Violencia política:</strong> impedir el ejercicio de derechos políticos.<br><br>
+<strong>También existe la violencia digital</strong> (grooming, sextorsión, ciberacoso, etc.). Todas estas formas de violencia son reales, duelen y son denunciables. No estás sola/o.`,
+
+        senales: `⚠️ <strong>Señales de alerta de violencia de género</strong><br><br>
+<strong>¿Cómo saber si estás en una relación violenta?</strong> Estas son algunas señales:<br><br>
+• Controla tus horarios, tu dinero, tu ropa o con quién te relacionas.<br>
+• Revisa tu celular, correo o redes sociales sin tu permiso.<br>
+• Te insulta, humilla, menosprecia o ridiculiza, incluso en público.<br>
+• Te cela constantemente sin motivo y te acusa de cosas que no haces.<br>
+• Te amenaza con hacerte daño a ti, a tu familia o a tus pertenencias.<br>
+• Te aísla de tus amistades o familiares.<br>
+• Minimiza la violencia diciendo "solo fue un juego" o "estás exagerando".<br>
+• Te obliga o presiona para tener relaciones sexuales.<br>
+• Te impide trabajar, estudiar o salir sola/o.<br>
+• Rompe objetos o muestra violencia ambiental (golpear paredes, tirar cosas).<br>
+• No te da dinero para gastos básicos o te exige justificar cada gasto.<br>
+• Te exige fotos íntimas, tu ubicación o tus contraseñas.<br><br>
+Si reconoces varias de estas señales, estás viviendo violencia. No es normal, no es amor. Puedes pedir ayuda.`,
+
+        peligro: `🆘 <strong>Si estás en peligro ahora, actúa rápido</strong><br><br>
+<strong>Tu seguridad es lo más importante. Sigue estos pasos:</strong><br><br>
+1️⃣ <strong>Llama al 9-1-1</strong> (ECU 911). Este servicio funciona 24/7 en todo Ecuador. Di que estás en una situación de violencia de género y tu ubicación.<br>
+2️⃣ Si no puedes hablar por teléfono, envía un mensaje de texto a una persona de confianza o usa la app AlertECU (gratuita).<br>
+3️⃣ <strong>Aléjate del lugar</strong> si hay una salida segura. No te enfrentes a la persona agresora.<br>
+4️⃣ Si tienes hijas o hijos, llévalos contigo. Ellos también son víctimas.<br>
+5️⃣ Una vez a salvo, acude a la <strong>Fiscalía General del Estado</strong>, a una <strong>Unidad Judicial Especializada en Violencia contra la Mujer</strong> o a la <strong>Junta Cantonal de Protección de Derechos</strong> de tu cantón.<br><br>
+<strong>No es tu culpa. La responsabilidad es siempre de quien ejerce violencia.</strong>`,
+
+        pruebas: `📎 <strong>¿Cómo reunir pruebas para una denuncia?</strong><br><br>
+Las pruebas son fundamentales para que la justicia actúe. Aquí te explicamos qué puedes guardar:<br><br>
+<strong>📱 Pruebas digitales:</strong><br>
+• Capturas de pantalla de mensajes de WhatsApp, Telegram, redes sociales (incluye fechas y horas).<br>
+• Grabaciones de audio o video de insultos, amenazas o agresiones (aunque sean del celular).<br>
+• Correos electrónicos o mensajes de voz intimidantes.<br>
+• Registros de llamadas (fecha, hora, duración).<br><br>
+<strong>📄 Pruebas físicas:</strong><br>
+• Fotografías de lesiones (golpes, moretones, cortes) o de daños a tus pertenencias.<br>
+• Certificados médicos: acude a un centro de salud público (es gratuito) para que dejen constancia de lesiones o afectaciones psicológicas.<br>
+• Testimonios escritos de personas que hayan presenciado actos de violencia.<br>
+• Diario de incidentes: anota fechas, horas y descripciones de cada agresión.<br><br>
+<strong>🔒 Guárdalas de forma segura:</strong> usa la <strong>Bóveda Segura</strong> de esta app (cifrada localmente), un correo electrónico secreto, o una memoria USB que escondas fuera de tu casa.<br><br>
+<strong>No te expongas a peligro para obtener pruebas. Tu vida es lo primero.</strong>`,
+
+        derechos: `⚖️ <strong>Tus derechos y cómo denunciar en Ecuador</strong><br><br>
+<strong>Derechos que tienes por ley:</strong><br>
+✓ Derecho a una vida libre de violencia.<br>
+✓ Derecho a ser tratada con dignidad, sin revictimización.<br>
+✓ Derecho a acceder a la justicia de forma gratuita y oportuna.<br>
+✓ Derecho a recibir <strong>medidas de protección</strong> inmediatas: boleta de auxilio, salida del agresor del domicilio, prohibición de acercamiento, suspensión de visitas, etc.<br>
+✓ Derecho a ser asistida por un <strong>defensor público gratuito</strong> si no puedes pagar un abogado.<br><br>
+<strong>¿Dónde puedes denunciar?</strong><br>
+• <strong>Fiscalía General del Estado</strong> o <strong>Unidades Judiciales Especializadas en Violencia contra la Mujer</strong> (ámbito penal).<br>
+• <strong>Junta Cantonal de Protección de Derechos</strong> de tu cantón (ámbito de protección integral, medidas administrativas y de amparo). Estas juntas funcionan en cada cantón, reguladas por el COOTAD y ordenanzas cantonales. En Guayaquil, por ejemplo, el <strong>Consejo Cantonal de Protección Integral de Derechos (CCPID)</strong> alberga la Junta Cantonal.<br><br>
+<strong>¿Cómo es el proceso?</strong><br>
+1. Acude con tu cédula y las pruebas que tengas (no es obligatorio tener pruebas para denunciar).<br>
+2. Presenta tu denuncia verbal o escrita. Es gratuita.<br>
+3. Puedes solicitar medidas de protección en el mismo acto.<br>
+4. Si no tienes abogado, la Defensoría Pública te asignará uno gratuito.<br><br>
+<strong>Ordenanzas cantonales:</strong> muchos cantones tienen ordenanzas específicas para prevenir la violencia de género. Consulta en tu municipio o Junta Cantonal.<br><br>
+<em>Este chatbot no presenta denuncias. La denuncia debe ser presencial o virtual por canales oficiales.</em>`,
+
+        ayuda: `📍 <strong>Recursos gratuitos en Ecuador para víctimas de violencia</strong><br><br>
+🔵 <strong>Emergencias (24/7):</strong> ECU 911 – marca <strong>9-1-1</strong>. Atienden violencia de género, activan policía, ambulancia o bomberos.<br><br>
+🟢 <strong>Defensoría Pública del Ecuador:</strong> 1800-333-425 – patrocinio legal gratuito para víctimas que no pueden pagar abogado.<br><br>
+🟡 <strong>Fiscalía General del Estado:</strong> www.fiscalia.gob.ec – Tiene unidades especializadas en violencia contra la mujer y ciberdelitos. Puedes buscar la más cercana a tu domicilio.<br><br>
+🟣 <strong>Juntas Cantonales de Protección de Derechos:</strong> En cada cantón. Ofrecen atención psicosocial, medidas de protección administrativas y orientación para denunciar. Por ejemplo, en Guayaquil: <strong>Consejo Cantonal de Protección Integral de Derechos (CCPID)</strong>, web: ccpidguayaquil.gob.ec.<br><br>
+🟠 <strong>Ministerio de Salud Pública:</strong> Atención médica y psicológica gratuita en todos los centros de salud y hospitales públicos. No necesitas seguro.<br><br>
+<strong>Importante:</strong> Este chat no está conectado con ninguna institución. Los datos son de fuentes oficiales y públicos. Si estás en peligro, llama al 9-1-1.`,
+
+        pareja_mujeres: `🏳️‍🌈 <strong>Violencia en parejas de mujeres</strong><br><br>
+La violencia de género también ocurre en relaciones entre mujeres. Puede ser física, psicológica, sexual, económica o digital. Sin embargo, a menudo es invisibilizada por mitos dañinos como "entre mujeres no hay violencia", "es solo pelea de celos" o "las mujeres no somos violentas".<br><br>
+<strong>Señales específicas en parejas de mujeres:</strong><br>
+• Control excesivo, celos enfermizos, revisión del celular.<br>
+• Aislamiento de amistades o familia.<br>
+• Insultos homofóbicos o descalificación por tu orientación sexual.<br>
+• Amenazas con "deschapar" (revelar tu orientación sexual) si no haces lo que ella quiere.<br>
+• Minimización: "somos mujeres, no podemos ser violentas" – eso es falso.<br>
+• Chantaje emocional: "si me dejas, me mato".<br><br>
+<strong>¿Por qué es violencia?</strong> Porque hay una relación de poder y control, daña tu autoestima, tu libertad y tu integridad. La ley ecuatoriana protege a todas las personas, sin importar su orientación sexual.<br><br>
+<strong>Puedes denunciar</strong> en Fiscalía, Unidad Judicial o Junta Cantonal. No estás sola.`,
+
+        pareja_hombres: `🏳️‍🌈 <strong>Violencia en parejas de hombres</strong><br><br>
+La violencia de género también afecta a hombres en relaciones con otros hombres. Puede ser física, psicológica, sexual o económica. Existe un gran tabú y falta de reconocimiento, lo que dificulta pedir ayuda. Muchos creen que "los hombres no sufren violencia" o que "es parte de la dinámica", pero eso es falso.<br><br>
+<strong>Señales específicas en parejas de hombres:</strong><br>
+• Control, humillación, amenazas constantes.<br>
+• Uso de la identidad sexual para chantajear o aislar ("si no haces esto, digo que eres gay").<br>
+• Violencia física o sexual minimizada por "ser hombres" (no deberías aguantar golpes ni abusos).<br>
+• Miedo a no ser creído por las autoridades o por tu entorno.<br>
+• Chantaje emocional o económico.<br><br>
+<strong>¿Por qué es violencia?</strong> Porque cualquier acto que controle, lastime o someta a otra persona, sin importar su género, es violencia. Tienes los mismos derechos a una vida libre de violencia.<br><br>
+<strong>Puedes denunciar</strong> en Fiscalía, Unidad Judicial o Junta Cantonal. No estás solo.`,
+
+        vd_que: `💻 <strong>¿Qué es la violencia digital?</strong><br><br>
+La violencia digital es cualquier acto de violencia de género cometido, asistido o agravado por el uso de tecnologías (internet, redes sociales, celulares, WhatsApp, etc.). No es menos grave que la violencia física. Duele, humilla, controla y puede escalar.<br><br>
+<strong>Tipos de violencia digital:</strong><br>
+• <strong>Grooming:</strong> un adulto se hace pasar por menor para ganar confianza y abusar sexualmente.<br>
+• <strong>Sextorsión:</strong> chantaje con imágenes íntimas para obtener dinero o más contenido.<br>
+• <strong>Difusión no consentida de imágenes íntimas (DIISC):</strong> compartir fotos/videos sexuales sin permiso (antes llamada "pornovenganza").<br>
+• <strong>Ciberacoso:</strong> insultos, amenazas, hostigamiento repetido en redes.<br>
+• <strong>Suplantación de identidad:</strong> crear perfiles falsos para dañar tu reputación.<br>
+• <strong>Doxeo:</strong> publicar tus datos personales (dirección, teléfono) para exponerte.<br>
+• <strong>Exigir contraseñas, ubicación o fotos íntimas:</strong> es una forma de control y violencia psicológica.<br>
+• <strong>Cyberflashing:</strong> envío de fotos obscenas sin consentimiento.<br>
+• <strong>Deepfake:</strong> videos falsos creados con IA para difamarte.<br><br>
+En Ecuador, estas conductas pueden ser sancionadas por el <strong>Código Orgánico Integral Penal (COIP)</strong> como delitos contra la integridad sexual, la honra o la libertad personal. Denuncia.`,
+
+        vd_senales: `⚠️ <strong>Señales de alerta de violencia digital</strong><br><br>
+<strong>¿Cómo saber si estás sufriendo violencia digital?</strong> Estas son algunas señales:<br><br>
+• Recibes mensajes insistentes, ofensivos o amenazantes por redes sociales o WhatsApp.<br>
+• Alguien te obliga o presiona para que le envíes fotos íntimas, incluso bajo amenazas.<br>
+• Descubres que tus fotos íntimas han sido compartidas sin tu permiso.<br>
+• Un adulto desconocido te pide mantener conversaciones secretas (cuidado, puede ser grooming).<br>
+• Te ofrecen regalos o dinero a cambio de contenido sexual.<br>
+• Recibes llamadas o mensajes de acoso después de publicar algo en redes.<br>
+• Alguien crea perfiles falsos con tu nombre y foto para difamarte.<br>
+• Notas que tu celular o computadora se comporta de forma extraña (posible spyware o virus).<br>
+• Te exigen tus contraseñas, tu ubicación o compartir tu pantalla.<br>
+• Recibes chantajes: "si no haces esto, publico tus fotos".<br><br>
+<strong>Si identificas estas señales, no estás sola/o. Guarda las pruebas (capturas de pantalla) y denuncia. La violencia digital es real y tiene consecuencias legales.</strong>`,
+
+        vd_autocuidado: `🛡️ <strong>Autocuidado digital: cómo protegerte</strong><br><br>
+<strong>Consejos prácticos para reducir riesgos:</strong><br><br>
+• <strong>Usa contraseñas largas y únicas</strong> para cada cuenta (mezcla letras, números, símbolos).<br>
+• <strong>Activa la verificación en dos pasos</strong> en redes sociales y correo electrónico.<br>
+• <strong>No compartas información personal</strong> (dirección, escuela, rutinas, fotos íntimas) en perfiles públicos.<br>
+• <strong>Configura la privacidad</strong> de tus redes sociales: solo tus amistades pueden ver tus publicaciones.<br>
+• <strong>Si recibes mensajes de desconocidos, no respondas y bloquea</strong> inmediatamente.<br>
+• <strong>No envíes fotos íntimas</strong> aunque te lo pidan con insistencia. Quien realmente te respeta no te presiona.<br>
+• <strong>Si eres menor de edad, habla con un adulto de confianza</strong> si alguien te hace sentir incómodo en línea.<br>
+• <strong>Revisa los permisos de las aplicaciones</strong> en tu celular (no des acceso a ubicación, micrófono o cámara si no es necesario).<br>
+• <strong>Desconfía de enlaces sospechosos</strong> o de ofertas demasiado buenas (pueden ser phishing).<br>
+• <strong>Si te chantajean, no cedas.</strong> Guarda las pruebas y denuncia.<br><br>
+<strong>El autocuidado digital es un derecho. Tú decides qué compartes y con quién.</strong>`,
+
+        vd_denuncia: `⚖️ <strong>Denunciar violencia digital en Ecuador</strong><br><br>
+<strong>¿Dónde puedes denunciar?</strong><br>
+• <strong>Fiscalía General del Estado</strong> (unidades especializadas en violencia contra la mujer o ciberdelitos).<br>
+• <strong>ECU 911</strong> (en emergencias, si hay amenaza inmediata).<br>
+• <strong>Defensoría Pública</strong> (patrocinio legal gratuito si no tienes abogado).<br>
+• <strong>Junta Cantonal de Protección de Derechos</strong> (medidas administrativas y protección integral, especialmente si eres menor de edad o necesitas apoyo psicosocial).<br><br>
+<strong>¿Qué pruebas necesitas?</strong><br>
+• Capturas de pantalla completas (con fecha, hora y nombre de la persona).<br>
+• Enlaces a los perfiles o publicaciones ofensivas.<br>
+• Registros de llamadas o mensajes.<br>
+• Testigos (personas que también vieron el acoso).<br>
+• Peritajes informáticos (si es necesario, la Fiscalía los solicita).<br><br>
+<strong>Delitos que puedes denunciar (Código Orgánico Integral Penal - COIP):</strong><br>
+• Acoso sexual (art. 166).<br>
+• Violencia psicológica (art. 157).<br>
+• Difusión de imágenes íntimas sin consentimiento (art. 178, numeral 5).<br>
+• Suplantación de identidad (art. 234).<br>
+• Grooming (contacto con fines sexuales con menores, art. 170).<br>
+• Amenazas (art. 293).<br><br>
+<strong>Recuerda:</strong> La denuncia es personal y gratuita. Este chatbot solo informa; la denuncia debe presentarse ante las autoridades.`,
+
+        // ========== RESPUESTAS EXPLICATIVAS PARA CADA TIPO DE VIOLENCIA (se mantienen igual, solo cambia nombre) ==========
+        economica: `💰 <strong>Violencia económica y patrimonial: "No me da dinero" o "Controla mi dinero"</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Cuando tu pareja o un familiar controla tu dinero, te impide trabajar, no te da lo necesario para vivir, o destruye tus pertenencias, está ejerciendo <strong>violencia económica o patrimonial</strong>. El objetivo es hacerte dependiente, limitar tu libertad y someterte. No es "cuidado del dinero", es control y dominación.<br><br>
+<strong>Ejemplos:</strong><br>
+• No te da dinero para comida, medicinas o transporte.<br>
+• Te exige justificar cada gasto mínimo.<br>
+• Te impide trabajar o estudiar para que no tengas ingresos propios.<br>
+• Destruye tus pertenencias (ropa, documentos, celular).<br>
+• Retiene tus documentos (cédula, títulos) para que no puedas salir o trabajar.<br>
+• Se gasta el dinero sin consultarte y luego no alcanza para lo básico.<br><br>
+<strong>Qué puedes hacer:</strong><br>
+• Guarda pruebas: estados de cuenta, mensajes donde te niegue dinero, fotos de pertenencias rotas.<br>
+• Abre una cuenta bancaria a tu nombre si es posible.<br>
+• Denuncia en <strong>Fiscalía</strong> o en la <strong>Junta Cantonal de Protección de Derechos</strong>.<br>
+• Pide medidas de protección: salida del agresor del domicilio, boleta de auxilio.<br><br>
+<strong>No es normal que te controlen el dinero. Tienes derecho a tus ingresos y a decidir sobre ellos.</strong>`,
+
+        fotos_intimas: `📸 <strong>"Me pide fotos íntimas" - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Por qué es violento?</strong><br>
+Exigirte fotos íntimas, aunque sea tu pareja, es una forma de <strong>violencia sexual y psicológica</strong>. No es una muestra de amor o confianza. Es una manera de presionarte, controlarte y, en muchos casos, de chantajearte después. Si tú no quieres enviarlas y él/ella insiste, te manipula o te amenaza, eso es violencia.<br><br>
+<strong>Riesgos:</strong><br>
+• Pueden difundir esas fotos sin tu permiso (difusión no consentida, delito).<br>
+• Pueden chantajearte con publicarlas para obtener dinero o más contenido (sextorsión).<br>
+• Una vez que las envías, pierdes el control sobre ellas.<br><br>
+<strong>Qué hacer:</strong><br>
+• No cedas a la presión. Tu cuerpo es tuyo y tú decides.<br>
+• Guarda los mensajes como prueba.<br>
+• Denuncia en <strong>Fiscalía</strong> o <strong>Junta Cantonal</strong>.<br>
+• Si ya enviaste fotos y te están chantajeando, no pagues ni sigas enviando. Guarda pruebas y denuncia.<br><br>
+<strong>Recuerda: el consentimiento es libre y puede retirarse. Nadie tiene derecho a exigirte nada.</strong>`,
+
+        chantaje: `⚠️ <strong>Chantaje emocional o sexual - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Por qué es violento?</strong><br>
+El chantaje es una forma de <strong>violencia psicológica</strong> porque manipula tus emociones para que hagas algo que no quieres. Te hace sentir culpable, miedo o vergüenza. No es amor, es control.<br><br>
+<strong>Ejemplos comunes:</strong><br>
+• "Si no tienes sexo conmigo, me voy".<br>
+• "Si me dejas, me mato".<br>
+• "Si no me mandas fotos, las publico".<br>
+• "Si no me das tu contraseña, me enojo y no te hablo".<br><br>
+<strong>Qué hacer:</strong><br>
+• No cedas al chantaje. Ceder solo empeora la situación.<br>
+• Guarda las pruebas (audios, mensajes, capturas).<br>
+• Denuncia en <strong>Fiscalía</strong> o <strong>Junta Cantonal</strong>. El chantaje con imágenes íntimas es delito (sextorsión).<br>
+• Busca apoyo psicológico. No estás sola/o.<br><br>
+<strong>Mereces relaciones basadas en respeto, no en amenazas.</strong>`,
+
+        manipulacion: `🎭 <strong>Manipulación emocional - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Por qué es violento?</strong><br>
+La manipulación es una forma sutil pero muy dañina de <strong>violencia psicológica</strong>. La persona agresora distorsiona la realidad, te hace sentir culpable, invalida tus sentimientos y te hace dudar de tu propia cordura (gaslighting). Con el tiempo, pierdes confianza en ti misma/o y dependes emocionalmente de él/ella.<br><br>
+<strong>Ejemplos de manipulación:</strong><br>
+• "Estás loca, eso no pasó".<br>
+• "Si me amaras, no te enojarías".<br>
+• "Siempre exageras todo".<br>
+• "Tú me provocaste".<br><br>
+<strong>Qué hacer:</strong><br>
+• Reconoce que no es tu culpa. Es una estrategia de control.<br>
+• Guarda evidencias (grabaciones, testigos).<br>
+• Busca ayuda psicológica profesional.<br>
+• Denuncia si la manipulación incluye amenazas o aislamiento.<br><br>
+<strong>Tu realidad es válida. No dejes que nadie te haga dudar de ti misma/o.</strong>`,
+
+        mentiras: `🗣️ <strong>Mentiras y engaños sistemáticos - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Por qué es violento?</strong><br>
+Mentirte constantemente, ocultarte información o engañarte para manipularte es <strong>violencia psicológica</strong>. Rompe la confianza, te desestabiliza y te hace sentir insegura/o. Una relación sana se basa en honestidad y respeto mutuo.<br><br>
+<strong>Ejemplos:</strong><br>
+• Te miente sobre dónde va o con quién está.<br>
+• Te oculta problemas económicos importantes.<br>
+• Te engaña sobre su pasado o sobre infidelidades.<br>
+• Te promete cambiar y nunca lo hace.<br><br>
+<strong>Qué hacer:</strong><br>
+• Establece límites claros: "no voy a tolerar mentiras".<br>
+• Guarda pruebas de las mentiras (mensajes contradictorios).<br>
+• Si las mentiras afectan tu salud mental o tu patrimonio, busca ayuda profesional.<br>
+• Valora si esa relación te suma o te resta.<br><br>
+<strong>Mereces honestidad. Las mentiras repetidas no son normales.</strong>`,
+
+        gaslighting: `🌀 <strong>Gaslighting - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Qué es el gaslighting?</strong><br>
+Es una forma de manipulación psicológica donde la persona agresora te hace dudar de tu realidad, tu memoria o tu cordura. Es una de las formas más dañinas de <strong>violencia psicológica</strong> porque te hace perder confianza en ti misma/o.<br><br>
+<strong>Frases típicas de gaslighting:</strong><br>
+• "Eso no pasó, te lo estás inventando".<br>
+• "Estás exagerando como siempre".<br>
+• "Estás loca, necesitas ayuda".<br>
+• "Yo nunca dije eso, te lo imaginas".<br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Porque busca desestabilizarte emocionalmente, hacerte dependiente y controlar tu percepción de la realidad. Con el tiempo, puedes llegar a creer que realmente "estás loca/o".<br><br>
+<strong>Qué hacer:</strong><br>
+• Confía en tu memoria y en tus sentimientos. Si algo te duele, es real.<br>
+• Guarda pruebas (grabaciones, mensajes, testigos).<br>
+• Busca ayuda psicológica especializada.<br>
+• Denuncia si el gaslighting se acompaña de otras violencias (insultos, aislamiento, amenazas).<br><br>
+<strong>No estás loca/o. Es una estrategia de abuso.</strong>`,
+
+        grooming: `⚠️ <strong>Grooming (ciberengaño pederasta) - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Qué es el grooming?</strong><br>
+Es cuando un adulto se hace pasar por menor de edad en internet (redes sociales, juegos online, chats) para ganarse la confianza de un niño, niña o adolescente, con el fin de abusar sexualmente de él o ella. Es una forma grave de <strong>violencia sexual y psicológica</strong>.<br><br>
+<strong>¿Cómo opera?</strong><br>
+1. El adulto crea un perfil falso con apariencia de menor.<br>
+2. Investiga a la víctima (gustos, escuela, amistades).<br>
+3. Gana su confianza con halagos, regalos o promesas.<br>
+4. Pide fotos íntimas o conversaciones sexuales.<br>
+5. Luego chantajea con difundirlas si no hace más cosas.<br><br>
+<strong>Señales de alerta:</strong><br>
+• Un desconocido te escribe insistentemente.<br>
+• Te pide que mantengas la conversación en secreto.<br>
+• Te ofrece regalos o dinero a cambio de fotos.<br>
+• Quiere saber tu dirección o colegio.<br><br>
+<strong>Qué hacer:</strong><br>
+• No respondas, bloquea y guarda capturas.<br>
+• Habla con un adulto de confianza (tus padres, un profesor).<br>
+• Denuncia en <strong>Fiscalía</strong> o en la <strong>Junta Cantonal</strong>.<br>
+• En Ecuador, el grooming es delito (art. 170 COIP).<br><br>
+<strong>No es tu culpa. Los adultos no deben engañar a menores.</strong>`,
+
+        sextorsion: `🔒 <strong>Sextorsión - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Qué es la sextorsión?</strong><br>
+Es una forma de chantaje donde la persona agresora amenaza con difundir imágenes o videos íntimos tuyos si no haces lo que te pide (enviar más fotos, tener relaciones sexuales, dar dinero). Es un delito grave de <strong>violencia sexual y psicológica</strong>.<br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Porque utiliza el miedo y la vergüenza para controlarte y obligarte a hacer cosas contra tu voluntad. Las víctimas sienten terror, ansiedad y culpa, pero la culpa es siempre del agresor.<br><br>
+<strong>Qué hacer:</strong><br>
+• <strong>No cedas al chantaje.</strong> Ceder solo alimenta más extorsión.<br>
+• <strong>No pagues dinero</strong> ni envíes más contenido.<br>
+• Guarda todas las pruebas (capturas de pantalla, nombres de usuario, enlaces).<br>
+• Denuncia en <strong>Fiscalía</strong> o en el <strong>ECU 911</strong> si hay amenaza inminente.<br>
+• En Ecuador, la sextorsión puede ser sancionada como extorsión (art. 293 COIP) y delitos sexuales.<br><br>
+<strong>No estás sola/o. Hay leyes que te protegen. Denuncia.</strong>`,
+
+        ciberacoso: `💻 <strong>Ciberacoso - ¿Por qué es violencia?</strong><br><br>
+<strong>¿Qué es el ciberacoso?</strong><br>
+Es el hostigamiento repetido a través de internet o celular: insultos, amenazas, difamación, burlas, difusión de rumores falsos. Puede ocurrir en redes sociales, WhatsApp, correo o foros. Es una forma de <strong>violencia psicológica</strong>.<br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Porque busca humillarte, intimidarte, dañar tu reputación o hacerte sentir miedo. Aunque no haya contacto físico, el daño emocional es real y puede causar depresión, ansiedad e incluso pensamientos suicidas.<br><br>
+<strong>Qué hacer:</strong><br>
+• No respondas a las provocaciones.<br>
+• Bloquea al agresor y reporta su perfil en la red social.<br>
+• Guarda capturas de pantalla de todo (incluye fechas y horas).<br>
+• Denuncia en <strong>Fiscalía</strong> o en la <strong>Junta Cantonal</strong>.<br>
+• Si el acoso ocurre en el colegio, informa a los profesores o directivos.<br><br>
+<strong>No tienes que aguantar insultos ni amenazas. Nadie tiene derecho a acosarte.</strong>`,
+
+        // ========== RESPUESTAS CORTAS PERO EXPLICATIVAS PARA OTROS TÉRMINOS DEL GLOSARIO ==========
+        cybermobs: `📢 <strong>Cybermobs</strong><br><br>Son grupos organizados en línea que publican contenido ofensivo de forma masiva para avergonzar a alguien o lograr que borre su perfil. Es violencia digital porque ataca la reputación y la salud mental de la víctima. Guarda pruebas (capturas de los ataques) y denuncia en Fiscalía.`,
+        creepshot: `📸 <strong>Creepshot</strong><br><br>Son fotos tomadas en público sin consentimiento, enfocadas en partes íntimas (glúteos, piernas, escote). Es violencia digital porque vulnera tu intimidad y te convierte en un objeto. Si te ocurre, guarda la publicación y denuncia.`,
+        cyberflashing: `📱 <strong>Cyberflashing</strong><br><br>Es el envío de fotografías obscenas sin tu consentimiento para molestarte o intimidarte. Es violencia digital y puede ser delito. Bloquea al remitente, guarda capturas y denuncia en Fiscalía.`,
+        deepfake: `🎭 <strong>Deepfake</strong><br><br>Son videos falsos creados con inteligencia artificial que parecen reales. Se usan para difamarte, humillarte o hacerte parecer en situaciones falsas. Es violencia digital. Guarda pruebas y denuncia.`,
+        discurso_odio: `🗣️ <strong>Discurso de odio</strong><br><br>Es el uso de lenguaje que denigra, insulta o amenaza por tu identidad, orientación sexual, etnia o discapacidad. Es violencia psicológica y digital. Reporta el contenido en la red social y denuncia si es reiterado.`,
+        geolocalizacion: `📍 <strong>Geolocalización forzada</strong><br><br>Es cuando alguien te exige compartir tu ubicación en tiempo real o te rastrea sin permiso. Es una forma de control y violencia psicológica. Desactiva la ubicación en tus apps, cambia contraseñas y denuncia si te amenazan.`,
+        outing: `🏳️‍🌈 <strong>Outing</strong><br><br>Es revelar la orientación sexual o identidad de género de alguien sin su consentimiento. Puede poner en riesgo a la víctima. Es violencia digital y psicológica. Denuncia en Fiscalía o Junta Cantonal.`,
+        packs: `📦 <strong>Packs</strong><br><br>Son conjuntos de imágenes íntimas distribuidas sin consentimiento. Es violencia digital (difusión no consentida). Si te ocurre, guarda las pruebas, no cedas al chantaje y denuncia.`,
+        pornovenganza: `⚠️ <strong>Pornovenganza</strong><br><br>Es la difusión no consentida de imágenes o videos íntimos para dañar a la víctima. Es delito en Ecuador (art. 178 COIP). Guarda pruebas y denuncia.`,
+        raiding: `👥 <strong>Raiding</strong><br><br>Es un ataque coordinado masivo contra una cuenta para dañarla (mensajes ofensivos, reportes falsos). Guarda capturas, bloquea y denuncia.`,
+        slutshaming: `😤 <strong>Slutshaming</strong><br><br>Es avergonzar a una mujer por su supuesta actividad sexual. Es violencia digital que busca regular tu sexualidad y dañar tu reputación. No lo normalices. Denuncia.`,
+        sockpuppet: `🎭 <strong>Sockpuppet</strong><br><br>Son cuentas falsas que se hacen pasar por reales para desinformar o dañar. Reporta y bloquea.`,
+        troll: `👹 <strong>Troleo de género</strong><br><br>Mensajes para molestar o incitar violencia contra mujeres. Bloquea, guarda pruebas y denuncia.`,
+        upskirting: `📷 <strong>Upskirting</strong><br><br>Fotos por debajo de la falda sin consentimiento. Es violencia digital y delito. Denuncia.`,
+        
+        // Respuestas base adicionales
+        celos: `💔 <strong>"Me cela" - Celos enfermizos</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Los celos excesivos no son muestra de amor. Son una forma de <strong>violencia psicológica</strong> porque buscan controlarte, vigilar tus pasos y aislarte. La persona celosa te acusa sin razón, revisa tu celular, te prohíbe ver a amistades y te hace sentir culpable por cosas que no hiciste.<br><br>
+<strong>No es "que te quiero mucho". Es control.</strong> Con el tiempo, pierdes tu libertad y autoestima.<br><br>
+<strong>Qué hacer:</strong> establece límites claros, guarda pruebas de sus acusaciones falsas y busca ayuda en la Junta Cantonal.`,
+
+        control: `🎮 <strong>"Me controla" - Control excesivo</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Controlar tus horarios, tu ropa, tu dinero, con quién te ves, o revisar tu celular sin permiso es <strong>violencia psicológica</strong>. Quien te controla no te ve como una persona autónoma, sino como una propiedad. No es "cuidado", es dominación.<br><br>
+<strong>Ejemplos:</strong> te exige saber dónde estás a cada hora, te dice qué ponerte, te prohíbe ver a ciertos amigos o familiares.<br><br>
+<strong>Qué hacer:</strong> establece límites, guarda evidencias y denuncia en la Junta Cantonal.`,
+
+        jaloneos: `✋ <strong>"Me jalonea" - Jaloneos y tirones</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Los jaloneos, tirones de pelo, de brazos o de ropa son <strong>violencia física</strong>. Aunque no dejen moretones graves, son una forma de agresión que busca intimidarte y demostrar poder sobre ti. No es "juego" ni "exageración".<br><br>
+<strong>Qué hacer:</strong> si estás en peligro, llama al 9-1-1. Acude a un centro de salud para que documenten las lesiones (aunque sean leves). Denuncia en Fiscalía o Junta Cantonal.`,
+
+        criticas: `🗣️ <strong>"Me critica" - Críticas constantes</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Las críticas constantes, humillaciones, menosprecio o burlas hacia tu forma de ser, tu cuerpo, tu trabajo o tus decisiones son <strong>violencia psicológica</strong>. Desgastan tu autoestima, te hacen dudar de ti misma/o y te vuelven dependiente de la aprobación del agresor.<br><br>
+<strong>No es "para que mejores". Es violencia.</strong> Una persona que te ama te respeta, no te destruye.<br><br>
+<strong>Qué hacer:</strong> identifica que no es normal, guarda pruebas (mensajes, audios) y busca apoyo psicológico en la Junta Cantonal.`,
+
+        golpes: `✊ <strong>"Me golpea" - Violencia física</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Cualquier golpe, empujón, cachetada, puñetazo, patada o lesión física es <strong>violencia física</strong> y es un delito en Ecuador. No importa si es "solo una vez" o si no te deja marcas visibles. La violencia física escalada con el tiempo y puede terminar en feminicidio.<br><br>
+<strong>Qué hacer:</strong><br>
+• Si estás en peligro, llama al 9-1-1.<br>
+• Acude a un centro de salud público para que te den un certificado médico gratuito.<br>
+• Denuncia en Fiscalía o en la Junta Cantonal.<br>
+• Pide medidas de protección (boleta de auxilio, salida del agresor del domicilio).<br><br>
+<strong>No es tu culpa. La violencia física nunca está justificada.</strong>`,
+
+        insultos: `🗣️ <strong>Insultos y violencia verbal</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Insultos, gritos, humillaciones, palabras ofensivas o descalificaciones son <strong>violencia psicológica</strong>. Aunque no dejen marcas visibles, duelen y pueden causar depresión, ansiedad y baja autoestima. Nadie tiene derecho a tratarte así.<br><br>
+<strong>Qué hacer:</strong> guarda pruebas (capturas, grabaciones de audio), establece límites claros y denuncia en la Junta Cantonal.`,
+
+        amenazas: `⚠️ <strong>Amenazas</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Las amenazas de daño físico, a tu familia, a tus hijos o a tus pertenencias son un delito (art. 293 del COIP). Crean miedo constante y te paralizan. No las minimices.<br><br>
+<strong>Qué hacer:</strong> guarda pruebas (capturas, audios, testigos) y denuncia en Fiscalía. Pide medidas de protección.`,
+
+        control_celular: `📱 <strong>"Revisa mi celular" - Control tecnológico</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Revisar tu celular, correo o redes sociales sin tu permiso es <strong>violencia psicológica</strong>. Es una invasión a tu privacidad y una forma de control. No es "confianza", es dominio.<br><br>
+<strong>Qué hacer:</strong> cambia tus contraseñas, activa verificación en dos pasos, guarda capturas de cuando te exija las claves y denuncia.`,
+
+        exigir_ubicacion: `📍 <strong>"Me exige mi ubicación"</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Exigir tu ubicación en tiempo real, rastrearte o pedir que compartas tu posición constantemente es <strong>violencia psicológica (control)</strong>. No es "cuidado", es dominación y te quita libertad.<br><br>
+<strong>Qué hacer:</strong> desactiva la ubicación en redes sociales y apps, di "no" sin culpa, y si te amenaza, denuncia.`,
+
+        exigir_claves: `🔑 <strong>"Me exige mis contraseñas"</strong><br><br>
+<strong>¿Por qué es violencia?</strong><br>
+Exigir tus claves de celular, redes sociales, correo o cuentas bancarias es <strong>violencia psicológica y patrimonial</strong>. Nadie tiene derecho a tu privacidad. Es una forma de control absoluto.<br><br>
+<strong>Qué hacer:</strong> cambia tus contraseñas, activa verificación en dos pasos, denuncia si te obliga bajo amenazas.`,
+
+        psicologica: `🧠 <strong>Violencia psicológica</strong><br><br>
+<strong>¿Qué es y por qué es violenta?</strong><br>
+La violencia psicológica incluye insultos, humillaciones, control, aislamiento, amenazas, chantaje emocional, celos extremos, gaslighting (hacerte dudar de tu realidad), manipulación, mentiras y críticas destructivas. No deja marcas físicas pero daña profundamente tu autoestima, tu salud mental y tu libertad.<br><br>
+<strong>No es "normal". Es violencia.</strong> Puedes pedir ayuda en un centro de salud público o en la Junta Cantonal de Protección de Derechos.`,
+
+        glosario_violencia_digital: `📚 <strong>Glosario de violencia digital - Todos los tipos explicados</strong><br><br>
+<strong>Cybermobs:</strong> grupos organizados que publican contenido ofensivo masivo para avergonzar a alguien.<br>
+<strong>Creepshot:</strong> fotos tomadas en público sin consentimiento, enfocadas en partes íntimas.<br>
+<strong>Cyberbullying:</strong> acoso mediante mensajes o imágenes con intención de dañar.<br>
+<strong>Cyberflashing:</strong> envío de fotos obscenas sin consentimiento.<br>
+<strong>Deepfake:</strong> videos falsos creados con IA que parecen reales.<br>
+<strong>Discurso de odio:</strong> lenguaje que denigra por identidad u orientación.<br>
+<strong>Gaslighting:</strong> manipulación para hacerte dudar de tu cordura.<br>
+<strong>Geolocalización forzada:</strong> rastreo de ubicación sin permiso.<br>
+<strong>Grooming:</strong> adulto que engaña a un menor para abuso sexual.<br>
+<strong>Outing:</strong> revelación no consentida de orientación sexual.<br>
+<strong>Packs:</strong> conjuntos de imágenes íntimas distribuidas sin consentimiento.<br>
+<strong>Pornovenganza:</strong> difusión no consentida de imágenes íntimas.<br>
+<strong>Raiding:</strong> ataque coordinado masivo contra una cuenta.<br>
+<strong>Sexting:</strong> intercambio consensuado de contenido sexual (no es violencia si es consentido).<br>
+<strong>Sextorsión:</strong> chantaje con imágenes íntimas.<br>
+<strong>Slutshaming:</strong> avergonzar a una mujer por su actividad sexual.<br>
+<strong>Sockpuppet:</strong> cuentas falsas para desinformar.<br>
+<strong>Troll / troleo de género:</strong> mensajes para molestar o incitar violencia contra mujeres.<br>
+<strong>Upskirting:</strong> fotos por debajo de la falda sin consentimiento.<br><br>
+<strong>Todos estos son formas de violencia digital. Guarda pruebas y denuncia en Fiscalía o Junta Cantonal.</strong>`,
+
+        default: `Lo siento, no entendí tu pregunta. Intenta con otras palabras o usa el menú ☰. Si es emergencia llama al <strong>9-1-1</strong>.<br><br>
+📌 <strong>Palabras clave que puedes usar:</strong> no me da dinero, me cela, me controla, me pide fotos, me chantajea, me manipula, me miente, me exige ubicación, me pide contraseñas, me jalonea, me critica, me golpea, me insulta, me amenaza, grooming, sextorsión, gaslighting, cyberbullying.`
+    };
+
+    // ==================== DETECTOR DE INTENCIÓN (con todas las palabras clave) ====================
+    function detectarIntencion(pregunta) {
+        const q = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        
+        // Violencia económica
+        if (q.includes("dinero") && (q.includes("no me da") || q.includes("controla") || q.includes("quita") || q.includes("niega"))) return "economica";
+        if (q.includes("no me da dinero") || q.includes("controla mi dinero") || q.includes("me quita el dinero")) return "economica";
+        
+        // Glosario violencia digital
+        if (q.includes("cybermobs")) return "cybermobs";
+        if (q.includes("creepshot")) return "creepshot";
+        if (q.includes("cyberflashing")) return "cyberflashing";
+        if (q.includes("deepfake")) return "deepfake";
+        if (q.includes("discurso de odio")) return "discurso_odio";
+        if (q.includes("gaslighting")) return "gaslighting";
+        if (q.includes("geolocalizacion") || (q.includes("ubicacion") && q.includes("rastrea"))) return "geolocalizacion";
+        if (q.includes("grooming")) return "grooming";
+        if (q.includes("outing")) return "outing";
+        if (q.includes("packs")) return "packs";
+        if (q.includes("pornovenganza")) return "pornovenganza";
+        if (q.includes("raiding")) return "raiding";
+        if (q.includes("sextorsion")) return "sextorsion";
+        if (q.includes("slutshaming")) return "slutshaming";
+        if (q.includes("sockpuppet")) return "sockpuppet";
+        if (q.includes("troll") || q.includes("troleo")) return "troll";
+        if (q.includes("upskirting")) return "upskirting";
+        
+        // Fotos íntimas
+        if ((q.includes("foto") || q.includes("fotos")) && (q.includes("pid") || q.includes("exig"))) return "fotos_intimas";
+        
+        // Chantaje, manipulación, mentiras
+        if (q.includes("chantaj")) return "chantaje";
+        if (q.includes("manipul")) return "manipulacion";
+        if (q.includes("mient") || q.includes("engañ")) return "mentiras";
+        
+        // Violencia física y verbal
+        if (q.includes("golpe") || q.includes("cachete") || q.includes("empuja")) return "golpes";
+        if (q.includes("jalon") || q.includes("tiron")) return "jaloneos";
+        if (q.includes("insulta") || q.includes("grita")) return "insultos";
+        if (q.includes("critic") || q.includes("menospreci")) return "criticas";
+        if (q.includes("amenaza")) return "amenazas";
+        
+        // Control y celos
+        if (q.includes("celos") || q.includes("cela")) return "celos";
+        if (q.includes("control") && !q.includes("dinero")) return "control";
+        if ((q.includes("celular") || q.includes("whatsapp")) && (q.includes("revisa") || q.includes("espia"))) return "control_celular";
+        if (q.includes("ubicacion") && (q.includes("exig") || q.includes("pid"))) return "exigir_ubicacion";
+        if ((q.includes("clave") || q.includes("contrasena")) && (q.includes("exig") || q.includes("pid"))) return "exigir_claves";
+        
+        // Generales del menú
+        if (q.includes("glosario") || (q.includes("tipos") && q.includes("violencia digital"))) return "glosario_violencia_digital";
+        if (q.includes("que es violencia") || q.includes("tipos de violencia")) return "que_es";
+        if (q.includes("senal") || q.includes("alerta")) return "senales";
+        if (q.includes("peligro") || q.includes("emergencia")) return "peligro";
+        if (q.includes("prueba") || q.includes("evidencia")) return "pruebas";
+        if (q.includes("denunci") || q.includes("derecho")) return "derechos";
+        if (q.includes("ayuda") || q.includes("recurso") || q.includes("junta cantonal")) return "ayuda";
+        if (q.includes("pareja mujeres") || q.includes("lesbiana")) return "pareja_mujeres";
+        if (q.includes("pareja hombres") || q.includes("gay")) return "pareja_hombres";
+        if (q.includes("violencia digital") && !q.includes("tipos")) return "vd_que";
+        if (q.includes("señales digital")) return "vd_senales";
+        if (q.includes("autocuidado digital")) return "vd_autocuidado";
+        if (q.includes("denunciar digital")) return "vd_denuncia";
+        if (q.includes("psicologica") || q.includes("psicológica")) return "psicologica";
+        
+        return null;
+    }
+
+    // Funciones auxiliares
+    function addMessage(texto, tipo) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${tipo}`;
+        msgDiv.innerHTML = texto;
+        document.getElementById('chatMessages').appendChild(msgDiv);
+        msgDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+    function showTyping() {
+        const typing = document.createElement('div');
+        typing.className = 'message bot';
+        typing.id = 'typingIndicator';
+        typing.innerHTML = '✍️ Escribiendo...';
+        document.getElementById('chatMessages').appendChild(typing);
+        typing.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+    function removeTyping() {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.remove();
+    }
+    async function responder(preguntaUsuario, claveDirecta = null, esMenu = false) {
+        try {
+            if (esMenu && claveDirecta) {
+                const items = {
+                    'que_es': '🚨 ¿Qué es violencia de género?',
+                    'senales': '⚠️ Señales de alerta',
+                    'peligro': '🆘 Estoy en peligro ahora',
+                    'pruebas': '📎 ¿Cómo reunir pruebas?',
+                    'derechos': '⚖️ Denuncia y derechos',
+                    'ayuda': '📍 ¿Dónde pedir ayuda?',
+                    'pareja_mujeres': '🏳️‍🌈 Violencia en parejas de mujeres',
+                    'pareja_hombres': '🏳️‍🌈 Violencia en parejas de hombres',
+                    'vd_que': '💻 ¿Qué es violencia digital?',
+                    'vd_senales': '⚠️ Señales de violencia digital',
+                    'vd_autocuidado': '🛡️ Autocuidado digital',
+                    'vd_denuncia': '⚖️ Denunciar violencia digital',
+                    'glosario_violencia_digital': '📚 Otros tipos (glosario)'
+                };
+                addMessage(items[claveDirecta] || "Consulta", 'user');
+            } else if (!esMenu && preguntaUsuario && preguntaUsuario.trim() !== "") {
+                addMessage(preguntaUsuario, 'user');
+                document.getElementById('userInput').value = '';
+            }
+            showTyping();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            removeTyping();
+            let clave = claveDirecta;
+            if (!clave && preguntaUsuario) clave = detectarIntencion(preguntaUsuario);
+            if (!clave || !respuestas[clave]) clave = "default";
+            addMessage(respuestas[clave], 'bot');
+        } catch(e) { addMessage("⚠️ Error. Intenta de nuevo.", 'bot'); }
+    }
+
+    // Eventos
+    document.getElementById('sendBtn').addEventListener('click', () => {
+        const texto = document.getElementById('userInput').value.trim();
+        if (texto) responder(texto, null, false);
+    });
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('sendBtn').click();
+    });
+
+    const menuToggle = document.getElementById('menuToggleBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
+    const closeMenu = document.getElementById('closeMenuBtn');
+    function openMenu() { sideMenu.classList.add('open'); overlay.classList.add('show'); }
+    function closeMenuFn() { sideMenu.classList.remove('open'); overlay.classList.remove('show'); }
+    menuToggle.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    overlay.addEventListener('click', closeMenuFn);
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const key = item.getAttribute('data-key');
+            if (key && respuestas[key]) { responder("", key, true); closeMenuFn(); }
+            else { addMessage("Opción no disponible", 'bot'); closeMenuFn(); }
+        });
+    });
+    document.getElementById('vaultBtn').addEventListener('click', () => {
+        alert("🔐 Bóveda Segura: guarda capturas, audios y documentos cifrados. Función en desarrollo.");
+    });
+</script>
+</body>
+</html>
