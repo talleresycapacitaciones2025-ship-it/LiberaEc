@@ -105,7 +105,7 @@
 <div class="overlay" id="overlay"></div>
 
 <script>
-    // ==================== RESPUESTAS EXTENSAS ====================
+    // ==================== RESPUESTAS ====================
     const respuestas = {
         que_es: `🚨 <strong>¿Qué es la violencia de género?</strong><br><br>La violencia de género es cualquier acción u omisión basada en una relación desigual de poder que cause daño físico, psicológico, sexual, económico o patrimonial. En Ecuador, la LOIPEVM reconoce 7 tipos, más violencia digital y vicaria (esta última NO está tipificada).<br><br><strong>Tipos:</strong><br>1️⃣ Física: golpes, empujones, jaloneos.<br>2️⃣ Psicológica: insultos, control, celos, gaslighting.<br>3️⃣ Sexual: actos sin consentimiento, sextorsión.<br>4️⃣ Económica/patrimonial: controlar dinero, impedir trabajar.<br>5️⃣ Digital: ciberacoso, grooming, difusión no consentida.<br>6️⃣ Vicaria: usar a los hijos para dañarte (NO tipificada, pero denunciable por actos concretos).<br><br>Todas son reales y denunciables.`,
         senales: `⚠️ <strong>Señales de alerta</strong><br><br>• Controla tus horarios, dinero, ropa o amistades.<br>• Revisa tu celular sin permiso.<br>• Te insulta, humilla o menosprecia.<br>• Celos extremos y acusaciones sin motivo.<br>• Amenazas de daño a ti, tus hijos o familia.<br>• Aislamiento de amistades o familiares.<br>• Te obliga a tener relaciones sexuales.<br>• Te impide trabajar o estudiar.<br>• Usa a tus hijos para hacerte daño (violencia vicaria).<br>• Controla tu dinero o te niega lo necesario.<br><br>Si reconoces varias, busca ayuda.`,
@@ -126,7 +126,7 @@
         monitoreo: `👁️ <strong>"Me monitorea" - Vigilancia constante es violencia</strong><br><br>Monitorear tus movimientos, redes, llamadas o ubicación sin tu consentimiento es violencia psicológica. Guarda pruebas, cambia contraseñas, activa verificación en dos pasos y denuncia si es recurrente.`,
         exhibe_muestra: `📸 <strong>"Exhibe / muestra mis cosas" - Exposición sin permiso es violencia</strong><br><br>Exhibir tus fotos, conversaciones o datos personales sin tu consentimiento es violencia digital y puede ser delito. Guarda capturas, reporta a la red social y denuncia en Fiscalía.`,
         chistes: `😔 <strong>"Hace chistes ofensivos" - Humillación disfrazada es violencia</strong><br><br>Los chistes sobre tu cuerpo, sexualidad, forma de ser o cualquier burla que te haga sentir mal son violencia psicológica. No es "sentido del humor", es agresión. Guarda pruebas, establece límites y si persiste, denuncia.`,
-        golpes: `✊ <strong>"Me empuja / me golpea" - Violencia física</strong><br><br>Es un delito (COIP Art. 155). Acude a un centro de salud para certificado médico, denuncia en Fiscalía o Junta Cantonal, pide medidas de protección. No es tu culpa.`,
+        golpes: `✊ <strong>"Me golpea / empuja" - Violencia física</strong><br><br>Es un delito (COIP Art. 155). Acude a un centro de salud para certificado médico, denuncia en Fiscalía o Junta Cantonal, pide medidas de protección. No es tu culpa.`,
         insultos: `🗣️ <strong>"Me insulta" - Violencia psicológica</strong><br><br>Insultos, gritos, humillaciones son violencia psicológica (COIP Art. 157). Guarda pruebas, denuncia en Junta Cantonal, busca ayuda psicológica.`,
         celos: `💔 <strong>"Me cela" - Celos enfermizos</strong><br><br>Los celos excesivos no son amor, son control. Es violencia psicológica. Guarda pruebas, habla con alguien de confianza, acude a la Junta Cantonal.`,
         control: `🎮 <strong>"Me controla" - Control excesivo</strong><br><br>Controlar horarios, dinero, amistades o revisar tu celular es violencia psicológica. Establece límites, guarda evidencias, denuncia.`,
@@ -140,56 +140,65 @@
     };
     respuestas.vicaria_inicio = respuestas.vicaria_inicio + respuestas.vicaria_que;
 
-    // ==================== DETECTOR DE INTENCIÓN (ampliado con control de dinero) ====================
+    // ==================== DETECTOR DE INTENCIÓN ====================
     function detectarIntencion(pregunta) {
         const q = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         
-        // --- NUEVO: violencia económica / control del dinero ---
-        const dineroPatterns = [
-            "controla el dinero", "controla mi dinero", "me controla el dinero", "me controla la plata",
-            "no me da dinero", "no me da plata", "me niega el dinero", "control economico",
-            "violencia economica", "me exige que justifique gastos", "no me deja trabajar",
-            "me controla economicamente", "me quita el dinero"
-        ];
-        for (let p of dineroPatterns) {
-            if (q.includes(p)) return "control_dinero";
+        // --- VIOLENCIA ECONÓMICA ---
+        if (q.includes("controla el dinero") || q.includes("controla mi dinero") || q.includes("no me da dinero") ||
+            q.includes("violencia economica") || q.includes("control economico") || q.includes("me niega el dinero")) {
+            return "control_dinero";
         }
         
-        // Violencia vicaria
+        // --- VIOLENCIA VICARIA ---
         const vicaria = ["quitar a mis hijos","quitarme a mis hijos","usar a mis hijos","usa a mis hijos","violencia vicaria","vicaria","me impide ver a mis hijos","me manipula los hijos","me amenaza con la custodia","no me deja ver a mis hijos","les habla mal de mí","los manipula contra mí","los usa para castigarme","me controla a través de ellos","me hace sufrir usando a los niños","los pone en medio del conflicto","les dice mentiras sobre mí","impide que me llamen","controla cuándo los veo","los hace elegir entre nosotros","me castiga usando visitas","me aleja de ellos","les genera miedo hacia mí","me condiciona con ellos","afecta mi relación con ellos","disputa de custodia","régimen de visitas","separación conflictiva","venganza contra la madre","chantaje emocional"];
         for (let p of vicaria) if (q.includes(p)) return "vicaria_inicio";
         
-        // Sextorsión
+        // --- SEXTORSIÓN ---
         const sextorsion = ["fotos íntimas","subir fotos","publicar fotos","compartió fotos","difundieron fotos","me amenaza con publicar","va a subir fotos íntimas","chantaje con fotos","me exige fotos","publicaron conversaciones privadas","compartió fotos mías sin permiso","difunde rumores","me amenaza con enviar cosas a mi familia","comparte capturas de chats"];
         for (let p of sextorsion) if (q.includes(p)) return "exhibe_muestra";
         
-        // Suplantación
+        // --- SUPLANTACIÓN ---
         if (q.includes("perfil falso") || q.includes("creó un perfil con mi nombre") || q.includes("se hace pasar por mí")) return "vd_que";
         
-        // Control digital
+        // --- CONTROL DIGITAL ---
         const controlPat = ["revisa mi celular mientras duermo","revisa mi celular sin permiso","se mete a mis cuentas","cambió mis contraseñas","me obliga a compartir contraseñas","me pide pruebas de dónde estoy","me pide ubicación todo el tiempo","me vigila constantemente","me persigue en cada red social","revisa mi última conexión","me controla con mensajes constantes","se enoja si no le respondo rápido","me exige eliminar amigos","me exige pruebas de amor","me graba sin que yo sepa","me exige mi ubicación"];
         for (let p of controlPat) if (q.includes(p)) return "control_celular";
         
-        // Acoso
+        // --- ACOSO DIGITAL (insultos en redes, etc.) ---
         const acoso = ["me escribe desde cuentas falsas","me llegan mensajes ofensivos","me etiqueta para burlarse","me manda mensajes amenazantes","me acosa en todos mis perfiles","me envía mensajes desde números desconocidos","me ridiculiza en grupos","publica memes sobre mí","publica indirectas ofensivas","me insulta constantemente en redes"];
         for (let p of acoso) if (q.includes(p)) return "insultos";
         
-        // Amenazas directas
-        if ((q.includes("amenaza") || q.includes("dice que si")) && (q.includes("va a hacer algo peor") || q.includes("me va a hacer daño") || q.includes("me amenaza si lo dejo") || q.includes("me amenaza con dejarme sin nada") || q.includes("me amenaza con autolesionarse"))) return "amenazas";
+        // --- VIOLENCIA FÍSICA (golpes, empujones, etc.) ---
+        if (q.includes("golpe") || q.includes("empuja") || q.includes("cachete") || q.includes("patada") || q.includes("jalon") || q.includes("puñetazo")) {
+            return "golpes";
+        }
         
-        // Manipulación
+        // --- INSULTOS DIRECTOS ---
+        if (q.includes("insulta") || q.includes("grita") || q.includes("ofende") || q.includes("humilla")) {
+            return "insultos";
+        }
+        
+        // --- AMENAZAS DIRECTAS ---
+        if ((q.includes("amenaza") || q.includes("dice que si")) && (q.includes("va a hacer algo peor") || q.includes("me va a hacer daño") || q.includes("me amenaza si lo dejo") || q.includes("me amenaza con dejarme sin nada") || q.includes("me amenaza con autolesionarse"))) {
+            return "amenazas";
+        }
+        
+        // --- MANIPULACIÓN ---
         const manip = ["me hace sentir culpable","dice que todo es mi culpa","me hace sentir inútil","me dice que nadie me va a querer","minimiza lo que siento","me hace dudar de mí misma","me chantajea emocionalmente","me manipula para que regrese"];
         for (let p of manip) if (q.includes(p)) return "insultos";
         
-        // Casos difusos
+        // --- CELOS ---
+        if (q.includes("celos") || q.includes("cela")) return "celos";
+        
+        // --- CONTROL GENÉRICO (sin dinero ni digital) ---
+        if (q.includes("control") && !q.includes("digital") && !q.includes("dinero")) return "control";
+        
+        // --- CASOS DIFUSOS Y MIEDO ---
         if (q.includes("no sé si es grave") || q.includes("creo que exagero") || q.includes("no sé si esto está bien") || q.includes("me siento rara") || q.includes("no entiendo lo que pasa") || q.includes("algo no me gusta") || q.includes("me siento incómoda") || q.includes("siento que algo está mal")) return "validacion_general";
         if (q.includes("me da miedo") || q.includes("siento que estoy en peligro") || q.includes("me siento atrapada") || q.includes("tengo miedo")) return "peligro";
         
-        // Celos y control (genérico)
-        if (q.includes("celos") || q.includes("cela")) return "celos";
-        if (q.includes("control") && !q.includes("digital") && !q.includes("dinero")) return "control";
-        
-        // Generales
+        // --- PREGUNTAS GENERALES DEL MENÚ ---
         if (q.includes("que es violencia de genero") || q.includes("tipos de violencia")) return "que_es";
         if (q.includes("senal") || q.includes("señal") || q.includes("alerta")) return "senales";
         if (q.includes("peligro") || q.includes("emergencia")) return "peligro";
@@ -211,7 +220,7 @@
         msgDiv.innerHTML = texto;
         document.getElementById('chatMessages').appendChild(msgDiv);
         msgDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        // NO se agregan event listeners aquí para evitar duplicación
+        // NO se asignan eventos aquí para evitar duplicación
     }
 
     function showTyping() {
