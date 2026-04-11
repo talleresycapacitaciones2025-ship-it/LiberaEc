@@ -196,7 +196,7 @@
         dependenciaCritica: false
     };
 
-    // ==================== INTENTS + EXPRESIONES (con violencia económica y dependencia crítica) ====================
+    // ==================== INTENTS COMPLETOS (con 120+ expresiones de celos) ====================
     const intents = {
         ACOSO_DIGITAL: [
             "me escribe todo el día sin parar", "me manda mensajes aunque no le respondo", "insiste en hablarme aunque le dije que no",
@@ -211,14 +211,39 @@
             "me pide acceso a mi celular", "me controla por redes", "quiere mis contraseñas", "me pide que le comparta ubicación",
             "me obliga a activar ubicación", "me revisa el whatsapp", "me pide pruebas de dónde estoy", "quiere que le mande fotos de dónde estoy",
             "me controla con el teléfono", "me pide videollamadas para comprobar", "quiere ver mi entorno", "me exige estar disponible siempre",
-            "no le gusta que tenga privacidad", "me dice que no debo ocultarle nada", "me cuestiona todo lo que hago online", "controla mis redes sociales"
+            "no le gusta que tenga privacidad", "me dice que no debo ocultarle nada", "me cuestiona todo lo que hago online", "controla mis redes sociales",
+            "no me deja salir", "no me deja salir sola", "no me deja irme", "me controla todo", "decide por mí"
         ],
         CELOS_CONTROL: [
-            "se enoja por mis likes", "revisa a quién sigo", "me reclama por mis seguidores", "se molesta por comentarios en mis fotos",
-            "me hace eliminar contactos", "me pide borrar personas", "no quiere que siga a nadie", "revisa mis historias",
-            "me reclama por lo que publico", "se molesta si subo fotos", "me dice que provoco a otros", "interpreta mal mis publicaciones",
-            "revisa todo lo que hago en redes", "se enoja si reacciono a publicaciones", "me vigila en redes", "controla mi actividad",
-            "revisa quién ve mis historias", "me hace sentir culpable por usar redes", "me limita en redes sociales", "me critica por lo que comparto"
+            // 120+ expresiones nuevas sobre celos
+            "es muy celoso conmigo", "se pone celoso por todo", "tiene celos constantes", "se molesta por cualquier cosa",
+            "se pone celoso sin razón", "es exageradamente celoso", "siempre está celándome", "se pone intenso con los celos",
+            "no controla sus celos", "vive con celos", "se enoja si hablo con otros", "no le gusta que hable con hombres",
+            "se molesta si saludo a alguien", "no le gusta que tenga amigos", "se enoja si salgo", "se molesta si no le aviso todo",
+            "quiere saber todo lo que hago", "me cuestiona todo", "me pide explicaciones siempre", "se pone mal si no le cuento todo",
+            "se enoja por mis seguidores", "revisa a quién sigo", "me reclama por likes", "se molesta por comentarios",
+            "revisa mis historias", "controla mis publicaciones", "no quiere que suba fotos", "se enoja si reacciono a algo",
+            "revisa mis redes todo el tiempo", "me pide borrar publicaciones", "revisa mi celular", "quiere ver mis chats",
+            "me pide el teléfono", "revisa mis mensajes", "quiere saber con quién hablo", "controla mi whatsapp",
+            "mira mis conversaciones", "se mete en mis cuentas", "revisa todo lo mío", "no respeta mi privacidad",
+            "quiere saber dónde estoy siempre", "me pide ubicación todo el tiempo", "se molesta si no le digo dónde estoy",
+            "quiere saber a dónde voy", "me pide pruebas de dónde estoy", "me exige fotos del lugar", "me controla con la ubicación",
+            "quiere seguimiento constante", "se enoja si no comparto ubicación", "quiere saber cada movimiento",
+            "no le gusta que salga", "no quiere que salga sola", "me limita salidas", "no quiere que vea a mis amigos",
+            "me restringe", "decide a dónde puedo ir", "no quiere que tenga vida social", "me controla el tiempo",
+            "me limita todo", "decide por mí", "dice que es por amor", "dice que me cela porque me quiere", "dice que es normal",
+            "me hace sentir culpable", "dice que yo provoco los celos", "me culpa por sus celos", "dice que soy yo el problema",
+            "minimiza sus celos", "dice que exagero", "justifica todo", "me hace sentir mal por todo", "me genera ansiedad",
+            "me hace sentir vigilada", "me siento controlada", "me siento incómoda", "me estresa", "me agota",
+            "me hace sentir insegura", "me hace dudar", "cada vez es peor", "ha ido aumentando", "antes no era así",
+            "ahora es más intenso", "ya no es normal", "se está volviendo extremo", "me preocupa", "está empeorando",
+            "es más frecuente", "ya no lo controlo", "no sé si es normal", "no sé si exagero", "no sé si está bien",
+            "no sé si preocuparme", "tengo dudas", "no entiendo sus celos", "me confunde", "no sé qué pensar",
+            "me hace dudar", "no sé si está mal", "qué hago con sus celos", "cómo manejo esto", "cómo poner límites",
+            "cómo hablar con él", "cómo detener esto", "qué puedo hacer", "necesito ayuda con esto", "cómo reaccionar",
+            "cómo actuar", "qué decisión tomar", "se pone celoso por todo", "no le gusta nada", "todo le molesta",
+            "todo le incomoda", "siempre reclama", "todo es problema", "nunca está tranquilo", "siempre discute por eso",
+            "todo gira en celos", "vive pendiente de mí"
         ],
         VIGILANCIA: [
             "sabe cosas que no le conté", "parece que revisa mi celular", "conoce mis conversaciones", "siento que me espía",
@@ -253,7 +278,8 @@
             "me controla con quién hablo", "no quiere que tenga amigos", "me hace eliminar contactos", "limita mis relaciones",
             "me separa de otros", "controla mi círculo social", "me dice con quién hablar", "me impide comunicarme",
             "me restringe socialmente", "me aleja de mi familia", "controla mis interacciones", "me limita socialmente",
-            "decide por mí", "me encierra digitalmente", "controla mis amistades", "reduce mi contacto con otros"
+            "decide por mí", "me encierra digitalmente", "controla mis amistades", "reduce mi contacto con otros",
+            "no me deja ver a nadie", "me aísla", "no puedo salir", "no me deja salir de la casa"
         ],
         DUDA: [
             "no sé si esto está bien", "no sé si exagero", "no sé si es normal", "me siento confundida",
@@ -270,10 +296,11 @@
             "qué decisión tomar", "cómo poner límites", "cómo evitar esto", "cómo cuidarme"
         ],
         ECONOMICA: [
-            "me quita el dinero", "me controla el dinero", "no me deja trabajar", "me quita mi sueldo",
-            "me pide todo el dinero", "maneja mi dinero", "no tengo acceso a dinero", "me da dinero solo si quiere",
-            "me limita el dinero", "me controla económicamente", "no me deja usar mi dinero", "me quita mis ingresos",
-            "me revisa los gastos", "me exige cuentas del dinero", "me deja sin dinero", "me obliga a depender de él"
+            "me quita el dinero", "me quita mi dinero", "me quita la plata", "no me da dinero", "no tengo dinero propio",
+            "me controla el dinero", "no me deja trabajar", "me quita mi sueldo", "me pide todo el dinero", "maneja mi dinero",
+            "no tengo acceso a dinero", "me da dinero solo si quiere", "me limita el dinero", "me controla económicamente",
+            "no me deja usar mi dinero", "me quita mis ingresos", "me revisa los gastos", "me exige cuentas del dinero",
+            "me deja sin dinero", "me obliga a depender de él"
         ],
         DEPENDENCIA_CRITICA: [
             "no tengo dinero propio", "dependo económicamente", "no tengo ingresos", "no puedo trabajar",
@@ -284,28 +311,41 @@
         ]
     };
 
-    // Motor semántico flexible (coincidencia parcial 60%)
-    function detectarIntents(texto) {
+    // Motor semántico con scoring
+    function detectarIntentsAvanzado(texto) {
         const t = limpiarTexto(texto);
-        let detectados = [];
+        let resultados = {};
         for (let intent in intents) {
+            resultados[intent] = 0;
             for (let frase of intents[intent]) {
                 if (t.includes(frase)) {
-                    detectados.push(intent);
-                    break;
-                }
-                let palabras = frase.split(" ");
-                let coincidencias = palabras.filter(p => t.includes(p)).length;
-                if (coincidencias >= Math.ceil(palabras.length * 0.6)) {
-                    detectados.push(intent);
-                    break;
+                    resultados[intent] += 3;
+                } else {
+                    let palabras = frase.split(" ");
+                    let coincidencias = palabras.filter(p => t.includes(p)).length;
+                    if (coincidencias >= Math.ceil(palabras.length * 0.6)) {
+                        resultados[intent] += 1;
+                    }
                 }
             }
         }
-        return [...new Set(detectados)];
+        let detectados = Object.entries(resultados)
+            .filter(([k, v]) => v > 0)
+            .sort((a, b) => b[1] - a[1])
+            .map(([k]) => k);
+        return detectados;
     }
 
-    // Detección de dependencia económica crítica (scoring)
+    // Prioridad de intents
+    const prioridad = [
+        "SEXTORSION", "AMENAZA_DIGITAL", "DEPENDENCIA_CRITICA", "ECONOMICA",
+        "CONTROL_DIGITAL", "AISLAMIENTO", "MANIPULACION", "CELOS_CONTROL", "ACOSO_DIGITAL", "VIGILANCIA", "DUDA", "AYUDA"
+    ];
+    function ordenarPorPrioridad(intentsList) {
+        return intentsList.sort((a, b) => prioridad.indexOf(a) - prioridad.indexOf(b));
+    }
+
+    // Detección de dependencia crítica
     function detectarDependenciaCritica(intentsDetectados, texto) {
         const t = limpiarTexto(texto);
         let score = 0;
@@ -317,39 +357,61 @@
         return score >= 5;
     }
 
-    // Mapeo intent -> escenario principal
-    function mapearEscenario(intentsDetectados) {
-        if (intentsDetectados.includes("SEXTORSION")) return "SEXTORSION";
-        if (intentsDetectados.includes("AMENAZA_DIGITAL")) return "AMENAZA";
-        if (intentsDetectados.includes("VIGILANCIA")) return "VIGILANCIA";
-        if (intentsDetectados.includes("ECONOMICA")) return "ECONOMICA";
-        if (intentsDetectados.includes("CONTROL_DIGITAL") || intentsDetectados.includes("CELOS_CONTROL")) return "CONTROL";
-        if (intentsDetectados.includes("ACOSO_DIGITAL")) return "ACOSO";
-        if (intentsDetectados.includes("MANIPULACION")) return "MANIPULACION";
-        if (intentsDetectados.includes("AISLAMIENTO")) return "AISLAMIENTO";
-        if (intentsDetectados.includes("DUDA")) return "DUDA";
-        if (intentsDetectados.includes("AYUDA")) return "AYUDA";
-        return "GENERAL";
+    // Respuesta combinada (multi-intent) - prioriza celos como control
+    function generarRespuestaCombinada(intentsDetectados, texto) {
+        let r = "💜 Gracias por contarme lo que estás viviendo.<br><br>";
+        r += "Lo que describes incluye varias situaciones importantes.<br><br>";
+        
+        // Si hay CELOS_CONTROL, dar respuesta específica de control
+        if (intentsDetectados.includes("CELOS_CONTROL")) {
+            r += "🔍 <strong>Los celos constantes que describes pueden ser una forma de control.</strong><br><br>";
+            r += "Los celos no justifican revisar tu celular, limitarte o hacerte sentir culpable.<br><br>";
+            r += "Algunas señales importantes:<br>";
+            r += "- Necesidad de saber todo sobre ti<br>";
+            r += "- Molestarse si no respondes rápido<br>";
+            r += "- Controlar con quién hablas o sales<br><br>";
+            r += "Esto puede escalar con el tiempo.<br><br>";
+            r += "Puedes empezar con:<br>";
+            r += "- Identificar límites personales<br>";
+            r += "- Proteger tu privacidad<br>";
+            r += "- Hablar con alguien de confianza<br><br>";
+            r += "¿Esto te está pasando con frecuencia o ha ido aumentando?<br><br>";
+        }
+        
+        if (intentsDetectados.includes("ECONOMICA") && !intentsDetectados.includes("CELOS_CONTROL")) {
+            r += "💰 Puede haber <strong>violencia económica</strong>: controlar o quitarte el dinero es una forma de violencia.<br>";
+        }
+        if (intentsDetectados.includes("CONTROL_DIGITAL") && !intentsDetectados.includes("CELOS_CONTROL")) {
+            r += "🚫 También hay señales de <strong>control o aislamiento</strong>, como no dejarte salir o decidir por ti.<br>";
+        }
+        if (intentsDetectados.includes("MANIPULACION")) {
+            r += "🧠 Esto puede incluir <strong>manipulación emocional</strong>.<br>";
+        }
+        if (intentsDetectados.includes("ACOSO_DIGITAL")) {
+            r += "💻 También puede haber <strong>acoso digital</strong> a través de mensajes o redes.<br>";
+        }
+        if (intentsDetectados.includes("VIGILANCIA")) {
+            r += "👁️ Hay indicios de <strong>vigilancia o invasión de tu privacidad</strong>.<br>";
+        }
+        
+        if (!intentsDetectados.includes("CELOS_CONTROL")) {
+            r += "<br>Esto no es tu culpa.<br><br>";
+            r += "Puedes empezar con:<br>";
+            r += "- Identificar a alguien de confianza (familia, amistad).<br>";
+            r += "- Guardar información importante (capturas, mensajes).<br>";
+            r += "- Proteger tu información personal (cambiar contraseñas, revisar privacidad).<br><br>";
+            r += "¿Quieres que te ayude paso a paso según tu situación?";
+        }
+        
+        return r;
     }
 
-    // Respuesta base por escenario (incluye económica)
-    const escenarios = {
-        ACOSO: "Lo que describes puede ser acoso digital. Nadie debería insistir en contactarte si no quieres. Bloquear y guardar evidencia es un buen primer paso.",
-        CONTROL: "Esto puede ser una forma de control. Los celos y la vigilancia no son muestras de cuidado. Establecer límites claros y proteger tu privacidad es importante.",
-        SEXTORSION: "Esto es sextorsión. Es una forma grave de violencia digital. No cedas al chantaje, guarda pruebas y denuncia en Fiscalía. No es tu culpa.",
-        VIGILANCIA: "Esto puede indicar acceso no autorizado o invasión de tu privacidad. Cambia tus contraseñas, activa verificación en dos pasos y revisa dispositivos vinculados.",
-        AMENAZA: "Las amenazas digitales son muy serias. Guarda todas las pruebas y considera denunciar en Fiscalía. Tu seguridad es prioritaria.",
-        MANIPULACION: "Lo que describes puede ser manipulación emocional. No es normal que te hagan dudar de ti misma. Confía en tus sentimientos y busca apoyo.",
-        AISLAMIENTO: "Esto puede ser una forma de aislarte de otras personas. Nadie debería controlar tus relaciones o con quién hablas. Poner límites es esencial.",
-        DUDA: "Es normal tener dudas. La violencia no siempre es fácil de reconocer. Podemos revisar juntas lo que está pasando paso a paso.",
-        AYUDA: "Estoy aquí para ayudarte. Podemos ver opciones paso a paso: guardar evidencia, proteger tus cuentas, buscar apoyo legal o psicológico.",
-        ECONOMICA: "Lo que describes puede ser violencia económica o patrimonial. Ocurre cuando alguien controla tu dinero o limita tu acceso a recursos para ejercer poder sobre ti. Identifica fuentes de apoyo, guarda información importante y busca orientación legal o institucional.",
-        GENERAL: "Gracias por contarme. Vamos a entender mejor lo que está pasando. ¿Puedes darme más detalles?"
-    };
-
-    // Respuesta especial para dependencia crítica
     function respuestaDependenciaCritica(texto) {
         return `💜 Gracias por compartir esto. Lo que describes es una situación muy difícil.<br><br>Cuando alguien controla el dinero y además no tienes opciones para sostenerte, puede haber una dependencia económica que limita tu capacidad de salir o protegerte. Esto no es tu culpa.<br><br>Algunas cosas que podrías considerar, poco a poco:<br>🔹 Identificar a alguien de confianza (familia, amistad)<br>🔹 Guardar documentos importantes (cédula, cuentas, contactos)<br>🔹 Buscar apoyo en instituciones locales (Junta Cantonal, Fiscalía)<br>🔹 Explorar opciones de apoyo social o económico<br><br>Si hay hijos involucrados, es aún más importante buscar apoyo.<br><br>No tienes que resolver todo de inmediato. Podemos ir paso a paso.<br><br>¿Quieres que te ayude a ver opciones concretas según tu situación?`;
+    }
+
+    function respuestaGenerica() {
+        return "💜 Gracias por contarme. Vamos a entender mejor lo que está pasando. ¿Puedes darme más detalles? Por ejemplo: 'me cela mucho', 'me controla el dinero', 'amenaza con mis hijos'.";
     }
 
     // ==================== DETECCIÓN DE TIPOS DE VIOLENCIA (complementaria) ====================
@@ -411,24 +473,6 @@
         return respuestaBase;
     }
 
-    // Respuesta final combinando intents + tipos + dependencia crítica
-    function construirRespuestaFinal(texto, intentsDetectados, tiposViolencia, riesgo, perfil, esDependenciaCritica) {
-        if (esDependenciaCritica) {
-            let respuesta = respuestaDependenciaCritica(texto);
-            if (tiposViolencia.includes("vicaria")) respuesta += " Además, hay indicios de violencia vicaria (uso de hijos para dañar). Acude a la Junta Cantonal para medidas de protección.";
-            if (tiposViolencia.includes("fisica")) respuesta += " Esto también podría incluir violencia física. Si hay peligro inmediato, llama al 9-1-1.";
-            return adaptarRespuestaPorPerfil(respuesta, perfil);
-        }
-        let escenario = mapearEscenario(intentsDetectados);
-        let respuestaBase = escenarios[escenario] || escenarios.GENERAL;
-        if (tiposViolencia.includes("vicaria")) respuestaBase += " Además, hay indicios de violencia vicaria (uso de hijos para dañar). Acude a la Junta Cantonal para medidas de protección.";
-        if (tiposViolencia.includes("fisica")) respuestaBase += " Esto también podría incluir violencia física. Si hay peligro inmediato, llama al 9-1-1.";
-        if (tiposViolencia.includes("psicologica") && !tiposViolencia.includes("vicaria")) respuestaBase += " También hay señales de violencia psicológica. Guarda pruebas y busca apoyo.";
-        if (tiposViolencia.includes("economica") && !esDependenciaCritica) respuestaBase += " Esto es violencia económica. Guarda información importante y busca orientación legal o institucional.";
-        if (riesgo === "rojo") respuestaBase = "⚠️ " + respuestaBase + " ⚠️ Esta situación es de alto riesgo. Prioriza tu seguridad. Si hay peligro, llama al 9-1-1.";
-        return adaptarRespuestaPorPerfil(respuestaBase, perfil);
-    }
-
     function esDespedida(texto) {
         const t = limpiarTexto(texto);
         return t.includes("gracias") || t.includes("chao") || t.includes("adiós") || t.includes("hasta luego") || t.includes("ya está") || t.includes("no más");
@@ -455,10 +499,9 @@
         return mensaje;
     }
 
-    // ==================== SEGUIMIENTO CON TIEMPOS REALES (3 MINUTOS) ====================
+    // ==================== SEGUIMIENTO CON TIEMPOS REALES ====================
     let timer1 = null, timer2 = null;
     let chatActivo = true;
-
     function iniciarSeguimiento() {
         if (timer1) clearTimeout(timer1);
         if (timer2) clearTimeout(timer2);
@@ -470,14 +513,72 @@
                 if (!chatActivo) return;
                 addMessage("💜 Gracias por conversar conmigo. Si en otro momento necesitas apoyo, puedes volver. Te mando un abrazo.", "bot");
                 chatActivo = false;
-            }, 180000); // 3 minutos
-        }, 180000); // 3 minutos
+            }, 180000);
+        }, 180000);
     }
-
     function detenerSeguimiento() {
         if (timer1) clearTimeout(timer1);
         if (timer2) clearTimeout(timer2);
         chatActivo = true;
+    }
+
+    // ==================== BOTONES CON FLUJO REAL ====================
+    let contenedorBotonesActual = null;
+    function limpiarBotones() {
+        if (contenedorBotonesActual && contenedorBotonesActual.remove) contenedorBotonesActual.remove();
+        contenedorBotonesActual = null;
+    }
+    function mostrarBotones(opciones, contexto) {
+        limpiarBotones();
+        const contenedor = document.createElement("div");
+        contenedor.className = "quick-buttons";
+        opciones.forEach(op => {
+            const btn = document.createElement("button");
+            btn.innerText = op;
+            btn.onclick = () => manejarBoton(op, contexto);
+            contenedor.appendChild(btn);
+        });
+        document.getElementById("chatMessages").appendChild(contenedor);
+        contenedor.scrollIntoView({ behavior: "smooth", block: "end" });
+        contenedorBotonesActual = contenedor;
+    }
+    function manejarBoton(opcion, contexto) {
+        addMessage(opcion, "user");
+        limpiarBotones();
+        if (opcion === "Sí, quiero más ayuda") {
+            addMessage("Puedo ayudarte con esto:", "bot");
+            mostrarBotones(["Cómo protegerme", "Qué hacer ahora", "Hablar con alguien", "Volver"], "menu_ayuda");
+        } else if (opcion === "Cómo protegerme") {
+            addMessage(respuestas.vd_autocuidado, "bot");
+            mostrarBotones(["Volver al menú", "Necesito ayuda urgente"], "post_accion");
+        } else if (opcion === "Qué hacer ahora") {
+            addMessage("Podemos ver pasos concretos según tu situación. ¿Qué te preocupa más? ¿Protección digital, medidas legales, apoyo emocional o protección para tus hijos?", "bot");
+            mostrarBotones(["Protección digital", "Medidas legales", "Apoyo emocional", "Mis hijos están en riesgo", "Volver"], "orientacion");
+        } else if (opcion === "Hablar con alguien") {
+            addMessage("Puedes acudir a la Junta Cantonal de tu cantón o llamar al 1800-DELITO (335486). ¿Necesitas que te ayude a encontrar la Junta Cantonal más cercana?", "bot");
+            mostrarBotones(["Sí, muéstrame", "No por ahora", "Volver"], "ayuda_contacto");
+        } else if (opcion === "Volver al menú" || opcion === "Volver") {
+            addMessage("Cuéntame qué está pasando o escribe tu pregunta.", "bot");
+        } else if (opcion === "No por ahora" || opcion === "No" || opcion === "No ahora") {
+            addMessage("Está bien. Puedes volver cuando lo necesites. No estás sola 💜", "bot");
+        } else if (opcion === "Necesito ayuda urgente") {
+            addMessage("⚠️ Activando ayuda urgente. Si estás en peligro inmediato, llama al <strong>9-1-1</strong> (ECU 911). Si no puedes, busca un lugar seguro. ¿Necesitas que te indique cómo llegar a la Junta Cantonal?", "bot");
+            mostrarBotones(["Sí, muéstrame", "No por ahora", "Quiero seguir en el chat"], "ayuda_urgente");
+        } else if (opcion === "Sí, muéstrame") {
+            addMessage("Puedes buscar en Google Maps: 'Junta Cantonal de Protección de Derechos' + tu ciudad. En Quito, Av. Amazonas. En Guayaquil, CCPID. ¿Necesitas otro paso?", "bot");
+        } else if (opcion === "Protección digital") {
+            addMessage(respuestas.vd_autocuidado, "bot");
+        } else if (opcion === "Medidas legales") {
+            addMessage(respuestas.derechos, "bot");
+        } else if (opcion === "Apoyo emocional") {
+            addMessage("💜 Puedes buscar ayuda psicológica gratuita en centros de salud públicos. Línea 1800-VIOLENCIA (1800-846536).", "bot");
+        } else if (opcion === "Mis hijos están en riesgo") {
+            addMessage(respuestas.vicaria_que, "bot");
+        } else if (opcion === "Quiero seguir en el chat") {
+            addMessage("Claro, puedes seguir contándome qué está pasando. Estoy aquí para ti.", "bot");
+        } else {
+            addMessage("Gracias. Puedes contarme más detalles o elegir otra opción.", "bot");
+        }
     }
 
     // ==================== FUNCIONES DE CHAT ====================
@@ -503,7 +604,7 @@
     }
 
     async function responder(preguntaUsuario, claveDirecta = null, esMenu = false) {
-        detenerSeguimiento(); // si el usuario escribe, reiniciamos temporizadores
+        detenerSeguimiento();
         if (esMenu && claveDirecta) {
             const items = { 'que_es': '¿Qué es violencia de género?', 'senales': 'Señales de alerta', 'peligro': 'Estoy en peligro ahora', 'pruebas': '¿Cómo reunir pruebas?', 'derechos': 'Denuncia y derechos', 'ayuda': '¿Dónde pedir ayuda?', 'pareja_mujeres': 'Violencia en parejas de mujeres', 'pareja_hombres': 'Violencia en parejas de hombres', 'vicaria_que': 'Violencia vicaria (usar a los hijos)', 'vd_que': '¿Qué es violencia digital?', 'vd_senales': 'Señales de violencia digital', 'vd_autocuidado': 'Autocuidado digital', 'vd_denuncia': 'Denunciar violencia digital', 'glosario_violencia_digital': 'Glosario de violencia digital', 'coip': '¿Qué dice el COIP?', 'loipevm': '¿Qué es la LOIPEVM?', 'juntas': 'Juntas Cantonales', 'ordenanzas': 'Ordenanzas cantonales' };
             addMessage(items[claveDirecta] || "Consulta", 'user');
@@ -517,7 +618,7 @@
         
         let respuestaFinal = "";
         if (!claveDirecta && preguntaUsuario) {
-            const intentsDetectados = detectarIntents(preguntaUsuario);
+            const intentsDetectados = detectarIntentsAvanzado(preguntaUsuario);
             const tiposViolencia = detectarTiposViolencia(preguntaUsuario);
             const esDependencia = detectarDependenciaCritica(intentsDetectados, preguntaUsuario);
             actualizarEstado(preguntaUsuario, tiposViolencia, intentsDetectados, esDependencia);
@@ -528,7 +629,25 @@
             if (esDespedida(preguntaUsuario)) {
                 respuestaFinal = cierrePersonalizado(tiposViolencia, riesgo, perfil);
             } else {
-                respuestaFinal = construirRespuestaFinal(preguntaUsuario, intentsDetectados, tiposViolencia, riesgo, perfil, esDependencia);
+                let respuestaTemp = "";
+                if (esDependencia) {
+                    respuestaTemp = respuestaDependenciaCritica(preguntaUsuario);
+                } else if (intentsDetectados.length > 0) {
+                    const ordenados = ordenarPorPrioridad(intentsDetectados);
+                    respuestaTemp = generarRespuestaCombinada(ordenados, preguntaUsuario);
+                } else {
+                    respuestaTemp = respuestaGenerica();
+                }
+                if (tiposViolencia.includes("vicaria") && !respuestaTemp.includes("violencia vicaria")) {
+                    respuestaTemp += " Además, hay indicios de violencia vicaria (uso de hijos para dañar). Acude a la Junta Cantonal para medidas de protección.";
+                }
+                if (tiposViolencia.includes("fisica") && !respuestaTemp.includes("violencia física")) {
+                    respuestaTemp += " Esto también podría incluir violencia física. Si hay peligro inmediato, llama al 9-1-1.";
+                }
+                if (riesgo === "rojo" && !respuestaTemp.includes("alto riesgo")) {
+                    respuestaTemp = "⚠️ " + respuestaTemp + " ⚠️ Esta situación es de alto riesgo. Prioriza tu seguridad. Si hay peligro, llama al 9-1-1.";
+                }
+                respuestaFinal = adaptarRespuestaPorPerfil(respuestaTemp, perfil);
                 if (respuestaFinal === estadoConversacion.ultimaRespuesta) {
                     respuestaFinal = "Estoy aquí contigo. Cuéntame un poco más para poder ayudarte mejor. ¿Qué está pasando exactamente?";
                 }
@@ -540,51 +659,14 @@
         addMessage(respuestaFinal, 'bot');
         
         if (!claveDirecta && preguntaUsuario && !esDespedida(preguntaUsuario)) {
-            if (esAltoRiesgoReal(preguntaUsuario, detectarTiposViolencia(preguntaUsuario)) || estadoConversacion.ultimoRiesgo === "rojo") {
+            const tipos = detectarTiposViolencia(preguntaUsuario);
+            if (esAltoRiesgoReal(preguntaUsuario, tipos) || estadoConversacion.ultimoRiesgo === "rojo") {
                 setTimeout(() => mostrarBotones(["Necesito ayuda urgente", "Quiero orientación", "No ahora"], "riesgo_alto"), 600);
             } else {
                 setTimeout(() => mostrarBotones(["Sí, quiero más ayuda", "No por ahora", "Necesito ayuda urgente"], "seguimiento"), 600);
             }
         }
         if (!esDespedida(preguntaUsuario)) iniciarSeguimiento();
-    }
-
-    // ==================== BOTONES RÁPIDOS ====================
-    let contenedorBotonesActual = null;
-    function limpiarBotones() { if (contenedorBotonesActual && contenedorBotonesActual.remove) contenedorBotonesActual.remove(); contenedorBotonesActual = null; }
-    function mostrarBotones(opciones, contexto) {
-        limpiarBotones();
-        const contenedor = document.createElement("div");
-        contenedor.className = "quick-buttons";
-        opciones.forEach(op => {
-            const btn = document.createElement("button");
-            btn.innerText = op;
-            btn.onclick = () => manejarBoton(op, contexto);
-            contenedor.appendChild(btn);
-        });
-        document.getElementById("chatMessages").appendChild(contenedor);
-        contenedor.scrollIntoView({ behavior: "smooth", block: "end" });
-        contenedorBotonesActual = contenedor;
-    }
-    function manejarBoton(opcion, contexto) {
-        addMessage(opcion, "user");
-        limpiarBotones();
-        if (opcion === "Necesito ayuda urgente") {
-            addMessage("⚠️ Activando ayuda urgente. Si estás en peligro inmediato, llama al 9-1-1. Si no puedes, busca un lugar seguro. ¿Necesitas que te indique cómo llegar a la Junta Cantonal?", "bot");
-            mostrarBotones(["Sí, muéstrame", "No por ahora", "Quiero seguir en el chat"], "ayuda_urgente");
-        } else if (opcion === "Sí, muéstrame") {
-            addMessage("Puedes buscar en Google Maps: 'Junta Cantonal de Protección de Derechos' + tu ciudad. En Quito, Av. Amazonas. En Guayaquil, CCPID. ¿Necesitas otro paso?", "bot");
-        } else if (opcion === "Quiero orientación" || opcion === "Sí, necesito ayuda" || opcion === "Sí") {
-            addMessage("¿Sobre qué aspecto necesitas ayuda concreta? Protección digital, medidas legales, apoyo emocional, o protección para tus hijos.", "bot");
-            mostrarBotones(["Protección digital", "Medidas legales", "Apoyo emocional", "Mis hijos están en riesgo"], "orientacion");
-        } else if (opcion === "No por ahora" || opcion === "No" || opcion === "No ahora") {
-            addMessage("Está bien. Puedes volver cuando lo necesites. No estás sola 💜", "bot");
-        } else if (opcion === "Protección digital") addMessage(respuestas.vd_autocuidado, "bot");
-        else if (opcion === "Medidas legales") addMessage(respuestas.derechos, "bot");
-        else if (opcion === "Apoyo emocional") addMessage("💜 Puedes buscar ayuda psicológica gratuita en centros de salud públicos. Línea 1800-VIOLENCIA (1800-846536).", "bot");
-        else if (opcion === "Mis hijos están en riesgo") addMessage(respuestas.vicaria_que, "bot");
-        else if (opcion === "Quiero seguir en el chat") addMessage("Claro, puedes seguir contándome qué está pasando. Estoy aquí para ti.", "bot");
-        else addMessage("Gracias. Puedes contarme más detalles o elegir otra opción.", "bot");
     }
 
     // ==================== FLUJOS BÁSICOS (handleFlow) ====================
