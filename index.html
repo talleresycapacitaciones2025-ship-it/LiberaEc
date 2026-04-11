@@ -7,17 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); height: 100vh; display: flex; justify-content: center; align-items: center; padding: 12px; }
-        .app-container { max-width: 550px; width: 100%; height: 95vh; background: white; border-radius: 32px; box-shadow: 0 20px 35px -12px rgba(88,28,135,0.3); display: flex; flex-direction: column; overflow: hidden; }
-        .header { background: linear-gradient(135deg, #6b21a5 0%, #4c1d95 100%); color: white; padding: 14px 16px 10px 16px; }
+        body { font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #f5f0ff 0%, #e9e0ff 100%); height: 100vh; display: flex; justify-content: center; align-items: center; padding: 12px; }
+        .app-container { max-width: 550px; width: 100%; height: 95vh; background: #ffffff; border-radius: 32px; box-shadow: 0 20px 35px -12px rgba(88,28,135,0.2); display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); color: white; padding: 14px 16px 10px 16px; }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         .header h1 { font-size: 1.4rem; font-weight: 600; display: flex; align-items: center; gap: 6px; letter-spacing: -0.3px; }
-        .header h1 span { background: #a855f7; padding: 2px 8px; border-radius: 40px; font-size: 0.65rem; font-weight: 500; }
+        .header h1 span { background: #a78bfa; padding: 2px 8px; border-radius: 40px; font-size: 0.65rem; font-weight: 500; }
         .menu-icon { background: none; border: none; color: white; font-size: 1.6rem; cursor: pointer; }
-        .badge { background: #a855f7; display: inline-block; font-size: 0.65rem; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
-        .disclaimer { font-size: 0.65rem; margin-top: 8px; opacity: 0.9; background: #4c1d95; padding: 4px 8px; border-radius: 14px; }
-        .vault-bar { background: #faf5ff; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9d5ff; font-size: 0.75rem; color: #4c1d95; }
-        .vault-btn { background: #7e22ce; color: white; border: none; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; font-weight: 500; }
+        .badge { background: #a78bfa; display: inline-block; font-size: 0.65rem; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
+        .disclaimer { font-size: 0.65rem; margin-top: 8px; opacity: 0.9; background: #5b21b6; padding: 4px 8px; border-radius: 14px; }
+        .vault-bar { background: #f8f4ff; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9d5ff; font-size: 0.75rem; color: #4c1d95; }
+        .vault-btn { background: #8b5cf6; color: white; border: none; padding: 4px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; font-weight: 500; }
         .side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #1e1b4b; color: white; transition: left 0.3s ease; z-index: 1000; display: flex; flex-direction: column; overflow-y: auto; }
         .side-menu.open { left: 0; }
         .menu-header { padding: 20px; border-bottom: 1px solid #4c1d95; font-weight: 600; font-size: 1.2rem; background: #2e1065; position: sticky; top: 0; z-index: 1; }
@@ -30,19 +30,42 @@
         .messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #ffffff; }
         .message { max-width: 85%; padding: 10px 14px; border-radius: 20px; line-height: 1.4; font-size: 0.9rem; animation: fadeIn 0.2s ease; }
         .bot { background: #f3e8ff; color: #2e1065; align-self: flex-start; border-bottom-left-radius: 5px; }
-        .user { background: #7e22ce; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .user { background: #8b5cf6; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
         .btn-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .btn-list button { background: #7e22ce; color: white; border: none; padding: 10px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 500; cursor: pointer; text-align: left; font-family: 'Inter', sans-serif; transition: background 0.2s; }
-        .btn-list button:hover { background: #6b21a5; }
-        .btn-list .secondary { background: #4c1d95; }
-        .btn-list .secondary:hover { background: #3b1580; }
-        .test-option-btn { background: #7e22ce; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-size: 0.9rem; font-weight: 500; cursor: pointer; margin: 5px 8px 0 0; display: inline-block; }
-        .test-option-btn:hover { background: #6b21a5; }
+        .btn-list button { background: #8b5cf6; color: white; border: none; padding: 10px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 500; cursor: pointer; text-align: left; font-family: 'Inter', sans-serif; transition: background 0.2s; }
+        .btn-list button:hover { background: #7c3aed; }
+        .btn-list .secondary { background: #6d28d9; }
+        .btn-list .secondary:hover { background: #5b21b6; }
+        .test-option-btn { background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-size: 0.9rem; font-weight: 500; cursor: pointer; margin: 5px 8px 0 0; display: inline-block; }
+        .test-option-btn:hover { background: #7c3aed; }
         .input-area { display: flex; padding: 8px 12px; background: white; gap: 8px; border-top: 1px solid #e9d5ff; }
         .input-area input { flex: 1; padding: 10px 12px; border: 1px solid #d8b4fe; border-radius: 30px; outline: none; font-family: 'Inter', sans-serif; font-size: 0.85rem; }
-        .input-area input:focus { border-color: #7e22ce; }
-        .input-area button { background: #7e22ce; border: none; color: white; padding: 0 18px; border-radius: 30px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
-        .footer-note { font-size: 0.65rem; text-align: center; padding: 6px; color: #6b21a5; background: #faf5ff; border-top: 1px solid #e9d5ff; }
+        .input-area input:focus { border-color: #8b5cf6; }
+        .input-area button { background: #8b5cf6; border: none; color: white; padding: 0 18px; border-radius: 30px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .footer-note { font-size: 0.65rem; text-align: center; padding: 6px; color: #6d28d9; background: #faf5ff; border-top: 1px solid #e9d5ff; }
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        .quick-buttons button {
+            background: #e9e0ff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #2e1065;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .quick-buttons button:hover {
+            background: #d9caff;
+            transform: scale(1.02);
+        }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -101,11 +124,18 @@
     <div class="menu-item" data-key="vd_autocuidado">🛡️ Autocuidado digital</div>
     <div class="menu-item" data-key="vd_denuncia">⚖️ Denunciar violencia digital</div>
     <div class="menu-item" data-key="glosario_violencia_digital">📚 Otros tipos (glosario)</div>
+    <div class="menu-category">⚖️ Preguntas frecuentes (Leyes)</div>
+    <div class="menu-item" data-key="coip">📜 ¿Qué dice el COIP sobre violencia?</div>
+    <div class="menu-item" data-key="loipevm">📜 ¿Qué es la LOIPEVM?</div>
+    <div class="menu-item" data-key="juntas">🏛️ ¿Qué hacen las Juntas Cantonales?</div>
+    <div class="menu-item" data-key="ordenanzas">📄 Ordenanzas cantonales</div>
+    <div class="menu-category">🧪 Herramientas</div>
+    <div class="menu-item" id="menuTestBtn">📋 Hacer test de violencia</div>
 </div>
 <div class="overlay" id="overlay"></div>
 
 <script>
-    // ==================== RESPUESTAS ====================
+    // ==================== RESPUESTAS BASE (menú, etc.) ====================
     const respuestas = {
         que_es: `🚨 <strong>¿Qué es la violencia de género?</strong><br><br>La violencia de género es cualquier acción u omisión basada en una relación desigual de poder que cause daño físico, psicológico, sexual, económico o patrimonial. En Ecuador, la LOIPEVM reconoce 7 tipos, más violencia digital y vicaria (esta última NO está tipificada).<br><br><strong>Tipos:</strong><br>1️⃣ Física: golpes, empujones, jaloneos.<br>2️⃣ Psicológica: insultos, control, celos, gaslighting.<br>3️⃣ Sexual: actos sin consentimiento, sextorsión.<br>4️⃣ Económica/patrimonial: controlar dinero, impedir trabajar.<br>5️⃣ Digital: ciberacoso, grooming, difusión no consentida.<br>6️⃣ Vicaria: usar a los hijos para dañarte (NO tipificada, pero denunciable por actos concretos).<br><br>Todas son reales y denunciables.`,
         senales: `⚠️ <strong>Señales de alerta</strong><br><br>• Controla tus horarios, dinero, ropa o amistades.<br>• Revisa tu celular sin permiso.<br>• Te insulta, humilla o menosprecia.<br>• Celos extremos y acusaciones sin motivo.<br>• Amenazas de daño a ti, tus hijos o familia.<br>• Aislamiento de amistades o familiares.<br>• Te obliga a tener relaciones sexuales.<br>• Te impide trabajar o estudiar.<br>• Usa a tus hijos para hacerte daño (violencia vicaria).<br>• Controla tu dinero o te niega lo necesario.<br><br>Si reconoces varias, busca ayuda.`,
@@ -121,16 +151,15 @@
         vd_autocuidado: `🛡️ <strong>Autocuidado digital</strong><br><br>✅ Contraseñas largas y únicas, verificación en dos pasos.<br>✅ No compartas información personal en redes.<br>✅ Configura privacidad: solo amigos.<br>✅ Bloquea y reporta agresores.<br>✅ Guarda evidencias (capturas).<br>✅ No envíes fotos íntimas aunque te presionen.<br>✅ Si eres menor, habla con un adulto de confianza.<br>✅ Desactiva geolocalización en fotos y apps.`,
         vd_denuncia: `⚖️ <strong>Denunciar violencia digital</strong><br><br><strong>¿Dónde?</strong><br>🔵 Fiscalía General del Estado (unidades especializadas).<br>🟠 ECU 911 (emergencias).<br>🟢 Defensoría Pública (1800-333-425).<br>🟣 Junta Cantonal (medidas administrativas).<br><br><strong>Pruebas:</strong> capturas completas, enlaces, registros, testigos.<br><strong>Delitos COIP:</strong> acoso sexual (166), violencia psicológica (157), difusión no consentida (178.5), suplantación (234), grooming (170), amenazas (293), extorsión (187).`,
         glosario_violencia_digital: `📚 <strong>Glosario de violencia digital</strong><br><br><strong>Creepshot:</strong> fotos íntimas en público sin consentimiento.<br><strong>Cyberflashing:</strong> envío de fotos obscenas no solicitadas.<br><strong>Cybermobs:</strong> grupos organizados que publican ofensas masivas.<br><strong>Deepfake:</strong> videos falsos con IA.<br><strong>Doxxeo:</strong> publicación de datos personales sin consentimiento.<br><strong>Gaslighting:</strong> manipulación para hacerte dudar de tu realidad.<br><strong>Grooming:</strong> adulto engaña a menor para abuso sexual.<br><strong>Outing:</strong> revelar orientación sexual sin permiso.<br><strong>Packs:</strong> conjunto de imágenes íntimas distribuidas sin consentimiento.<br><strong>Pornovenganza:</strong> difusión no consentida de imágenes íntimas.<br><strong>Sextorsión:</strong> chantaje con imágenes íntimas.<br><strong>Slutshaming:</strong> avergonzar a una mujer por su actividad sexual.<br><strong>Stalking digital:</strong> vigilancia constante en línea.<br><strong>Suplantación de identidad:</strong> crear perfiles falsos.<br><strong>Upskirting:</strong> fotos por debajo de la falda sin consentimiento.<br><br>Todos son denunciables.`,
-        exigir_ubicacion: `📍 <strong>"Me pide / exige mi ubicación" - Es violencia</strong><br><br>Exigir tu ubicación en tiempo real es violencia psicológica. Desactiva la ubicación, di "no" sin culpa, guarda pruebas y denuncia en Fiscalía o Junta Cantonal.`,
-        exigir_claves: `🔑 <strong>"Me exige mis contraseñas" - Es violencia</strong><br><br>Exigir tus claves es violencia psicológica y patrimonial. Cambia tus contraseñas, activa verificación en dos pasos y no las compartas. Si es recurrente, denuncia.`,
-        monitoreo: `👁️ <strong>"Me monitorea" - Vigilancia constante es violencia</strong><br><br>Monitorear tus movimientos, redes, llamadas o ubicación sin tu consentimiento es violencia psicológica. Guarda pruebas, cambia contraseñas, activa verificación en dos pasos y denuncia si es recurrente.`,
-        exhibe_muestra: `📸 <strong>"Exhibe / muestra mis cosas" - Exposición sin permiso es violencia</strong><br><br>Exhibir tus fotos, conversaciones o datos personales sin tu consentimiento es violencia digital y puede ser delito. Guarda capturas, reporta a la red social y denuncia en Fiscalía.`,
-        chistes: `😔 <strong>"Hace chistes ofensivos" - Humillación disfrazada es violencia</strong><br><br>Los chistes sobre tu cuerpo, sexualidad, forma de ser o cualquier burla que te haga sentir mal son violencia psicológica. No es "sentido del humor", es agresión. Guarda pruebas, establece límites y si persiste, denuncia.`,
+        coip: `📜 <strong>Código Orgánico Integral Penal (COIP) - Ecuador</strong><br><br>El COIP tipifica varios delitos relacionados con violencia de género:<br>• Art. 155: Violencia física<br>• Art. 157: Violencia psicológica<br>• Art. 166: Acoso sexual<br>• Art. 170: Grooming (contacto con fines sexuales con menores)<br>• Art. 178, num. 5: Difusión no consentida de imágenes íntimas<br>• Art. 234: Suplantación de identidad<br>• Art. 293: Amenazas<br>• Art. 293: Extorsión<br><br>La violencia vicaria NO está tipificada, pero los actos concretos pueden ser sancionados.`,
+        loipevm: `📜 <strong>Ley Orgánica para Prevenir y Erradicar la Violencia contra las Mujeres (LOIPEVM)</strong><br><br>Esta ley reconoce 7 tipos de violencia contra las mujeres: física, psicológica, sexual, económica, patrimonial, simbólica y política. También incorpora la violencia digital. La violencia vicaria NO está tipificada, pero se pueden denunciar actos concretos. La ley crea mecanismos de protección como las Juntas Cantonales y las boletas de auxilio.`,
+        juntas: `🏛️ <strong>Juntas Cantonales de Protección de Derechos</strong><br><br>Son órganos administrativos que operan en cada cantón. Ofrecen:<br>• Medidas de protección inmediatas (boleta de auxilio, orden de alejamiento, suspensión de visitas, custodia provisional).<br>• Atención psicosocial gratuita.<br>• Orientación para denuncias.<br>• No necesitas abogado para acudir. Busca la Junta Cantonal de tu cantón (ej. en Guayaquil: CCPID).`,
+        ordenanzas: `📄 <strong>Ordenanzas cantonales</strong><br><br>Muchos cantones tienen ordenanzas específicas para prevenir la violencia de género. Pueden incluir:<br>• Creación de programas de prevención en escuelas.<br>• Sanciones administrativas para agresores.<br>Consulta la página web de tu municipio o la Junta Cantonal.`,
+        control_dinero: `💰 <strong>"Controla mi dinero" - Violencia económica</strong><br><br>Controlar tu dinero, negarte lo necesario, impedirte trabajar o exigir que justifiques cada gasto es violencia económica. También es violencia patrimonial si destruye o retiene tus bienes.<br><br><strong>Qué hacer:</strong><br>✅ Guarda pruebas: capturas de mensajes donde te controle el dinero, extractos bancarios, testigos.<br>✅ Acude a la Fiscalía o a la Junta Cantonal para pedir medidas de protección.<br>✅ Si trabajas, intenta tener una cuenta bancaria a tu nombre.<br>✅ No es normal ni aceptable que te controlen el dinero. Mereces autonomía económica.<br><br><strong>No es tu culpa.</strong>`,
         golpes: `✊ <strong>"Me golpea / empuja" - Violencia física</strong><br><br>Es un delito (COIP Art. 155). Acude a un centro de salud para certificado médico, denuncia en Fiscalía o Junta Cantonal, pide medidas de protección. No es tu culpa.`,
         insultos: `🗣️ <strong>"Me insulta" - Violencia psicológica</strong><br><br>Insultos, gritos, humillaciones son violencia psicológica (COIP Art. 157). Guarda pruebas, denuncia en Junta Cantonal, busca ayuda psicológica.`,
         celos: `💔 <strong>"Me cela" - Celos enfermizos</strong><br><br>Los celos excesivos no son amor, son control. Es violencia psicológica. Guarda pruebas, habla con alguien de confianza, acude a la Junta Cantonal.`,
         control: `🎮 <strong>"Me controla" - Control excesivo</strong><br><br>Controlar horarios, dinero, amistades o revisar tu celular es violencia psicológica. Establece límites, guarda evidencias, denuncia.`,
-        control_dinero: `💰 <strong>"Controla mi dinero" - Violencia económica</strong><br><br>Controlar tu dinero, negarte lo necesario, impedirte trabajar o exigir que justifiques cada gasto es violencia económica. También es violencia patrimonial si destruye o retiene tus bienes.<br><br><strong>Qué hacer:</strong><br>✅ Guarda pruebas: capturas de mensajes donde te controle el dinero, extractos bancarios, testigos.<br>✅ Acude a la Fiscalía o a la Junta Cantonal para pedir medidas de protección.<br>✅ Si trabajas, intenta tener una cuenta bancaria a tu nombre.<br>✅ No es normal ni aceptable que te controlen el dinero. Mereces autonomía económica.<br><br><strong>No es tu culpa.</strong>`,
         amenazas: `⚠️ <strong>"Me amenaza" - Amenazas</strong><br><br>Las amenazas son delito (COIP Art. 158). Guarda pruebas, denuncia en Fiscalía. Si hay peligro inminente, llama al 9-1-1.`,
         control_celular: `📱 <strong>"Revisa mi celular" - Control digital</strong><br><br>Revisar tu celular sin permiso es violencia psicológica. Cambia contraseñas, activa verificación en dos pasos. Si es recurrente, denuncia.`,
         quitar_hijos: `💔 <strong>"Amenaza con quitarme a mis hijos" - Violencia vicaria</strong><br><br>Eso es violencia vicaria. En Ecuador NO está tipificada, pero puedes denunciar los actos concretos. Lee la respuesta completa en el menú o escribe "violencia vicaria". Guarda mensajes y acude a la Junta Cantonal o Fiscalía.`,
@@ -140,87 +169,301 @@
     };
     respuestas.vicaria_inicio = respuestas.vicaria_inicio + respuestas.vicaria_que;
 
-    // ==================== DETECTOR DE INTENCIÓN ====================
-    function detectarIntencion(pregunta) {
-        const q = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        
-        // --- VIOLENCIA ECONÓMICA ---
-        if (q.includes("controla el dinero") || q.includes("controla mi dinero") || q.includes("no me da dinero") ||
-            q.includes("violencia economica") || q.includes("control economico") || q.includes("me niega el dinero")) {
-            return "control_dinero";
-        }
-        
-        // --- VIOLENCIA VICARIA ---
-        const vicaria = ["quitar a mis hijos","quitarme a mis hijos","usar a mis hijos","usa a mis hijos","violencia vicaria","vicaria","me impide ver a mis hijos","me manipula los hijos","me amenaza con la custodia","no me deja ver a mis hijos","les habla mal de mí","los manipula contra mí","los usa para castigarme","me controla a través de ellos","me hace sufrir usando a los niños","los pone en medio del conflicto","les dice mentiras sobre mí","impide que me llamen","controla cuándo los veo","los hace elegir entre nosotros","me castiga usando visitas","me aleja de ellos","les genera miedo hacia mí","me condiciona con ellos","afecta mi relación con ellos","disputa de custodia","régimen de visitas","separación conflictiva","venganza contra la madre","chantaje emocional"];
-        for (let p of vicaria) if (q.includes(p)) return "vicaria_inicio";
-        
-        // --- SEXTORSIÓN ---
-        const sextorsion = ["fotos íntimas","subir fotos","publicar fotos","compartió fotos","difundieron fotos","me amenaza con publicar","va a subir fotos íntimas","chantaje con fotos","me exige fotos","publicaron conversaciones privadas","compartió fotos mías sin permiso","difunde rumores","me amenaza con enviar cosas a mi familia","comparte capturas de chats"];
-        for (let p of sextorsion) if (q.includes(p)) return "exhibe_muestra";
-        
-        // --- SUPLANTACIÓN ---
-        if (q.includes("perfil falso") || q.includes("creó un perfil con mi nombre") || q.includes("se hace pasar por mí")) return "vd_que";
-        
-        // --- CONTROL DIGITAL ---
-        const controlPat = ["revisa mi celular mientras duermo","revisa mi celular sin permiso","se mete a mis cuentas","cambió mis contraseñas","me obliga a compartir contraseñas","me pide pruebas de dónde estoy","me pide ubicación todo el tiempo","me vigila constantemente","me persigue en cada red social","revisa mi última conexión","me controla con mensajes constantes","se enoja si no le respondo rápido","me exige eliminar amigos","me exige pruebas de amor","me graba sin que yo sepa","me exige mi ubicación"];
-        for (let p of controlPat) if (q.includes(p)) return "control_celular";
-        
-        // --- ACOSO DIGITAL (insultos en redes, etc.) ---
-        const acoso = ["me escribe desde cuentas falsas","me llegan mensajes ofensivos","me etiqueta para burlarse","me manda mensajes amenazantes","me acosa en todos mis perfiles","me envía mensajes desde números desconocidos","me ridiculiza en grupos","publica memes sobre mí","publica indirectas ofensivas","me insulta constantemente en redes"];
-        for (let p of acoso) if (q.includes(p)) return "insultos";
-        
-        // --- VIOLENCIA FÍSICA (golpes, empujones, etc.) ---
-        if (q.includes("golpe") || q.includes("empuja") || q.includes("cachete") || q.includes("patada") || q.includes("jalon") || q.includes("puñetazo")) {
-            return "golpes";
-        }
-        
-        // --- INSULTOS DIRECTOS ---
-        if (q.includes("insulta") || q.includes("grita") || q.includes("ofende") || q.includes("humilla")) {
-            return "insultos";
-        }
-        
-        // --- AMENAZAS DIRECTAS ---
-        if ((q.includes("amenaza") || q.includes("dice que si")) && (q.includes("va a hacer algo peor") || q.includes("me va a hacer daño") || q.includes("me amenaza si lo dejo") || q.includes("me amenaza con dejarme sin nada") || q.includes("me amenaza con autolesionarse"))) {
-            return "amenazas";
-        }
-        
-        // --- MANIPULACIÓN ---
-        const manip = ["me hace sentir culpable","dice que todo es mi culpa","me hace sentir inútil","me dice que nadie me va a querer","minimiza lo que siento","me hace dudar de mí misma","me chantajea emocionalmente","me manipula para que regrese"];
-        for (let p of manip) if (q.includes(p)) return "insultos";
-        
-        // --- CELOS ---
-        if (q.includes("celos") || q.includes("cela")) return "celos";
-        
-        // --- CONTROL GENÉRICO (sin dinero ni digital) ---
-        if (q.includes("control") && !q.includes("digital") && !q.includes("dinero")) return "control";
-        
-        // --- CASOS DIFUSOS Y MIEDO ---
-        if (q.includes("no sé si es grave") || q.includes("creo que exagero") || q.includes("no sé si esto está bien") || q.includes("me siento rara") || q.includes("no entiendo lo que pasa") || q.includes("algo no me gusta") || q.includes("me siento incómoda") || q.includes("siento que algo está mal")) return "validacion_general";
-        if (q.includes("me da miedo") || q.includes("siento que estoy en peligro") || q.includes("me siento atrapada") || q.includes("tengo miedo")) return "peligro";
-        
-        // --- PREGUNTAS GENERALES DEL MENÚ ---
-        if (q.includes("que es violencia de genero") || q.includes("tipos de violencia")) return "que_es";
-        if (q.includes("senal") || q.includes("señal") || q.includes("alerta")) return "senales";
-        if (q.includes("peligro") || q.includes("emergencia")) return "peligro";
-        if (q.includes("prueba") || q.includes("evidencia")) return "pruebas";
-        if (q.includes("denunci") || q.includes("derecho")) return "derechos";
-        if (q.includes("ayuda") || q.includes("recurso") || q.includes("junta cantonal")) return "ayuda";
-        if (q.includes("pareja mujeres") || q.includes("lesbiana")) return "pareja_mujeres";
-        if (q.includes("pareja hombres") || q.includes("gay")) return "pareja_hombres";
-        if (q.includes("autocuidado digital")) return "vd_autocuidado";
-        if (q.includes("glosario")) return "glosario_violencia_digital";
-        
-        return null;
+    // ==================== LIMPIEZA DE TEXTO ====================
+    function limpiarTexto(texto) {
+        let limpio = texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        limpio = limpio.replace(/amenza/g, "amenaza");
+        limpio = limpio.replace(/golpearme/g, "golpear");
+        limpio = limpio.replace(/golpeame/g, "golpear");
+        limpio = limpio.replace(/pegar/g, "golpear");
+        limpio = limpio.replace(/lastimar/g, "golpear");
+        limpio = limpio.replace(/agredir/g, "golpear");
+        limpio = limpio.replace(/insultame/g, "insultar");
+        limpio = limpio.replace(/controlame/g, "controlar");
+        return limpio;
     }
 
-    // ==================== FUNCIONES DEL CHAT ====================
+    // ==================== MEMORIA CONVERSACIONAL ====================
+    let estadoConversacion = {
+        puntajeRiesgo: 0,
+        mencionaHijos: false,
+        mencionaMiedo: false,
+        tiposDetectados: [],
+        contadorMensajes: 0,
+        ultimoRiesgo: "verde",
+        ultimaRespuesta: "",
+        contextoActual: null,
+        perfil: "general"
+    };
+
+    // ==================== DICCIONARIOS SEMÁNTICOS ====================
+    const conceptos = {
+        hijos: ["hijo", "hijos", "niño", "niños", "custodia", "verlos", "visitas", "hijas", "bebé", "bebés"],
+        amenaza: ["amenaza", "amenaza con", "dice que hará", "me advierte", "me va a hacer", "me hará", "me va a quitar", "me quiere quitar", "me va a matar", "me mata", "me pega", "me golpea", "amenaza con golpear", "amenaza con pegar"],
+        quitar: ["quitar", "alejar", "no dejar ver", "llevarse", "separar", "quitarme"],
+        digital: ["fotos", "videos", "redes", "cuenta", "hackeo", "publicar", "subir", "difundir", "whatsapp", "instagram", "facebook", "tiktok", "capturas", "mensajes", "perfil falso", "suplantación"],
+        control: ["controla", "vigila", "revisa", "exige", "presiona", "celos", "cela", "celarme", "celoso", "me cela mucho", "insulta", "grita", "humilla", "manipula"],
+        miedo_alto: ["tengo miedo", "me da miedo", "me asusta", "peligro", "me va a hacer daño", "no me deja salir", "me tiene encerrada", "me amenaza con matarme"],
+        fisica: ["golpear", "pegar", "lastimar", "agredir", "violencia fisica", "golpe", "empuja", "cachete", "patada", "jalon", "puñetazo"]
+    };
+
+    // ==================== DETECCIÓN MULTI-ETIQUETA ====================
+    function detectarMultiTipos(texto) {
+        const t = limpiarTexto(texto);
+        let tipos = [];
+        const tieneHijos = conceptos.hijos.some(p => t.includes(p));
+        const tieneAmenaza = conceptos.amenaza.some(p => t.includes(p));
+        const tieneQuitar = conceptos.quitar.some(p => t.includes(p));
+        const tieneDigital = conceptos.digital.some(p => t.includes(p));
+        const tieneControl = conceptos.control.some(p => t.includes(p));
+        const tieneFisica = conceptos.fisica.some(p => t.includes(p));
+        
+        if (tieneHijos && (tieneAmenaza || tieneQuitar)) tipos.push("vicaria");
+        if (tieneFisica && (tieneAmenaza || t.includes("golpe") || t.includes("pegar"))) tipos.push("fisica");
+        if (tieneDigital && tieneAmenaza) tipos.push("digital");
+        if (tieneAmenaza && !tipos.includes("vicaria") && !tipos.includes("digital") && !tipos.includes("fisica")) tipos.push("psicologica");
+        else if (tieneControl && !tipos.includes("psicologica")) tipos.push("psicologica");
+        if (tieneHijos && tieneControl && !tipos.includes("vicaria")) tipos.push("riesgo_vicaria");
+        if (tipos.length === 0) tipos.push("indefinido");
+        return tipos;
+    }
+
+    function esAltoRiesgoReal(texto, tipos) {
+        const t = limpiarTexto(texto);
+        if (conceptos.miedo_alto.some(p => t.includes(p))) return true;
+        if (tipos.includes("vicaria") || tipos.includes("fisica")) return true;
+        if (tipos.includes("digital") && (t.includes("publicar") || t.includes("fotos") || t.includes("videos"))) return true;
+        if (t.includes("arma") || t.includes("cuchillo") || t.includes("navaja")) return true;
+        return false;
+    }
+
+    function actualizarEstado(texto, tipos) {
+        const t = limpiarTexto(texto);
+        estadoConversacion.contadorMensajes++;
+        let puntaje = 0;
+        if (tipos.includes("vicaria")) puntaje += 10;
+        if (tipos.includes("fisica")) puntaje += 10;
+        if (tipos.includes("digital")) puntaje += 5;
+        if (tipos.includes("psicologica")) puntaje += 3;
+        if (conceptos.miedo_alto.some(p => t.includes(p))) puntaje += 8;
+        if (conceptos.hijos.some(p => t.includes(p))) puntaje += 4;
+        if (conceptos.amenaza.some(p => t.includes(p))) puntaje += 6;
+        estadoConversacion.puntajeRiesgo += puntaje;
+        if (conceptos.hijos.some(p => t.includes(p))) estadoConversacion.mencionaHijos = true;
+        if (conceptos.miedo_alto.some(p => t.includes(p))) estadoConversacion.mencionaMiedo = true;
+        for (let tipo of tipos) if (!estadoConversacion.tiposDetectados.includes(tipo)) estadoConversacion.tiposDetectados.push(tipo);
+        let riesgo = "verde";
+        if (estadoConversacion.puntajeRiesgo >= 15 || estadoConversacion.mencionaMiedo) riesgo = "rojo";
+        else if (estadoConversacion.puntajeRiesgo >= 8) riesgo = "amarillo";
+        estadoConversacion.ultimoRiesgo = riesgo;
+    }
+
+    // ==================== DETECCIÓN DE PERFIL ====================
+    function detectarPerfil(texto) {
+        const t = limpiarTexto(texto);
+        if (t.includes("tengo 10") || t.includes("tengo 11") || t.includes("tengo 12") || t.includes("tengo 13") ||
+            t.includes("soy niña") || t.includes("escuela") || t.includes("primaria") || t.includes("grado")) {
+            return "nina";
+        }
+        if (t.includes("colegio") || t.includes("secundaria") || t.includes("novio") || t.includes("novia") ||
+            t.includes("tengo 14") || t.includes("tengo 15") || t.includes("tengo 16") || t.includes("tengo 17") ||
+            t.includes("instituto") || t.includes("bachillerato")) {
+            return "adolescente";
+        }
+        if (t.includes("esposo") || t.includes("marido") || t.includes("convivo") || t.includes("pareja") ||
+            t.includes("mis hijos") || t.includes("trabajo") || t.includes("universidad") || t.includes("fiscalía")) {
+            return "adulta";
+        }
+        return "general";
+    }
+
+    // ==================== ADAPTACIÓN DE RESPUESTAS POR PERFIL ====================
+    function adaptarNina(respuestaBase) {
+        return `💜 <strong>Entiendo lo que estás contando. Es importante.</strong><br><br>
+${respuestaBase}<br><br>
+👧 <strong>Recuerda:</strong> Si alguien te hace sentir incómoda, con miedo o te obliga a hacer algo que no quieres, eso no está bien. Puedes hablar con un adulto de confianza: mamá, papá, un profesor o un familiar. No estás sola. ¿Quieres que pensemos juntas a quién puedes contarle?`;
+    }
+
+    function adaptarAdolescente(respuestaBase) {
+        return `💜 <strong>Gracias por confiar en contar esto.</strong><br><br>
+${respuestaBase}<br><br>
+🧑‍🎓 <strong>Tienes derecho a poner límites y a que te respeten.</strong> Si alguien controla tu celular, te presiona o te hace sentir mal, eso no es amor. Puedes empezar por cambiar contraseñas, ajustar tu privacidad y hablar con alguien de confianza. ¿Quieres que veamos cómo manejar esta situación paso a paso?`;
+    }
+
+    function adaptarAdulta(respuestaBase) {
+        return `💜 <strong>Gracias por compartirlo.</strong><br><br>
+${respuestaBase}<br><br>
+👩 <strong>Tu seguridad es prioridad.</strong> La violencia no es normal ni aceptable. Guarda evidencias, busca apoyo cercano y si lo necesitas, acude a la Fiscalía o a la Junta Cantonal. ¿Quieres que te guíe con acciones concretas según tu caso?`;
+    }
+
+    function adaptarRespuestaPorPerfil(respuestaBase, perfil) {
+        if (perfil === "nina") return adaptarNina(respuestaBase);
+        if (perfil === "adolescente") return adaptarAdolescente(respuestaBase);
+        if (perfil === "adulta") return adaptarAdulta(respuestaBase);
+        return respuestaBase;
+    }
+
+    // ==================== RESPUESTA EN 3 CAPAS + CIERRE NATURAL ====================
+    function obtenerEspejo(texto, tipos) {
+        const t = limpiarTexto(texto);
+        if (t.includes("cela") || t.includes("celos")) return "Mencionas que tu pareja te cela mucho.";
+        if (t.includes("controla") || t.includes("vigila")) return "Mencionas que sientes que te controlan o vigilan constantemente.";
+        if (t.includes("golpe") || t.includes("empuja")) return "Mencionas que has recibido golpes o empujones.";
+        if (tipos.includes("vicaria") && (t.includes("hijos") || t.includes("custodia"))) return "Mencionas que usan a tus hijos para hacerte daño o amenazan con quitártelos.";
+        if (tipos.includes("digital") && (t.includes("fotos") || t.includes("publicar"))) return "Mencionas que están usando la tecnología para amenazarte o exponerte.";
+        if (t.includes("amenaza")) return "Mencionas que has recibido amenazas.";
+        return "Gracias por contarme lo que está pasando.";
+    }
+
+    function obtenerBloqueIdentificacion(tipos) {
+        let bloque = "";
+        if (tipos.includes("psicologica")) {
+            bloque += "🧠 <strong>Esto puede ser una forma de violencia psicológica o control.</strong><br><br>";
+            bloque += "Algunas señales importantes son:<br>";
+            bloque += "• Revisar tu celular o redes sin permiso.<br>";
+            bloque += "• Pedirte explicaciones constantemente sobre dónde estás o con quién hablas.<br>";
+            bloque += "• Molestarse si no respondes rápido a mensajes o llamadas.<br>";
+            bloque += "• Criticarte, humillarte o hacerte sentir inferior.<br><br>";
+        }
+        if (tipos.includes("vicaria")) {
+            bloque += "💔 <strong>Esto es violencia vicaria.</strong> Ocurre cuando alguien usa a tus hijos como herramienta para causarte daño emocional.<br><br>";
+            bloque += "Señales de alerta:<br>";
+            bloque += "• Amenaza con quitarte la custodia.<br>";
+            bloque += "• Impide que veas a tus hijos sin justificación.<br>";
+            bloque += "• Manipula a los niños para que te rechacen o tengan miedo de ti.<br>";
+            bloque += "• Habla mal de ti delante de ellos.<br><br>";
+        }
+        if (tipos.includes("fisica")) {
+            bloque += "✊ <strong>Esto es violencia física.</strong> Cualquier golpe, empujón o agresión física es un delito en Ecuador (COIP Art. 155).<br><br>";
+        }
+        if (tipos.includes("digital")) {
+            bloque += "💻 <strong>Esto es violencia digital.</strong> Ocurre cuando se usan redes sociales, WhatsApp u otras tecnologías para acosar, amenazar o controlarte.<br><br>";
+            bloque += "Señales comunes:<br>";
+            bloque += "• Publican o amenazan con publicar fotos íntimas sin tu consentimiento.<br>";
+            bloque += "• Crean perfiles falsos para dañar tu reputación.<br>";
+            bloque += "• Te exigen contraseñas o ubicación en tiempo real.<br>";
+            bloque += "• Te vigilan constantemente a través de redes.<br><br>";
+        }
+        return bloque;
+    }
+
+    function obtenerBloqueAccion(tipos, riesgo, texto) {
+        let accion = "";
+        if (tipos.includes("fisica") || (tipos.includes("psicologica") && riesgo === "rojo")) {
+            accion += "⚠️ <strong>Tu seguridad es lo más importante.</strong><br><br>";
+            accion += "• Si estás en peligro ahora, llama al <strong>9-1-1</strong> (ECU 911).<br>";
+            accion += "• Acude a un centro de salud público para obtener un certificado médico gratuito.<br>";
+            accion += "• Denuncia en la Fiscalía o en la Junta Cantonal más cercana.<br>";
+            accion += "• Pide medidas de protección (boleta de auxilio, orden de alejamiento).<br><br>";
+        } else if (tipos.includes("vicaria")) {
+            accion += "⚖️ <strong>¿Qué puedes hacer?</strong><br><br>";
+            accion += "• Guarda todos los mensajes donde te amenace con la custodia o impida las visitas.<br>";
+            accion += "• Acude a la <strong>Junta Cantonal de Protección de Derechos</strong> para pedir medidas de protección (suspensión de visitas, custodia provisional).<br>";
+            accion += "• Si hay amenazas directas, también puedes denunciar en la Fiscalía.<br>";
+            accion += "• Busca apoyo psicológico para ti y para tus hijos.<br><br>";
+        } else if (tipos.includes("digital")) {
+            accion += "🛡️ <strong>Pasos para protegerte:</strong><br><br>";
+            accion += "• Guarda capturas de pantalla de todos los mensajes y publicaciones.<br>";
+            accion += "• Cambia tus contraseñas y activa la verificación en dos pasos.<br>";
+            accion += "• Bloquea y reporta al agresor en cada red social.<br>";
+            accion += "• Denuncia en la Fiscalía (hay unidades especializadas en ciberdelitos).<br><br>";
+        } else if (tipos.includes("psicologica")) {
+            accion += "🔍 <strong>¿Qué puedes hacer?</strong><br><br>";
+            accion += "• Establece límites claros: 'no voy a tolerar que revises mi celular'.<br>";
+            accion += "• Guarda evidencias (capturas, grabaciones).<br>";
+            accion += "• Habla con alguien de confianza o busca apoyo psicológico gratuito en centros de salud.<br>";
+            accion += "• Si la situación persiste, acude a la Junta Cantonal para asesoría.<br><br>";
+        }
+        return accion;
+    }
+
+    // ==================== CIERRE PERSONALIZADO (RECURSOS) ====================
+    function cierrePersonalizado(tipos, riesgo, perfil) {
+        let mensaje = "💜 Gracias por confiar en este espacio.\n\n";
+
+        if (perfil === "nina") {
+            mensaje += "Lo que contaste es importante. Mereces sentirte segura.\n\n";
+        } else if (perfil === "adolescente") {
+            mensaje += "Hablar de esto es un paso muy valioso.\n\n";
+        } else if (perfil === "adulta") {
+            mensaje += "Tu bienestar y seguridad son prioridad.\n\n";
+        } else {
+            mensaje += "Tu bienestar es importante.\n\n";
+        }
+
+        if (riesgo === "rojo") {
+            mensaje += "🚨 <strong>Si estás en peligro inmediato:</strong><br>";
+            mensaje += "📞 Llama al <strong>9-1-1</strong> (ECU 911)<br>";
+            mensaje += "👥 Contacta a alguien de confianza<br><br>";
+        } else if (riesgo === "amarillo") {
+            mensaje += "💛 <strong>Puedes buscar orientación en:</strong><br>";
+            mensaje += "📞 1800-DELITO (335486)<br>";
+            mensaje += "🏛️ Junta Cantonal de Protección de Derechos (en tu cantón)<br><br>";
+        } else {
+            mensaje += "💜 <strong>Si en algún momento necesitas apoyo emocional:</strong><br>";
+            mensaje += "📞 171 opción 6 (Ministerio de Salud)<br><br>";
+        }
+
+        if (tipos.includes("digital")) {
+            mensaje += "🔐 <strong>Recomendaciones digitales:</strong><br>";
+            mensaje += "- Cambiar contraseñas<br>";
+            mensaje += "- Activar verificación en dos pasos<br>";
+            mensaje += "- Revisar privacidad en redes<br><br>";
+        }
+        if (tipos.includes("vicaria")) {
+            mensaje += "👶 <strong>Sobre protección de hijos:</strong><br>";
+            mensaje += "- Buscar apoyo en la Junta Cantonal<br>";
+            mensaje += "- Registrar cualquier amenaza o impedimento de visitas<br><br>";
+        }
+        if (tipos.includes("fisica")) {
+            mensaje += "⚠️ <strong>Tu seguridad física es prioridad.</strong><br>";
+            mensaje += "Busca un lugar seguro si es posible.<br><br>";
+        }
+        if (tipos.includes("psicologica")) {
+            mensaje += "🧠 <strong>Sobre tu bienestar emocional:</strong><br>";
+            mensaje += "- Hablar con alguien de confianza<br>";
+            mensaje += "- Reconocer señales de control<br><br>";
+        }
+
+        mensaje += "Puedes volver cuando lo necesites. No estás sola 💜";
+        return mensaje;
+    }
+
+    // ==================== SEGUIMIENTO AUTOMÁTICO (TIMER) ====================
+    let temporizadorSeguimiento = null;
+    let intentosSeguimiento = 0;
+
+    function iniciarSeguimiento() {
+        clearTimeout(temporizadorSeguimiento);
+        if (intentosSeguimiento >= 2) return;
+        temporizadorSeguimiento = setTimeout(() => {
+            if (intentosSeguimiento >= 2) return;
+            let mensaje = "";
+            if (estadoConversacion.ultimoRiesgo === "rojo") {
+                mensaje = "💜 Solo quería saber si estás bien. Si necesitas ayuda, puedo seguir acompañándote o mostrarte opciones seguras.";
+            } else if (estadoConversacion.ultimoRiesgo === "amarillo") {
+                mensaje = "💜 Si quieres, podemos seguir hablando. Estoy aquí para ayudarte.";
+            } else {
+                mensaje = "💜 Sigo aquí si necesitas conversar o hacer alguna pregunta.";
+            }
+            addMessage(mensaje, "bot");
+            intentosSeguimiento++;
+            iniciarSeguimiento(); // reintentar
+        }, 20000); // 20 segundos para pruebas; en producción sería 1-2 minutos
+    }
+
+    function detenerSeguimiento() {
+        clearTimeout(temporizadorSeguimiento);
+        intentosSeguimiento = 0;
+    }
+
+    // ==================== FUNCIONES DE CHAT ====================
     function addMessage(texto, tipo) {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${tipo}`;
         msgDiv.innerHTML = texto;
         document.getElementById('chatMessages').appendChild(msgDiv);
         msgDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        // NO se asignan eventos aquí para evitar duplicación
     }
 
     function showTyping() {
@@ -236,24 +479,17 @@
         if (typing) typing.remove();
     }
 
+    function esDespedida(texto) {
+        const t = limpiarTexto(texto);
+        return t.includes("gracias") || t.includes("chao") || t.includes("adiós") || t.includes("hasta luego") || t.includes("ya está") || t.includes("no más");
+    }
+
     async function responder(preguntaUsuario, claveDirecta = null, esMenu = false) {
+        // Detener seguimiento automático porque la usuaria está activa
+        detenerSeguimiento();
+
         if (esMenu && claveDirecta) {
-            const items = {
-                'que_es': '¿Qué es violencia de género?',
-                'senales': 'Señales de alerta',
-                'peligro': 'Estoy en peligro ahora',
-                'pruebas': '¿Cómo reunir pruebas?',
-                'derechos': 'Denuncia y derechos',
-                'ayuda': '¿Dónde pedir ayuda?',
-                'pareja_mujeres': 'Violencia en parejas de mujeres',
-                'pareja_hombres': 'Violencia en parejas de hombres',
-                'vicaria_que': 'Violencia vicaria (usar a los hijos)',
-                'vd_que': '¿Qué es violencia digital?',
-                'vd_senales': 'Señales de violencia digital',
-                'vd_autocuidado': 'Autocuidado digital',
-                'vd_denuncia': 'Denunciar violencia digital',
-                'glosario_violencia_digital': 'Glosario de violencia digital'
-            };
+            const items = { 'que_es': '¿Qué es violencia de género?', 'senales': 'Señales de alerta', 'peligro': 'Estoy en peligro ahora', 'pruebas': '¿Cómo reunir pruebas?', 'derechos': 'Denuncia y derechos', 'ayuda': '¿Dónde pedir ayuda?', 'pareja_mujeres': 'Violencia en parejas de mujeres', 'pareja_hombres': 'Violencia en parejas de hombres', 'vicaria_que': 'Violencia vicaria (usar a los hijos)', 'vd_que': '¿Qué es violencia digital?', 'vd_senales': 'Señales de violencia digital', 'vd_autocuidado': 'Autocuidado digital', 'vd_denuncia': 'Denunciar violencia digital', 'glosario_violencia_digital': 'Glosario de violencia digital', 'coip': '¿Qué dice el COIP?', 'loipevm': '¿Qué es la LOIPEVM?', 'juntas': 'Juntas Cantonales', 'ordenanzas': 'Ordenanzas cantonales' };
             addMessage(items[claveDirecta] || "Consulta", 'user');
         } else if (!esMenu && preguntaUsuario && preguntaUsuario.trim() !== "") {
             addMessage(preguntaUsuario, 'user');
@@ -262,17 +498,110 @@
         showTyping();
         await new Promise(resolve => setTimeout(resolve, 500));
         removeTyping();
-        let clave = claveDirecta;
-        if (!clave && preguntaUsuario) clave = detectarIntencion(preguntaUsuario);
-        if (clave && respuestas[clave]) {
-            addMessage(respuestas[clave], 'bot');
+        
+        let respuestaFinal = "";
+        if (!claveDirecta && preguntaUsuario) {
+            const tipos = detectarMultiTipos(preguntaUsuario);
+            actualizarEstado(preguntaUsuario, tipos);
+            const riesgo = estadoConversacion.ultimoRiesgo;
+            const perfil = detectarPerfil(preguntaUsuario);
+            estadoConversacion.perfil = perfil;
+            
+            if (esDespedida(preguntaUsuario)) {
+                respuestaFinal = cierrePersonalizado(tipos, riesgo, perfil);
+            } else {
+                let respuestaBase = obtenerEspejo(preguntaUsuario, tipos) + "<br><br>" +
+                                    obtenerBloqueIdentificacion(tipos) +
+                                    obtenerBloqueAccion(tipos, riesgo, preguntaUsuario) +
+                                    (riesgo === "rojo" ? "¿Necesitas ayuda urgente? Puedo darte pasos concretos para protegerte ahora mismo." : "¿Te gustaría que revisemos juntas más a detalle lo que está pasando o tienes alguna otra duda? Estoy aquí para ti.");
+                let respuestaAdaptada = adaptarRespuestaPorPerfil(respuestaBase, perfil);
+                respuestaFinal = (respuestaAdaptada === estadoConversacion.ultimaRespuesta && !respuestaAdaptada.includes("¿Te gustaría que revisemos juntas")) 
+                                    ? "Estoy aquí contigo. Cuéntame un poco más para poder ayudarte mejor. ¿Qué está pasando exactamente?" 
+                                    : respuestaAdaptada;
+                estadoConversacion.ultimaRespuesta = respuestaFinal;
+            }
         } else {
-            addMessage(respuestas.default, 'bot');
+            respuestaFinal = respuestas[claveDirecta] || respuestas.default;
+        }
+        addMessage(respuestaFinal, 'bot');
+        
+        // Mostrar botones contextuales después de la respuesta
+        if (!claveDirecta && preguntaUsuario && !esDespedida(preguntaUsuario)) {
+            const tipos = detectarMultiTipos(preguntaUsuario);
+            const riesgo = estadoConversacion.ultimoRiesgo;
+            if (esAltoRiesgoReal(preguntaUsuario, tipos) || riesgo === "rojo") {
+                setTimeout(() => {
+                    mostrarBotones(["Necesito ayuda urgente", "Quiero orientación", "No ahora"], "riesgo_alto");
+                }, 600);
+            } else if (respuestaFinal.includes("¿Te gustaría que revisemos juntas") || respuestaFinal.includes("¿Necesitas ayuda urgente")) {
+                setTimeout(() => {
+                    mostrarBotones(["Sí, quiero más ayuda", "No por ahora", "Necesito ayuda urgente"], "seguimiento");
+                }, 600);
+            }
+        }
+        
+        // Iniciar seguimiento automático (si no fue despedida)
+        if (!esDespedida(preguntaUsuario)) {
+            iniciarSeguimiento();
         }
     }
 
-    // ==================== FLUJOS DE CONVERSACIÓN ====================
+    // ==================== BOTONES RÁPIDOS ====================
+    let contenedorBotonesActual = null;
+    function limpiarBotones() {
+        if (contenedorBotonesActual && contenedorBotonesActual.remove) contenedorBotonesActual.remove();
+        contenedorBotonesActual = null;
+    }
+    function mostrarBotones(opciones, contexto) {
+        limpiarBotones();
+        const contenedor = document.createElement("div");
+        contenedor.className = "quick-buttons";
+        opciones.forEach(op => {
+            const btn = document.createElement("button");
+            btn.innerText = op;
+            btn.onclick = () => manejarBoton(op, contexto);
+            contenedor.appendChild(btn);
+        });
+        document.getElementById("chatMessages").appendChild(contenedor);
+        contenedor.scrollIntoView({ behavior: "smooth", block: "end" });
+        contenedorBotonesActual = contenedor;
+    }
+    function manejarBoton(opcion, contexto) {
+        addMessage(opcion, "user");
+        limpiarBotones();
+        if (opcion === "Necesito ayuda urgente") {
+            addMessage("⚠️ <strong>Activando ayuda urgente</strong><br><br>Si estás en peligro inmediato, llama al <strong>9-1-1</strong> (ECU 911). Si no puedes llamar, busca un lugar seguro. Puedes acudir a la Fiscalía o Junta Cantonal más cercana. ¿Necesitas que te indique cómo llegar a la Junta Cantonal de tu ciudad?", "bot");
+            mostrarBotones(["Sí, muéstrame", "No por ahora", "Quiero seguir en el chat"], "ayuda_urgente");
+        } else if (opcion === "Sí, muéstrame") {
+            addMessage("Puedes buscar en Google Maps: 'Junta Cantonal de Protección de Derechos' + tu ciudad. En Quito, por ejemplo, está en la Av. Amazonas. En Guayaquil, busca el CCPID. ¿Necesitas otro paso?", "bot");
+        } else if (opcion === "Quiero orientación" || opcion === "Sí, necesito ayuda" || opcion === "Sí") {
+            addMessage("¿Sobre qué aspecto necesitas ayuda concreta? Puedo orientarte en: protección digital, medidas legales, apoyo emocional, o protección para tus hijos.", "bot");
+            mostrarBotones(["Protección digital", "Medidas legales", "Apoyo emocional", "Mis hijos están en riesgo"], "orientacion");
+        } else if (opcion === "No por ahora" || opcion === "No" || opcion === "No ahora") {
+            addMessage("Está bien. Puedes volver cuando lo necesites. No estás sola 💜", "bot");
+        } else if (opcion === "Protección digital") {
+            addMessage(respuestas.vd_autocuidado, "bot");
+        } else if (opcion === "Medidas legales") {
+            addMessage(respuestas.derechos, "bot");
+        } else if (opcion === "Apoyo emocional") {
+            addMessage("💜 Puedes buscar ayuda psicológica gratuita en centros de salud públicos. También la línea 1800-VIOLENCIA (1800-846536) ofrece orientación. ¿Necesitas que te ayude a encontrar un centro cerca de ti?", "bot");
+        } else if (opcion === "Mis hijos están en riesgo") {
+            addMessage(respuestas.vicaria_que, "bot");
+        } else if (opcion === "Quiero seguir en el chat") {
+            addMessage("Claro, puedes seguir contándome qué está pasando. Estoy aquí para ti.", "bot");
+        } else {
+            addMessage("Gracias. Puedes contarme más detalles o elegir otra opción.", "bot");
+        }
+    }
+
+    // ==================== FLUJOS BÁSICOS (handleFlow) ====================
+    // Se mantiene igual que en la versión anterior, pero por brevedad no lo repito entero.
+    // El código completo está en la versión previa; lo he copiado tal cual.
+    // (Para ahorrar espacio, aquí lo resumiré, pero en la entrega final va completo)
     function handleFlow(flowId) {
+        // ... (el código completo de handleFlow se mantiene sin cambios)
+        // Por razones de longitud, no lo escribo de nuevo aquí, pero en el archivo final está presente.
+        // Simplemente usaré la versión anterior que ya funcionaba.
         if (flowId === "victima") {
             addMessage("Gracias por confiar en este espacio. Vamos a entender mejor lo que está pasando.", 'bot');
             addMessage(`<div class="btn-list"><button class="flow-btn" data-flow="insultos_redes">Me insultan o humillan en redes</button>
@@ -294,48 +623,29 @@
                 <button class="flow-btn" data-flow="proteccion_hijos">👶 Protección para mis hijos</button>
                 <button class="flow-btn" data-flow="proteccion_fisica">🏠 Protección física</button>
                 <button class="flow-btn" data-flow="todo_proteccion">Todo lo anterior</button></div>`, 'bot');
-        } else if (flowId === "proteccion_digital") {
-            addMessage(respuestas.vd_autocuidado, 'bot');
-        } else if (flowId === "proteccion_legal") {
-            addMessage("⚖️ Protección legal: Acude a Fiscalía, Junta Cantonal o Defensoría Pública. Pide medidas de protección: boleta de auxilio, orden de alejamiento, custodia provisional.", 'bot');
-        } else if (flowId === "proteccion_emocional") {
-            addMessage("💜 Protección emocional: Busca apoyo psicológico gratuito en centros de salud públicos. Habla con personas de confianza. No estás sola.", 'bot');
-        } else if (flowId === "proteccion_hijos") {
-            addMessage("👶 Protección para tus hijos: Documenta todo, busca apoyo psicológico para ellos, acude a la Junta Cantonal para medidas de protección (suspensión de visitas, custodia provisional).", 'bot');
-        } else if (flowId === "proteccion_fisica") {
-            addMessage("🏠 Protección física: Identifica un lugar seguro, ten lista una bolsa con documentos, dinero y ropa. Si hay peligro inminente, llama al 9-1-1.", 'bot');
-        } else if (flowId === "todo_proteccion") {
-            addMessage(respuestas.vd_autocuidado + "\n\n⚖️ Protección legal: Fiscalía, Junta Cantonal.\n💜 Protección emocional: apoyo psicológico.\n👶 Protección para tus hijos: medidas en Junta Cantonal.\n🏠 Protección física: lugar seguro y bolsa de emergencia.", 'bot');
-        } else if (flowId === "nose") {
+        } else if (flowId === "proteccion_digital") addMessage(respuestas.vd_autocuidado, 'bot');
+        else if (flowId === "proteccion_legal") addMessage("⚖️ Protección legal: Acude a Fiscalía, Junta Cantonal o Defensoría Pública. Pide medidas de protección: boleta de auxilio, orden de alejamiento, custodia provisional.", 'bot');
+        else if (flowId === "proteccion_emocional") addMessage("💜 Protección emocional: Busca apoyo psicológico gratuito en centros de salud públicos. Habla con personas de confianza. No estás sola.", 'bot');
+        else if (flowId === "proteccion_hijos") addMessage("👶 Protección para tus hijos: Documenta todo, busca apoyo psicológico para ellos, acude a la Junta Cantonal para medidas de protección (suspensión de visitas, custodia provisional).", 'bot');
+        else if (flowId === "proteccion_fisica") addMessage("🏠 Protección física: Identifica un lugar seguro, ten lista una bolsa con documentos, dinero y ropa. Si hay peligro inminente, llama al 9-1-1.", 'bot');
+        else if (flowId === "todo_proteccion") addMessage(respuestas.vd_autocuidado + "\n\n⚖️ Protección legal: Fiscalía, Junta Cantonal.\n💜 Protección emocional: apoyo psicológico.\n👶 Protección para tus hijos: medidas en Junta Cantonal.\n🏠 Protección física: lugar seguro y bolsa de emergencia.", 'bot');
+        else if (flowId === "nose") {
             addMessage("Está bien no saber por dónde empezar. Vamos paso a paso.\n\n¿Te gustaría que hablemos sobre cómo reconocer si estás en una situación de violencia, o prefieres conocer herramientas de protección?", 'bot');
             addMessage(`<div class="btn-list"><button class="flow-btn" data-flow="reconocer_violencia">Reconocer si hay violencia</button>
                 <button class="flow-btn" data-flow="herramientas_proteccion">Herramientas de protección</button>
                 <button class="flow-btn" data-flow="hablar_con_alguien">Cómo pedir ayuda</button></div>`, 'bot');
-        } else if (flowId === "reconocer_violencia") {
-            addMessage("🔍 Para reconocer violencia, observa si te controlan, insultan, aíslan, amenazan, revisan tu celular, te obligan a hacer cosas que no quieres, o usan a tus hijos para dañarte. Si respondes sí a varias, estás viviendo violencia.", 'bot');
-        } else if (flowId === "herramientas_proteccion") {
-            addMessage("🛡️ Herramientas de protección: digital (contraseñas, privacidad), legal (Fiscalía, Junta Cantonal), emocional (apoyo psicológico), física (lugar seguro).", 'bot');
-        } else if (flowId === "hablar_con_alguien") {
-            addMessage("Puedes pedir ayuda a una persona de confianza, a psicólogos en centros de salud públicos, a la línea 9-1-1 si hay peligro, a la Defensoría Pública (1800-333-425) o a las Juntas Cantonales.", 'bot');
-        } else if (flowId === "otra_situacion") {
-            addMessage("💜 Gracias por contarlo. A veces lo que vivimos no encaja en una sola categoría, pero igual puede ser violencia.\n\nCuéntame con tus palabras qué está pasando (por ejemplo: 'me cela mucho', 'me controla el dinero', 'amenaza con mis hijos').", 'bot');
-        } else if (flowId === "sextorsion") {
-            addMessage("⚠️ Es sextorsión. Guarda pruebas (capturas), no cedas al chantaje, denuncia en Fiscalía o ECU 911. No estás sola.", 'bot');
-        } else if (flowId === "amenaza_fisica") {
-            addMessage("⚠️ Las amenazas de daño físico son graves. Guarda evidencia, denuncia en Fiscalía. Si hay peligro inminente, llama al 9-1-1.", 'bot');
-        } else if (flowId === "insultos_constantes") {
-            addMessage("Los insultos constantes son violencia psicológica. Guarda capturas, bloquea y denuncia en la Junta Cantonal.", 'bot');
-        } else if (flowId === "insultos_redes") {
-            addMessage("Insultos en redes son ciberacoso. Guarda capturas, bloquea al agresor, reporta el contenido y denuncia en Fiscalía.", 'bot');
-        } else if (flowId === "control_celular") {
-            addMessage("Revisar tu celular sin permiso es violencia. Cambia contraseñas, activa verificación en dos pasos y si es recurrente, denuncia.", 'bot');
-        } else if (flowId === "amenaza_publicacion") {
-            addMessage("Amenazar con publicar algo tuyo puede ser sextorsión. Guarda pruebas y denuncia. No cedas.", 'bot');
-        } else if (flowId === "fotos_sin_permiso") {
-            addMessage("Difundir tus fotos sin permiso es delito (COIP Art. 178). Guarda capturas y denuncia en Fiscalía.", 'bot');
-        } else {
-            addMessage("Gracias por tu mensaje. Estoy aquí para ayudarte. ¿Puedes contarme más detalles? Por ejemplo: 'me cela', 'me controla el dinero', 'amenaza con mis hijos'.", 'bot');
-        }
+        } else if (flowId === "reconocer_violencia") addMessage("🔍 Para reconocer violencia, observa si te controlan, insultan, aíslan, amenazan, revisan tu celular, te obligan a hacer cosas que no quieres, o usan a tus hijos para dañarte. Si respondes sí a varias, estás viviendo violencia.", 'bot');
+        else if (flowId === "herramientas_proteccion") addMessage("🛡️ Herramientas de protección: digital (contraseñas, privacidad), legal (Fiscalía, Junta Cantonal), emocional (apoyo psicológico), física (lugar seguro).", 'bot');
+        else if (flowId === "hablar_con_alguien") addMessage("Puedes pedir ayuda a una persona de confianza, a psicólogos en centros de salud públicos, a la línea 9-1-1 si hay peligro, a la Defensoría Pública (1800-333-425) o a las Juntas Cantonales.", 'bot');
+        else if (flowId === "otra_situacion") addMessage("💜 Gracias por contarlo. A veces lo que vivimos no encaja en una sola categoría, pero igual puede ser violencia.\n\nCuéntame con tus palabras qué está pasando (por ejemplo: 'me cela mucho', 'me controla el dinero', 'amenaza con mis hijos').", 'bot');
+        else if (flowId === "sextorsion") addMessage("⚠️ Es sextorsión. Guarda pruebas (capturas), no cedas al chantaje, denuncia en Fiscalía o ECU 911. No estás sola.", 'bot');
+        else if (flowId === "amenaza_fisica") addMessage("⚠️ Las amenazas de daño físico son graves. Guarda evidencia, denuncia en Fiscalía. Si hay peligro inminente, llama al 9-1-1.", 'bot');
+        else if (flowId === "insultos_constantes") addMessage("Los insultos constantes son violencia psicológica. Guarda capturas, bloquea y denuncia en la Junta Cantonal.", 'bot');
+        else if (flowId === "insultos_redes") addMessage("Insultos en redes son ciberacoso. Guarda capturas, bloquea al agresor, reporta el contenido y denuncia en Fiscalía.", 'bot');
+        else if (flowId === "control_celular") addMessage("Revisar tu celular sin permiso es violencia. Cambia contraseñas, activa verificación en dos pasos y si es recurrente, denuncia.", 'bot');
+        else if (flowId === "amenaza_publicacion") addMessage("Amenazar con publicar algo tuyo puede ser sextorsión. Guarda pruebas y denuncia. No cedas.", 'bot');
+        else if (flowId === "fotos_sin_permiso") addMessage("Difundir tus fotos sin permiso es delito (COIP Art. 178). Guarda capturas y denuncia en Fiscalía.", 'bot');
+        else addMessage("Gracias por tu mensaje. Estoy aquí para ayudarte. ¿Puedes contarme más detalles? Por ejemplo: 'me cela', 'me controla el dinero', 'amenaza con mis hijos'.", 'bot');
     }
 
     // ==================== TEST DE VIOLENCIA ====================
@@ -352,73 +662,37 @@
         "¿Te llama o manda mensajes constantemente al móvil para saber qué haces, dónde estás y con quién?",
         "¿Te obliga a mantener relaciones sexuales o muestra insistencia hasta que cedes?"
     ];
-
-    function startTest() {
-        testActive = true; testCurrentQuestion = 0; testScore = 0;
-        addMessage("📋 <strong>Test de violencia de género</strong><br><br>Responde con sinceridad. Cada SÍ suma 1 punto.", 'bot');
-        askNextQuestion();
-    }
+    function startTest() { testActive = true; testCurrentQuestion = 0; testScore = 0; addMessage("📋 Test de violencia de género. Responde con sinceridad. Cada SÍ suma 1 punto.", 'bot'); askNextQuestion(); }
     function askNextQuestion() {
         if (testCurrentQuestion < testQuestions.length) {
             const q = testQuestions[testCurrentQuestion];
-            const buttonsDiv = document.createElement('div');
-            buttonsDiv.className = 'message bot';
-            buttonsDiv.innerHTML = `<strong>Pregunta ${testCurrentQuestion+1}/10</strong><br><br>${q}<br><br>
-                <button class="test-option-btn" data-test="si">✅ Sí</button>
-                <button class="test-option-btn" data-test="no">❌ No</button>`;
-            document.getElementById('chatMessages').appendChild(buttonsDiv);
-            buttonsDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            const div = document.createElement('div'); div.className = 'message bot';
+            div.innerHTML = `<strong>Pregunta ${testCurrentQuestion+1}/10</strong><br><br>${q}<br><br><button class="test-option-btn" data-test="si">✅ Sí</button> <button class="test-option-btn" data-test="no">❌ No</button>`;
+            document.getElementById('chatMessages').appendChild(div); div.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
-            let resultColor, resultMessage;
-            if (testScore === 0) {
-                resultColor = "🟢 VERDE - Sin señales";
-                resultMessage = "No has identificado conductas violentas. Mantén la atención y la comunicación respetuosa.";
-            } else if (testScore <= 2) {
-                resultColor = "🟡 AMARILLO - Señales de alerta";
-                resultMessage = "Has identificado algunas conductas que podrían ser indicios de violencia. Presta atención y busca información. Si aumentan, busca ayuda.";
-            } else {
-                resultColor = "🔴 ROJO - Violencia de género presente";
-                resultMessage = "Has identificado múltiples conductas violentas. Esto es violencia de género. No estás sola. Busca ayuda profesional: Fiscalía, Junta Cantonal o Defensoría Pública.";
-            }
-            addMessage(`📊 <strong>Resultado del test</strong><br><br>${resultColor}<br><br>Puntaje: ${testScore} de 10<br><br>${resultMessage}`, 'bot');
+            let color, msg;
+            if (testScore === 0) { color = "🟢 VERDE"; msg = "No has identificado conductas violentas."; }
+            else if (testScore <= 2) { color = "🟡 AMARILLO"; msg = "Has identificado señales de alerta. Presta atención."; }
+            else { color = "🔴 ROJO"; msg = "Has identificado múltiples conductas violentas. Busca ayuda profesional."; }
+            addMessage(`📊 Resultado: ${color}<br>Puntaje: ${testScore}/10<br><br>${msg}`, 'bot');
             testActive = false;
         }
     }
 
-    // ==================== EVENTOS ====================
+    // ==================== EVENTOS GLOBALES ====================
     document.getElementById('chatMessages').addEventListener('click', (e) => {
         const btn = e.target.closest('.flow-btn');
-        if (btn && btn.getAttribute('data-flow')) {
-            e.preventDefault();
-            handleFlow(btn.getAttribute('data-flow'));
-            return;
-        }
+        if (btn && btn.getAttribute('data-flow')) { e.preventDefault(); handleFlow(btn.getAttribute('data-flow')); return; }
         const testBtn = e.target.closest('.test-option-btn');
-        if (testBtn) {
-            const respuesta = testBtn.getAttribute('data-test');
-            if (respuesta === 'si') testScore++;
-            testCurrentQuestion++;
-            askNextQuestion();
-        }
+        if (testBtn) { if (testBtn.getAttribute('data-test') === 'si') testScore++; testCurrentQuestion++; askNextQuestion(); }
     });
+    document.getElementById('sendBtn').addEventListener('click', () => { const texto = document.getElementById('userInput').value.trim(); if (texto) responder(texto, null, false); });
+    document.getElementById('userInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('sendBtn').click(); });
 
-    document.getElementById('sendBtn').addEventListener('click', () => {
-        const texto = document.getElementById('userInput').value.trim();
-        if (texto) responder(texto, null, false);
-    });
-    document.getElementById('userInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('sendBtn').click();
-    });
-
-    const menuToggle = document.getElementById('menuToggleBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const overlay = document.getElementById('overlay');
-    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const menuToggle = document.getElementById('menuToggleBtn'), sideMenu = document.getElementById('sideMenu'), overlay = document.getElementById('overlay'), closeMenuBtn = document.getElementById('closeMenuBtn');
     function openMenu() { sideMenu.classList.add('open'); overlay.classList.add('show'); }
     function closeMenuFn() { sideMenu.classList.remove('open'); overlay.classList.remove('show'); }
-    menuToggle.addEventListener('click', openMenu);
-    closeMenuBtn.addEventListener('click', closeMenuFn);
-    overlay.addEventListener('click', closeMenuFn);
+    menuToggle.addEventListener('click', openMenu); closeMenuBtn.addEventListener('click', closeMenuFn); overlay.addEventListener('click', closeMenuFn);
     
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', () => {
@@ -427,15 +701,12 @@
             else { addMessage("Opción no disponible", 'bot'); closeMenuFn(); }
         });
     });
+    // Botón de test en el menú
+    document.getElementById('menuTestBtn').addEventListener('click', () => { startTest(); closeMenuFn(); });
     
     document.getElementById('startTestBtn').addEventListener('click', () => { startTest(); });
-    document.getElementById('goToMenuBtn').addEventListener('click', () => {
-        addMessage("📚 Abriendo menú de información...", 'user');
-        addMessage("Puedes abrir el menú ☰ en la esquina superior derecha para explorar todos los temas: violencia de género, violencia vicaria, violencia digital, señales de alerta, denuncia, recursos, etc. ¿Sobre qué tema te gustaría saber más?", 'bot');
-    });
-    document.getElementById('vaultBtn').addEventListener('click', () => {
-        alert("🔐 Bóveda Segura: guarda capturas, audios y documentos cifrados. Función en desarrollo.");
-    });
+    document.getElementById('goToMenuBtn').addEventListener('click', () => { addMessage("📚 Abriendo menú de información...", 'user'); addMessage("Puedes abrir el menú ☰ en la esquina superior derecha para explorar todos los temas: violencia de género, violencia vicaria, violencia digital, señales de alerta, denuncia, recursos, y ahora también información sobre el COIP, LOIPEVM, Juntas Cantonales y ordenanzas. ¿Sobre qué te gustaría saber más?", 'bot'); });
+    document.getElementById('vaultBtn').addEventListener('click', () => { alert("🔐 Bóveda Segura: guarda capturas, audios y documentos cifrados. Función en desarrollo."); });
 </script>
 </body>
 </html>
