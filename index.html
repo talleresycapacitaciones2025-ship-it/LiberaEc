@@ -3,44 +3,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>LiberaEc IA | Acompañamiento inteligente</title>
+  <title>LiberaEc | Acompañamiento tranquilo y seguro</title>
   <style>
-    :root{--p:#6d28d9;--p2:#5b21b6;--f:#fafafa;--tarjeta:#fff;--texto:#1f2937;--borde:#e5e7eb;--alerta:#dc2626;--exito:#059669}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',system-ui;background:var(--f);color:var(--texto);padding-bottom:70px}
-    .encabezado{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:1.2rem;text-align:center;border-radius:0 0 20px 20px}
-    .encabezado h1{font-size:1.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
-    .estado{display:flex;align-items:center;justify-content:center;gap:.5rem;margin:.5rem auto;padding:.3rem 1rem;border-radius:40px;width:fit-content;font-size:.7rem}
-    .estado.online{background:#dcfce7;color:#166534}
-    .estado.offline{background:#fee2e2;color:#991b1b}
-    .chat{max-width:700px;margin:0 auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem;overflow-y:auto;max-height:calc(100vh - 200px)}
-    .mensaje{max-width:85%;padding:.8rem 1rem;border-radius:12px;white-space:pre-wrap}
-    .bot{background:var(--tarjeta);border-left:4px solid var(--p);align-self:flex-start}
-    .user{background:var(--p);color:#fff;align-self:flex-end}
-    .tiempo{font-size:.7rem;opacity:.7;margin-top:.4rem;text-align:right}
-    .opciones{display:flex;flex-direction:column;gap:.5rem;margin:.5rem 0}
-    .btn-op{display:flex;align-items:center;gap:.7rem;background:#fff;border:1px solid var(--borde);border-radius:40px;padding:.7rem 1rem;font-weight:500;cursor:pointer;transition:all .2s}
-    .btn-op:hover{background:#f3e8ff;border-color:var(--p)}
-    .input-area{max-width:700px;margin:0 auto 1rem;padding:0 1rem;display:flex;gap:.5rem;position:sticky;bottom:70px;background:var(--f)}
-    .input-chat{flex:1;padding:.8rem 1.2rem;border:1px solid var(--borde);border-radius:50px;background:#fff}
-    .input-chat:focus{outline:none;border-color:var(--p)}
-    .btn-enviar{background:var(--p);border:none;border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff}
-    .menu-persistente{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:.5rem;border-top:1px solid #e2e8f0;z-index:100}
-    .item-menu{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;font-size:.7rem;color:var(--texto);cursor:pointer;padding:6px 8px;border-radius:30px}
-    .item-menu svg{width:24px;height:24px;stroke:currentColor;fill:none}
-    .item-menu:hover{color:var(--p);background:#f0e9fe}
-    .btn-escape{position:fixed;bottom:80px;right:16px;background:var(--alerta);color:#fff;border:none;border-radius:50px;padding:12px 18px;font-weight:bold;display:flex;align-items:center;gap:8px;cursor:pointer;z-index:200}
-    .escribiendo{display:flex;gap:4px;background:#fff;padding:.6rem 1rem;border-radius:30px;border-left:3px solid var(--p)}
-    .punto{width:8px;height:8px;background:var(--p);border-radius:50%;animation:rebote 1.4s infinite}
-    @keyframes rebote{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
-    footer{text-align:center;font-size:.7rem;color:#6c757d;padding:1rem;background:#fff}
+    /* ============================================
+       PALETA TRANQUILIZADORA - PROFESIONAL
+       ============================================ */
+    :root {
+      --fondo: #F5F7F8;           /* Gris muy claro */
+      --card: #E1E6E8;            /* Gris piedra */
+      --texto: #2B3940;           /* Gris oscuro */
+      --primario: #2E5564;        /* Azul profundo (botones) */
+      --acento: #8AA29E;          /* Verde salvia (acentos) */
+      --calma: #4B6B7A;           /* Azul grisáceo */
+      --alerta: #E07A6A;          /* Coral apagado (solo emergencia) */
+      --exito: #4B7A66;           /* Verde oscuro suave */
+      --borde: #C9D0D2;
+    }
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.5;
+      padding-bottom: 70px;
+    }
+    /* Encabezado */
+    .encabezado{
+      background: linear-gradient(135deg, var(--calma), var(--primario));
+      color: white;
+      padding: 1.2rem;
+      text-align: center;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .encabezado h1{ font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .encabezado p{ font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
+    /* Estado de conexión */
+    .estado{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.8rem auto;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      width: fit-content;
+      font-size: 0.7rem;
+      background: var(--card);
+      color: var(--texto);
+    }
+    .estado.online{ background: #DCFCE7; color: #166534; }
+    .estado.offline{ background: #FEE2E2; color: #991B1B; }
+    /* Área de chat */
+    .chat{
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+    }
+    .mensaje{
+      max-width: 85%;
+      padding: 0.9rem 1.1rem;
+      border-radius: 18px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .bot{
+      background: white;
+      border-left: 4px solid var(--calma);
+      align-self: flex-start;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .user{
+      background: var(--primario);
+      color: white;
+      align-self: flex-end;
+      border-radius: 18px 18px 4px 18px;
+    }
+    .tiempo{
+      font-size: 0.65rem;
+      opacity: 0.7;
+      margin-top: 0.5rem;
+      text-align: right;
+    }
+    /* Opciones / Botones dentro del chat */
+    .opciones{
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+    .btn-op{
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: white;
+      border: 1px solid var(--borde);
+      border-radius: 60px;
+      padding: 0.75rem 1.2rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--texto);
+    }
+    .btn-op:hover{
+      background: var(--card);
+      border-color: var(--calma);
+      transform: translateY(-1px);
+    }
+    /* Input y envío */
+    .input-area{
+      max-width: 700px;
+      margin: 0 auto 1rem;
+      padding: 0 1rem;
+      display: flex;
+      gap: 0.6rem;
+      position: sticky;
+      bottom: 70px;
+      background: var(--fondo);
+    }
+    .input-chat{
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      border: 1px solid var(--borde);
+      border-radius: 60px;
+      font-size: 1rem;
+      background: white;
+      color: var(--texto);
+    }
+    .input-chat:focus{ outline: none; border-color: var(--calma); box-shadow: 0 0 0 2px rgba(75,107,122,0.2); }
+    .btn-enviar{
+      background: var(--primario);
+      border: none;
+      border-radius: 60px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: background 0.2s;
+    }
+    .btn-enviar:hover{ background: var(--calma); }
+    /* Menú persistente inferior */
+    .menu-persistente{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0.8rem;
+      border-top: 1px solid var(--borde);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+      z-index: 100;
+    }
+    .item-menu{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--texto);
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 40px;
+      transition: all 0.2s;
+    }
+    .item-menu svg{ width: 24px; height: 24px; stroke: currentColor; fill: none; }
+    .item-menu:hover{ color: var(--calma); background: var(--card); }
+    /* Botón de escape rojo (coral) */
+    .btn-escape{
+      position: fixed;
+      bottom: 80px;
+      right: 16px;
+      background: var(--alerta);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(224,122,106,0.3);
+      cursor: pointer;
+      z-index: 200;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-escape:hover{ background: #c56a5c; transform: scale(1.02); }
+    /* Indicador escribiendo */
+    .escribiendo{
+      display: flex;
+      gap: 6px;
+      background: white;
+      padding: 0.6rem 1rem;
+      border-radius: 30px;
+      width: fit-content;
+      border-left: 3px solid var(--calma);
+    }
+    .punto{
+      width: 8px;
+      height: 8px;
+      background: var(--calma);
+      border-radius: 50%;
+      animation: rebote 1.4s infinite;
+    }
+    @keyframes rebote{ 0%,80%,100%{ transform: scale(0); } 40%{ transform: scale(1); } }
+    footer{
+      text-align: center;
+      font-size: 0.7rem;
+      color: #6c757d;
+      padding: 1rem;
+      background: white;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-<div class="encabezado"><h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc IA</h1><p>Acompañamiento inteligente y seguro</p></div>
+<div class="encabezado">
+  <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc</h1>
+  <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
+</div>
 <div id="estado" class="estado online">🟢 Modo IA en línea</div>
 <main class="chat" id="chat"></main>
-<form class="input-area" id="form"><input type="text" id="input" class="input-chat" placeholder="Escribe aquí..." autocomplete="off"><button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></form>
+<form class="input-area" id="form">
+  <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
+  <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+</form>
 <div class="menu-persistente">
   <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
   <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
@@ -48,31 +249,30 @@
   <button class="item-menu" data-a="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
   <button class="item-menu" data-a="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
 </div>
-<button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
-<footer><p>Emergencia: 911 · Línea Mujer 147 · Modo IA: Cloudflare + Groq</p></footer>
+<button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
+<footer><p>Emergencia: <strong style="color:#2E5564;">911</strong> · Línea Mujer <strong style="color:#2E5564;">147</strong> · Información confidencial</p></footer>
 
 <script>
-// ============================================================
-// LIBERAEC IA - HÍBRIDO: Cloudflare Workers AI + Groq + Offline
-// ============================================================
-
 (function(){
+  // ============================================================
+  // ⚠️ IMPORTANTE: CAMBIA ESTA URL POR LA DE TU WORKER ⚠️
+  // ============================================================
+  const API_URL = "https://tu-worker.cloudflare.workers.dev"; // ← REEMPLAZAR
+  // ============================================================
+
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
-  
-  // Configuración
-  const USE_AI = true;  // IA activada por defecto
+
   let modoIA = true;
   let testActivo = false;
   let testRespuestas = [];
   let testPaso = 0;
-  
+
   // ========== UTILIDADES ==========
   const scroll = () => chat.scrollTop = chat.scrollHeight;
   let escribiendo = null;
-  
   const mostrarEscribiendo = (show) => {
     if(show && !escribiendo){
       escribiendo = document.createElement('div');
@@ -82,7 +282,7 @@
       scroll();
     } else if(!show && escribiendo){ escribiendo.remove(); escribiendo = null; }
   };
-  
+
   const addMsg = (txt, tipo) => {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo==='bot'?'bot':'user'}`;
@@ -90,52 +290,52 @@
     chat.appendChild(div);
     scroll();
   };
-  
+
   const addOpciones = (lista) => {
     const wrap = document.createElement('div');
     wrap.className = 'opciones';
     lista.forEach(op => {
       const btn = document.createElement('button');
       btn.className = 'btn-op';
-      btn.innerHTML = `<svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/></svg> ${op.texto}`;
+      btn.innerHTML = `<svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/></svg> ${op.texto}`;
       btn.onclick = () => manejarInput(op.valor, true);
       wrap.appendChild(btn);
     });
     chat.appendChild(wrap);
     scroll();
   };
-  
-  // ========== RESPUESTAS OFFLINE (sin asteriscos) ==========
+
+  // ========== RESPUESTAS OFFLINE (SIN ASTERISCOS, CON ICONOS Y NEGRILLAS) ==========
   const respuestasOffline = {
-    tipos: "📚 Tipos de violencia contra las mujeres (Ley Ecuador)\n\n✊ Física: golpes, empujones, quemaduras.\n💔 Psicológica: insultos, humillación, control, amenazas.\n🔞 Sexual: cualquier acto sexual no consentido.\n💰 Económica/Patrimonial: control del dinero, destrucción de bienes.\n🗣️ Simbólica: mensajes que perpetúan estereotipos.\n📱 Digital: acoso, difusión de información privada.\n\n✅ ¿Te gustaría saber cómo identificar alguna en particular?",
-    recursos: "📞 Recursos Ecuador\n\n📞 147 – Ministerio de la Mujer (24/7)\n🚨 911 – Emergencias\n🏛️ Defensoría del Pueblo: 1800 333 555\n💚 Fundación Quimera: 099 467 6340\n🏠 Casa Matilde (Quito): 02 254 5782\n\n📍 ¿Necesitas contacto de alguna provincia? Escríbeme el nombre.",
-    privacidad: "🔒 Privacidad total\n\n✅ No guardamos ningún mensaje.\n✅ Todo se procesa en tu navegador.\n✅ Al cerrar la pestaña, el chat desaparece.\n🚨 Botón rojo \"Salir rápido\" te lleva a Google.\n\n💜 Tu seguridad es lo más importante.",
-    salir: "🛡️ Salida segura\n\n🔒 Puedes cerrar esta pestaña.\n🚀 Botón rojo te lleva a Google.\n🗑️ Borra el historial si necesitas más privacidad.\n📞 Emergencia: 911\n\n💜 Cuídate mucho. Vuelve cuando lo necesites.",
-    bienvenida: "👋 Hola, soy LiberaEc IA\n\n🤖 Estoy conectada a IA avanzada (Cloudflare + Groq) para darte mejor apoyo.\n🔒 Todo es confidencial.\n\nSi no hay internet, uso respuestas locales. ¡Estoy aquí para ti!",
-    default: "🤝 Gracias por compartir.\n\n¿Te gustaría que te explique tipos de violencia o prefieres recursos de ayuda?\n📌 Escribe menu para ver opciones.",
-    menu: "📋 Opciones disponibles\n\n✏️ Escribe:\n  tipos → tipos de violencia\n  recursos → contactos de ayuda\n  test → autoevaluación interactiva\n  privacidad → información de seguridad\n  salir → cerrar de forma segura",
-    noComprendo: "🤔 No entendí bien.\n\nUsa el menú inferior o escribe menu para ver opciones.",
-    apoyoEmocional: "💜 Lamento que estés pasando por eso.\n\nNo es tu culpa. La violencia nunca está justificada.\n\n📞 ¿Te gustaría que te comparta números de ayuda?"
+    tipos: `📚 <strong>Tipos de violencia contra las mujeres</strong> (Ley Ecuador)\n\n✊ <strong>Física:</strong> golpes, empujones, quemaduras.\n💔 <strong>Psicológica:</strong> insultos, humillación, control, amenazas.\n🔞 <strong>Sexual:</strong> cualquier acto sexual no consentido.\n💰 <strong>Económica/Patrimonial:</strong> control del dinero, destrucción de bienes.\n🗣️ <strong>Simbólica:</strong> mensajes que perpetúan estereotipos.\n📱 <strong>Digital:</strong> acoso, difusión de información privada.\n\n✅ ¿Te gustaría saber cómo identificar alguna en particular?`,
+    recursos: `📞 <strong>Recursos Ecuador</strong>\n\n📞 <strong>147</strong> – Ministerio de la Mujer (24/7)\n🚨 <strong>911</strong> – Emergencias\n🏛️ <strong>Defensoría del Pueblo:</strong> 1800 333 555\n💚 <strong>Fundación Quimera:</strong> 099 467 6340\n🏠 <strong>Casa Matilde (Quito):</strong> 02 254 5782\n\n📍 ¿Necesitas contacto de alguna provincia? Escríbeme el nombre.`,
+    privacidad: `🔒 <strong>Privacidad total</strong>\n\n✅ No guardamos ningún mensaje.\n✅ Todo se procesa en tu navegador.\n✅ Al cerrar la pestaña, el chat desaparece.\n🚨 Botón rojo <strong>"Salir rápido"</strong> te lleva a Google.\n\n💜 Tu seguridad es lo más importante.`,
+    salir: `🛡️ <strong>Salida segura</strong>\n\n🔒 Puedes cerrar esta pestaña.\n🚀 Botón rojo te lleva a Google.\n🗑️ Borra el historial si necesitas más privacidad.\n📞 Emergencia: <strong>911</strong>\n\n💜 Cuídate mucho. Vuelve cuando lo necesites.`,
+    bienvenida: `👋 <strong>Hola, soy LiberaEc</strong>\n\nEstoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Todo es confidencial y privado.`,
+    default: `🤝 Gracias por compartir.\n\n¿Te gustaría que te explique <strong>tipos de violencia</strong> o prefieres <strong>recursos de ayuda</strong>?\n📌 Escribe <em>menu</em> para ver opciones.`,
+    menu: `📋 <strong>Opciones disponibles</strong>\n\n✏️ Escribe:\n  • <strong>tipos</strong> → tipos de violencia\n  • <strong>recursos</strong> → contactos de ayuda\n  • <strong>test</strong> → autoevaluación interactiva\n  • <strong>privacidad</strong> → información de seguridad\n  • <strong>salir</strong> → cerrar de forma segura`,
+    noComprendo: `🤔 No entendí bien tu mensaje.\n\nUsa el <strong>menú inferior</strong> o escribe <em>menu</em> para ver opciones.\n\nEstoy aquí para ayudarte.`,
+    apoyoEmocional: `💜 Lamento que estés pasando por eso.\n\n<strong>No es tu culpa.</strong> La violencia nunca está justificada.\n\n📞 ¿Te gustaría que te comparta números de ayuda?`
   };
-  
-  // Test offline
+
+  // Test interactivo offline
   const preguntasTest = [
-    { q: "🧩 Pregunta 1/6\n\n¿Tu pareja o familiar controla tus horarios, redes sociales o dinero?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 Pregunta 2/6\n\n¿Recibes insultos, humillaciones o amenazas?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 Pregunta 3/6\n\n¿Te alejan de amistades o familiares?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 Pregunta 4/6\n\n¿Has recibido empujones, golpes o algún daño físico?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 Pregunta 5/6\n\n¿Te obligan a hacer algo que no quieres (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 Pregunta 6/6\n\n¿Sientes miedo constante o ansiedad cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
+    { q: "🧩 <strong>Pregunta 1/6</strong>\n\n¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 2/6</strong>\n\n¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 3/6</strong>\n\n¿Te <strong>alejan de amistades o familiares</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 4/6</strong>\n\n¿Has recibido <strong>empujones, golpes o algún daño físico</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 5/6</strong>\n\n¿Te <strong>obligan a hacer algo que no quieres</strong> (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 6/6</strong>\n\n¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
-  
+
   const mostrarTestPregunta = () => {
     if(testPaso >= preguntasTest.length){
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
       let resultado = "";
-      if(totalSi === 0) resultado = "✅ No se identificaron señales de violencia. Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
-      else if(totalSi <= 2) resultado = "⚠️ Hay algunas señales de alerta. Te recomendamos hablar con alguien de confianza o llamar al 147 para orientación.";
-      else resultado = "🆘 Has identificado varias señales de violencia. No estás sola. Llama al 147 (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
-      addMsg(`📋 Resultado del test\n\n${resultado}\n\n💜 Recuerda: la violencia nunca es tu culpa.`, 'bot');
+      if(totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
+      else if(totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
+      else resultado = "🆘 <strong>Has identificado varias señales de violencia.</strong> No estás sola. Llama al <strong>147</strong> (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
+      addMsg(`📋 <strong>Resultado del test</strong>\n\n${resultado}\n\n💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
       addOpciones([{texto:"📞 Ver recursos de ayuda", valor:"recursos"},{texto:"📚 Tipos de violencia", valor:"tipos"}]);
       testActivo = false;
       testRespuestas = [];
@@ -145,12 +345,8 @@
     addMsg(p.q, 'bot');
     addOpciones(p.opciones.map(opt => ({texto: opt, valor: opt})));
   };
-  
-  // ========== IA: Cloudflare + Groq ==========
-  // Endpoint: Necesitas desplegar un Worker en Cloudflare con Groq
-  // Aquí está la URL de ejemplo (cambiar por tu Worker desplegado)
-  const API_URL = "https://liberaec-ai.talleresycapacitaciones2025.workers.dev"; // ¡CAMBIAR!
-  
+
+  // ========== LLAMADA A IA (Cloudflare + Groq) ==========
   const llamarIA = async (mensaje, historial) => {
     try {
       const response = await fetch(API_URL, {
@@ -158,11 +354,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: [...historial, { role: "user", content: mensaje }],
-          model: "llama-3.3-70b-versatile", // Groq's Llama 3.3 70B
-          stream: false
+          model: "llama-3.3-70b-versatile"
         })
       });
-      
       if(!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
       return data.choices[0].message.content;
@@ -171,10 +365,9 @@
       return null;
     }
   };
-  
-  // ========== PROCESADOR PRINCIPAL ==========
-  let historialIA = []; // Para contexto de la conversación
-  
+
+  let historialIA = [];
+
   const obtenerRespuestaOffline = (msg) => {
     let txt = msg.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
     if(txt === "tipos" || (txt.includes("tipo") && txt.includes("violencia"))) return respuestasOffline.tipos;
@@ -186,11 +379,11 @@
     if(txt.includes("golpe")||txt.includes("miedo")||txt.includes("control")||txt.includes("insulto")) return respuestasOffline.apoyoEmocional;
     return respuestasOffline.default;
   };
-  
+
   const manejarInput = async (texto, esOpcion=false) => {
     if(!texto.trim()) return;
-    
-    // Test activo (siempre offline para privacidad)
+
+    // Test activo
     if(testActivo){
       addMsg(texto, 'user');
       testRespuestas.push(texto);
@@ -198,8 +391,7 @@
       mostrarTestPregunta();
       return;
     }
-    
-    // Comando test
+
     if(texto.toLowerCase() === "test"){
       addMsg(texto, 'user');
       testActivo = true;
@@ -209,53 +401,47 @@
       mostrarTestPregunta();
       return;
     }
-    
+
     addMsg(texto, 'user');
     mostrarEscribiendo(true);
-    
+
     let respuesta = null;
-    
-    // Intentar usar IA si está activada
-    if(modoIA && USE_AI){
+
+    if(modoIA && API_URL !== "https://tu-worker.cloudflare.workers.dev"){
       try{
         respuesta = await llamarIA(texto, historialIA);
         if(respuesta){
           historialIA.push({ role: "user", content: texto });
           historialIA.push({ role: "assistant", content: respuesta });
-          // Mantener historial manejable
           if(historialIA.length > 20) historialIA = historialIA.slice(-20);
         }
-      } catch(e){
-        console.warn("Fallo IA, usando offline");
-        respuesta = null;
-      }
+      } catch(e){ respuesta = null; }
     }
-    
-    // Fallback a offline
+
     if(!respuesta){
       respuesta = obtenerRespuestaOffline(texto);
       if(respuesta === respuestasOffline.default && texto.length > 2 && !esOpcion) 
         respuesta = respuestasOffline.noComprendo;
     }
-    
+
     mostrarEscribiendo(false);
     addMsg(respuesta, 'bot');
-    
-    // Opciones contextuales (solo offline, IA ya es inteligente)
-    if(!respuesta || respuesta === respuestasOffline.tipos){
-      addOpciones([{texto:"📞 Recursos", valor:"recursos"},{texto:"🔒 Privacidad", valor:"privacidad"}]);
+
+    // Opciones contextuales (solo offline, la IA ya es inteligente)
+    if(respuesta === respuestasOffline.tipos){
+      addOpciones([{texto:"📞 Recursos de apoyo", valor:"recursos"},{texto:"🔒 Privacidad", valor:"privacidad"}]);
     } else if(respuesta === respuestasOffline.recursos){
-      addOpciones([{texto:"🧩 Test", valor:"test"},{texto:"📚 Tipos", valor:"tipos"}]);
+      addOpciones([{texto:"🧩 Test de autoevaluación", valor:"test"},{texto:"📚 Tipos de violencia", valor:"tipos"}]);
     } else if(respuesta === respuestasOffline.noComprendo){
-      addOpciones([{texto:"📌 Menú", valor:"menu"},{texto:"🛡️ Tipos", valor:"tipos"}]);
+      addOpciones([{texto:"📌 Menú principal", valor:"menu"},{texto:"🛡️ Tipos de violencia", valor:"tipos"}]);
     }
   };
-  
+
   // ========== EVENTOS ==========
   form.onsubmit = (e) => { e.preventDefault(); const val = input.value.trim(); if(val) manejarInput(val); input.value = ''; };
   document.querySelectorAll('.item-menu').forEach(btn => btn.onclick = () => manejarInput(btn.getAttribute('data-a')));
   document.getElementById('escape').onclick = () => { document.body.style.opacity = '0.8'; setTimeout(() => location.href='https://www.google.com', 150); };
-  
+
   // ========== INICIO ==========
   const init = () => {
     addMsg(respuestasOffline.bienvenida, 'bot');
@@ -265,24 +451,23 @@
       {texto:"🔒 Privacidad", valor:"privacidad"},
       {texto:"🧩 Test interactivo", valor:"test"}
     ]);
-    
-    // Verificar conectividad
-    if(USE_AI){
-      fetch('https://www.google.com/favicon.ico', { mode: 'no-cors' })
+
+    if(API_URL === "https://tu-worker.cloudflare.workers.dev"){
+      estadoDiv.className = "estado offline";
+      estadoDiv.innerHTML = "⚠️ Configura la URL del Worker en el código (línea 13)";
+    } else {
+      fetch(API_URL, { method: 'OPTIONS' })
         .then(() => {
           estadoDiv.className = "estado online";
-          estadoDiv.innerHTML = "🟢 Modo IA en línea (Cloudflare + Groq)";
+          estadoDiv.innerHTML = "🟢 Modo IA en línea (Cloudflare + Groq) · Respuestas en español";
         })
         .catch(() => {
           modoIA = false;
           estadoDiv.className = "estado offline";
           estadoDiv.innerHTML = "🔴 Sin conexión · Usando respuestas locales seguras";
         });
-    } else {
-      estadoDiv.innerHTML = "🟡 Modo local · Respuestas offline";
     }
   };
-  
   init();
 })();
 </script>
