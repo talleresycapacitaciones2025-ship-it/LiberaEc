@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
-    /* (mismo CSS que antes - omito por brevedad, pero copia el completo) */
+    /* (Mismo CSS que antes - se omite por brevedad, pero inclúyelo completo) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -243,11 +243,23 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ========== RESPUESTAS LOCALES INTELIGENTES ==========
+  // ========== RESPUESTAS LOCALES MUY MEJORADAS ==========
   function respuestaLocal(mensaje) {
     const m = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     
-    // Detección de violencia
+    // DETECCIÓN DE VIOLENCIA VICARIA (hijos)
+    if (m.includes("hijos") || m.includes("hijas") || m.includes("niños") || m.includes("niñas")) {
+      if (m.includes("quita") || m.includes("quitarme") || m.includes("quitar") || m.includes("amenaza") || m.includes("quito") || m.includes("quiere") || m.includes("usar") || m.includes("dañar")) {
+        return "👧🧒 <strong>Violencia vicaria (amenaza con hijos/as)</strong><br><br>Si tu pareja te amenaza con quitarte a tus hijos/as, eso es violencia vicaria. En Ecuador NO está tipificada como figura autónoma, pero SÍ puedes denunciar los actos concretos:<br><br>• Amenazas (art. 166 COIP)<br>• Sustracción de menores (art. 191 COIP)<br>• Violencia psicológica (art. 155 COIP)<br><br><strong>Qué hacer:</strong><br>1. Documenta las amenazas (capturas, audios, testigos).<br>2. Guarda evidencia en la Bóveda Segura de esta app.<br>3. Denuncia en Fiscalía: <strong>1800-354-378</strong><br>4. Pide medidas de protección.<br><br>No estás sola. Llama también al <strong>147</strong> (Línea Mujer) para orientación legal gratuita.";
+      }
+    }
+    
+    // Detección general de amenazas
+    if (m.includes("amenaza") || (m.includes("amenaza") && m.includes("hacer"))) {
+      return "⚠️ <strong>Las amenazas son un delito en Ecuador</strong> (Art. 166 del COIP). Si te amenazan con dañarte a ti o a tus hijos/as, puedes denunciar. Guarda evidencias (capturas, grabaciones). Llama al <strong>911</strong> si el peligro es inminente, o al <strong>147</strong> para orientación.";
+    }
+    
+    // Detección de cómo saber si hay violencia
     if (m.includes("como saber") || m.includes("cómo saber") || (m.includes("saber") && m.includes("violenta")) || m.includes("como se si") || m.includes("cómo sé si")) {
       return "🔍 <strong>¿Cómo saber si tu pareja te violenta?</strong><br><br>Pregúntate:<br>• ¿Controla tu dinero, horarios o con quién hablas?<br>• ¿Te insulta, humilla o amenaza?<br>• ¿Te revisa el celular o exige contraseñas?<br>• ¿Te aleja de amistades o familia?<br>• ¿Sientes miedo o ansiedad cuando están juntos?<br><br>Si respondiste SÍ a alguna, podrías estar en una situación violenta. Llama al <strong>147</strong> para orientación gratuita.";
     }
@@ -266,17 +278,12 @@
       return "✋ <strong>Violencia física</strong><br><br>Incluye golpes, empujones, bofetadas, quemaduras, sacudidas, o cualquier daño corporal. En Ecuador está tipificada en el COIP. Si la sufres, busca ayuda: <strong>911</strong> o <strong>147</strong>.";
     }
     
-    // Violencia vicaria
-    if (m.includes("vicaria") || (m.includes("hijos") && m.includes("dañar"))) {
-      return "👧🧒 <strong>Violencia vicaria</strong><br><br>Es cuando alguien usa a tus hijos/as para lastimarte: amenaza con quitártelos, los maltrata para herirte, o impide que los veas. En Ecuador aún no está tipificada como figura autónoma, pero puedes denunciar los actos concretos (amenazas, sustracción, daño psicológico) ante Fiscalía: <strong>1800-354-378</strong>.";
-    }
-    
     // Violencia digital
     if (m.includes("digital") || m.includes("celular") || m.includes("contraseña") || m.includes("vigila") || m.includes("redes")) {
       return "📱 <strong>Violencia digital</strong><br><br>Incluye:<br>• Revisar tu celular sin permiso<br>• Exigir tus contraseñas<br>• Vigilar tu ubicación o actividad en línea<br>• Difundir fotos íntimas sin consentimiento<br><br>Guarda evidencias y denuncia. Línea Violeta: <strong>1800 VIOLETA</strong>.";
     }
     
-    // Recursos
+    // Recursos de ayuda
     if (m.includes("recursos") || m.includes("ayuda") || m.includes("denunciar")) {
       return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong><br>🔒 Todo es confidencial.";
     }
@@ -297,17 +304,17 @@
       return "Puedes hacer el test de violencia respondiendo unas preguntas sencillas. Solo escribe <strong>test</strong> o pulsa el botón Test en el menú.";
     }
     
-    // Si nada de lo anterior
-    return "💜 Estoy aquí para ayudarte. Pregúntame sobre tipos de violencia, cómo detectarla, recursos de ayuda en Ecuador, o cómo proteger tu privacidad. También puedes hacer el test escribiendo 'test'. Cuéntame qué te preocupa y te orientaré.";
+    // Respuesta por defecto (más útil)
+    return "💜 Estoy aquí para ayudarte. Por favor, cuéntame con más detalle qué está pasando. Por ejemplo:\n- ¿Tu pareja te amenaza con algo?\n- ¿Controla tu dinero o tus horarios?\n- ¿Te insulta o humilla?\n- ¿Te revisa el celular?\n- ¿Usa a tus hijos para lastimarte?\n\nCuanto más específica seas, mejor podré orientarte. También puedes escribir 'test' para hacer preguntas guiadas.";
   }
 
-  // ========== CONEXIÓN AL WORKER CON FALLBACK ==========
+  // ========== CONEXIÓN AL WORKER CON FALLBACK INTELIGENTE ==========
   async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
     try {
       estadoDiv.textContent = "⏳ Procesando...";
       const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -319,11 +326,14 @@
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       estadoDiv.textContent = "✅ Conectado";
-      // Si el worker devuelve una respuesta vacía o muy corta, usar local
-      if (!data.response || data.response.length < 10) throw new Error("Respuesta vacía");
-      return data.response;
+      const botMsg = data.response || "";
+      // Si el worker devuelve respuesta genérica o vacía, usamos local
+      if (botMsg.length < 15 || botMsg.includes("Gracias por compartir") || botMsg.includes("Puedes preguntar por recursos")) {
+        throw new Error("Respuesta genérica del worker");
+      }
+      return botMsg;
     } catch (error) {
-      console.warn("Error en worker, usando respuesta local:", error);
+      console.warn("Error en worker o respuesta insuficiente, usando local:", error);
       estadoDiv.textContent = "⚠️ Modo local (respuesta offline)";
       return respuestaLocal(mensajeUsuario);
     }
@@ -419,16 +429,12 @@
     mostrarEscribiendo(true);
 
     let respuesta;
-    // Para comandos rápidos usamos respuesta local sin llamar al worker
     const cmd = txt.toLowerCase();
+    // Comandos rápidos que podemos responder localmente sin depender del worker
     if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
       respuesta = respuestaLocal(cmd);
     } else {
       respuesta = await obtenerRespuestaDesdeWorker(txt);
-      // Si la respuesta del worker es la genérica antigua, la reemplazamos
-      if (respuesta.includes("Gracias por compartir") || respuesta.length < 15) {
-        respuesta = respuestaLocal(txt);
-      }
     }
     mostrarEscribiendo(false);
     addMsg(respuesta, 'bot');
