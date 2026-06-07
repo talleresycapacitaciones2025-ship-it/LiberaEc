@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
+    /* (mismo CSS que antes - omito por brevedad, pero copia el completo) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -247,13 +248,17 @@
     const m = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     
     // Detección de violencia
-    if (m.includes("como saber") || m.includes("cómo saber") || (m.includes("saber") && m.includes("violenta")) || m.includes("detectar") || m.includes("identificar")) {
-      return "🔍 <strong>¿Cómo saber si estoy viviendo violencia?</strong><br><br>Puedes preguntarte:<br>• ¿Sientes miedo o ansiedad cuando estás con esa persona?<br>• ¿Controla tu dinero, horarios o con quién hablas?<br>• ¿Te insulta, humilla o amenaza?<br>• ¿Te aleja de amistades o familia?<br>• ¿Revisa tu celular o exige contraseñas?<br><br>Si respondiste SÍ a alguna, podrías estar en una situación violenta. No estás sola. Llama al <strong>147</strong> para orientación gratuita.";
+    if (m.includes("como saber") || m.includes("cómo saber") || (m.includes("saber") && m.includes("violenta")) || m.includes("como se si") || m.includes("cómo sé si")) {
+      return "🔍 <strong>¿Cómo saber si tu pareja te violenta?</strong><br><br>Pregúntate:<br>• ¿Controla tu dinero, horarios o con quién hablas?<br>• ¿Te insulta, humilla o amenaza?<br>• ¿Te revisa el celular o exige contraseñas?<br>• ¿Te aleja de amistades o familia?<br>• ¿Sientes miedo o ansiedad cuando están juntos?<br><br>Si respondiste SÍ a alguna, podrías estar en una situación violenta. Llama al <strong>147</strong> para orientación gratuita.";
+    }
+    
+    if (m.includes("señales") || (m.includes("signos") && m.includes("violencia"))) {
+      return "⚠️ <strong>Señales de violencia</strong><br><br>• Control excesivo de tu tiempo y dinero<br>• Celos constantes y acusaciones<br>• Insultos, humillaciones o gritos<br>• Amenazas (explícitas o sutiles)<br>• Aislamiento de amistades y familia<br>• Revisar tu celular o redes sin permiso<br>• Empujones, golpes o cualquier daño físico<br>• Obligarte a hacer algo que no quieres<br>• Usar a tus hijos/as para lastimarte<br><br>Si reconoces alguna, busca apoyo. No estás sola.";
     }
     
     // Violencia psicológica
     if (m.includes("psicologica") || m.includes("psicológica")) {
-      return "🧠 <strong>¿Qué es la violencia psicológica?</strong><br><br>Es toda acción u omisión que daña la salud mental y la dignidad de una persona. Incluye:<br>• Insultos, humillaciones, gritos<br>• Control, aislamiento, vigilancia<br>• Gaslighting (hacerte dudar de tu realidad)<br>• Amenazas, chantajes, culpabilización<br><br>No deja marcas físicas pero duele igual. Si la reconoces, mereces ayuda. Llama al <strong>147</strong>.";
+      return "🧠 <strong>¿Qué es la violencia psicológica?</strong><br><br>Es toda acción que daña tu salud mental y dignidad. Incluye:<br>• Insultos, humillaciones, gritos<br>• Control, aislamiento, vigilancia<br>• Gaslighting (hacerte dudar de tu realidad)<br>• Amenazas, chantajes, culpabilización<br><br>No deja marcas físicas pero duele igual. Si la reconoces, mereces ayuda. Llama al <strong>147</strong>.";
     }
     
     // Violencia física
@@ -271,7 +276,7 @@
       return "📱 <strong>Violencia digital</strong><br><br>Incluye:<br>• Revisar tu celular sin permiso<br>• Exigir tus contraseñas<br>• Vigilar tu ubicación o actividad en línea<br>• Difundir fotos íntimas sin consentimiento<br><br>Guarda evidencias y denuncia. Línea Violeta: <strong>1800 VIOLETA</strong>.";
     }
     
-    // Recursos si no coincide
+    // Recursos
     if (m.includes("recursos") || m.includes("ayuda") || m.includes("denunciar")) {
       return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong><br>🔒 Todo es confidencial.";
     }
@@ -292,8 +297,8 @@
       return "Puedes hacer el test de violencia respondiendo unas preguntas sencillas. Solo escribe <strong>test</strong> o pulsa el botón Test en el menú.";
     }
     
-    // Si nada de lo anterior, respuesta general pero útil
-    return "💜 Gracias por confiar en LiberaEc. Para poder ayudarte mejor, cuéntame más sobre lo que estás viviendo o pregúntame específicamente sobre: tipos de violencia, cómo detectarla, recursos de ayuda, o cómo proteger tu privacidad. También puedes hacer el test escribiendo 'test'.";
+    // Si nada de lo anterior
+    return "💜 Estoy aquí para ayudarte. Pregúntame sobre tipos de violencia, cómo detectarla, recursos de ayuda en Ecuador, o cómo proteger tu privacidad. También puedes hacer el test escribiendo 'test'. Cuéntame qué te preocupa y te orientaré.";
   }
 
   // ========== CONEXIÓN AL WORKER CON FALLBACK ==========
@@ -314,6 +319,8 @@
       const data = await response.json();
       if (data.error) throw new Error(data.error);
       estadoDiv.textContent = "✅ Conectado";
+      // Si el worker devuelve una respuesta vacía o muy corta, usar local
+      if (!data.response || data.response.length < 10) throw new Error("Respuesta vacía");
       return data.response;
     } catch (error) {
       console.warn("Error en worker, usando respuesta local:", error);
@@ -412,14 +419,16 @@
     mostrarEscribiendo(true);
 
     let respuesta;
-    // Si es una palabra clave de las que ya manejamos localmente, podemos responder rápido sin worker
+    // Para comandos rápidos usamos respuesta local sin llamar al worker
     const cmd = txt.toLowerCase();
     if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
       respuesta = respuestaLocal(cmd);
     } else {
       respuesta = await obtenerRespuestaDesdeWorker(txt);
-      // Si el worker devuelve algo vacío o muy corto, usamos local
-      if (!respuesta || respuesta.length < 10) respuesta = respuestaLocal(txt);
+      // Si la respuesta del worker es la genérica antigua, la reemplazamos
+      if (respuesta.includes("Gracias por compartir") || respuesta.length < 15) {
+        respuesta = respuestaLocal(txt);
+      }
     }
     mostrarEscribiendo(false);
     addMsg(respuesta, 'bot');
