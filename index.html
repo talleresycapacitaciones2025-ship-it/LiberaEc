@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
-    /* (Mismo CSS que antes - se omite por brevedad, pero inclúyelo completo) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -16,23 +15,37 @@
       --alerta: #E07A6A;
       --borde: #C9D0D2;
     }
-    *{ margin:0; padding:0; box-sizing:border-box; }
-    body{
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--fondo);
       color: var(--texto);
       padding-bottom: 70px;
     }
-    .encabezado{
+    .encabezado {
       background: linear-gradient(135deg, var(--calma), var(--primario));
       color: white;
       padding: 1.2rem;
       text-align: center;
       border-radius: 0 0 24px 24px;
     }
-    .encabezado h1{ font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .encabezado p{ font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
-    .estado{
+    .encabezado h1 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .encabezado p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.2rem;
+    }
+    .estado {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -45,7 +58,7 @@
       background: var(--card);
       color: var(--texto);
     }
-    .chat{
+    .chat {
       max-width: 700px;
       margin: 0 auto;
       padding: 1rem;
@@ -55,37 +68,37 @@
       overflow-y: auto;
       max-height: calc(100vh - 200px);
     }
-    .mensaje{
+    .mensaje {
       max-width: 85%;
       padding: 0.9rem 1.1rem;
       border-radius: 18px;
       white-space: pre-wrap;
       line-height: 1.5;
     }
-    .bot{
+    .bot {
       background: white;
       border-left: 4px solid var(--calma);
       align-self: flex-start;
     }
-    .user{
+    .user {
       background: var(--primario);
       color: white;
       align-self: flex-end;
       border-radius: 18px 18px 4px 18px;
     }
-    .tiempo{
+    .tiempo {
       font-size: 0.65rem;
       opacity: 0.7;
       margin-top: 0.5rem;
       text-align: right;
     }
-    .opciones{
+    .opciones {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
       margin: 0.5rem 0;
     }
-    .btn-op{
+    .btn-op {
       display: flex;
       align-items: center;
       gap: 0.8rem;
@@ -96,9 +109,13 @@
       font-weight: 500;
       cursor: pointer;
       color: var(--texto);
+      transition: all 0.2s;
     }
-    .btn-op:hover{ background: var(--card); border-color: var(--calma); }
-    .input-area{
+    .btn-op:hover {
+      background: var(--card);
+      border-color: var(--calma);
+    }
+    .input-area {
       max-width: 700px;
       margin: 0 auto 1rem;
       padding: 0 1rem;
@@ -108,7 +125,7 @@
       bottom: 70px;
       background: var(--fondo);
     }
-    .input-chat{
+    .input-chat {
       flex: 1;
       padding: 0.85rem 1.2rem;
       border: 1px solid var(--borde);
@@ -116,8 +133,11 @@
       font-size: 1rem;
       background: white;
     }
-    .input-chat:focus{ outline: none; border-color: var(--calma); }
-    .btn-enviar{
+    .input-chat:focus {
+      outline: none;
+      border-color: var(--calma);
+    }
+    .btn-enviar {
       background: var(--primario);
       border: none;
       border-radius: 60px;
@@ -128,9 +148,12 @@
       justify-content: center;
       cursor: pointer;
       color: white;
+      transition: background 0.2s;
     }
-    .btn-enviar:hover{ background: var(--calma); }
-    .menu-persistente{
+    .btn-enviar:hover {
+      background: var(--calma);
+    }
+    .menu-persistente {
       position: fixed;
       bottom: 0;
       left: 0;
@@ -143,7 +166,7 @@
       border-top: 1px solid var(--borde);
       z-index: 100;
     }
-    .item-menu{
+    .item-menu {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -156,10 +179,19 @@
       cursor: pointer;
       padding: 6px 10px;
       border-radius: 40px;
+      transition: all 0.2s;
     }
-    .item-menu svg{ width: 24px; height: 24px; stroke: currentColor; fill: none; }
-    .item-menu:hover{ color: var(--calma); background: var(--card); }
-    .btn-escape{
+    .item-menu svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+    }
+    .item-menu:hover {
+      color: var(--calma);
+      background: var(--card);
+    }
+    .btn-escape {
       position: fixed;
       bottom: 80px;
       right: 16px;
@@ -174,8 +206,13 @@
       gap: 8px;
       cursor: pointer;
       z-index: 200;
+      transition: transform 0.2s, background 0.2s;
     }
-    .escribiendo{
+    .btn-escape:hover {
+      background: #c0392b;
+      transform: scale(1.02);
+    }
+    .escribiendo {
       display: flex;
       gap: 6px;
       background: white;
@@ -185,15 +222,18 @@
       border-left: 3px solid var(--calma);
       align-self: flex-start;
     }
-    .punto{
+    .punto {
       width: 8px;
       height: 8px;
       background: var(--calma);
       border-radius: 50%;
       animation: rebote 1.4s infinite;
     }
-    @keyframes rebote{ 0%,80%,100%{ transform: scale(0); } 40%{ transform: scale(1); } }
-    footer{
+    @keyframes rebote {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+    footer {
       text-align: center;
       font-size: 0.7rem;
       color: #6c757d;
@@ -243,78 +283,103 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ========== RESPUESTAS LOCALES MUY MEJORADAS ==========
+  // ========== RESPUESTAS LOCALES MUY REFORZADAS ==========
   function respuestaLocal(mensaje) {
     const m = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     
-    // DETECCIÓN DE VIOLENCIA VICARIA (hijos)
-    if (m.includes("hijos") || m.includes("hijas") || m.includes("niños") || m.includes("niñas")) {
-      if (m.includes("quita") || m.includes("quitarme") || m.includes("quitar") || m.includes("amenaza") || m.includes("quito") || m.includes("quiere") || m.includes("usar") || m.includes("dañar")) {
-        return "👧🧒 <strong>Violencia vicaria (amenaza con hijos/as)</strong><br><br>Si tu pareja te amenaza con quitarte a tus hijos/as, eso es violencia vicaria. En Ecuador NO está tipificada como figura autónoma, pero SÍ puedes denunciar los actos concretos:<br><br>• Amenazas (art. 166 COIP)<br>• Sustracción de menores (art. 191 COIP)<br>• Violencia psicológica (art. 155 COIP)<br><br><strong>Qué hacer:</strong><br>1. Documenta las amenazas (capturas, audios, testigos).<br>2. Guarda evidencia en la Bóveda Segura de esta app.<br>3. Denuncia en Fiscalía: <strong>1800-354-378</strong><br>4. Pide medidas de protección.<br><br>No estás sola. Llama también al <strong>147</strong> (Línea Mujer) para orientación legal gratuita.";
-      }
+    // VIOLENCIA VICARIA (hijos) - DETECCIÓN MEJORADA
+    const tieneHijos = /hijos?|hijas?|niños?|niñas?/.test(m);
+    const amenazaQuitar = /quita|quitarme|quitar|quito|quiere|usar|dañar|quiten|perder|separar/.test(m);
+    if (tieneHijos && amenazaQuitar) {
+      return "👧🧒 <strong>Violencia vicaria (amenaza con hijos/as)</strong><br><br>" +
+             "Lo que describes es <strong>violencia vicaria</strong>: usar a los hijos/as para dañar a la madre.<br><br>" +
+             "En Ecuador NO está tipificada como figura autónoma, pero SÍ puedes denunciar los actos concretos:<br>" +
+             "• <strong>Amenazas</strong> (Art. 166 COIP)<br>" +
+             "• <strong>Sustracción de menores</strong> (Art. 191 COIP)<br>" +
+             "• <strong>Violencia psicológica</strong> (Art. 155 COIP)<br><br>" +
+             "<strong>Qué hacer ahora:</strong><br>" +
+             "1. Documenta las amenazas (capturas de pantalla, audios, testigos).<br>" +
+             "2. Guarda la evidencia (puedes usar la Bóveda Segura de esta app).<br>" +
+             "3. Denuncia en Fiscalía: <strong>1800-354-378</strong><br>" +
+             "4. Pide medidas de protección.<br><br>" +
+             "No estás sola. Llama también al <strong>147</strong> (Línea Mujer) para orientación legal gratuita.";
     }
     
-    // Detección general de amenazas
-    if (m.includes("amenaza") || (m.includes("amenaza") && m.includes("hacer"))) {
-      return "⚠️ <strong>Las amenazas son un delito en Ecuador</strong> (Art. 166 del COIP). Si te amenazan con dañarte a ti o a tus hijos/as, puedes denunciar. Guarda evidencias (capturas, grabaciones). Llama al <strong>911</strong> si el peligro es inminente, o al <strong>147</strong> para orientación.";
+    // Amenazas en general
+    if (/amenaza/.test(m)) {
+      return "⚠️ <strong>Las amenazas son un delito en Ecuador</strong> (Art. 166 del COIP). " +
+             "Si te amenazan con dañarte a ti o a tus seres queridos, puedes denunciar. " +
+             "Guarda evidencias (capturas, grabaciones). Llama al <strong>911</strong> si el peligro es inminente, o al <strong>147</strong> para orientación.";
     }
     
-    // Detección de cómo saber si hay violencia
-    if (m.includes("como saber") || m.includes("cómo saber") || (m.includes("saber") && m.includes("violenta")) || m.includes("como se si") || m.includes("cómo sé si")) {
-      return "🔍 <strong>¿Cómo saber si tu pareja te violenta?</strong><br><br>Pregúntate:<br>• ¿Controla tu dinero, horarios o con quién hablas?<br>• ¿Te insulta, humilla o amenaza?<br>• ¿Te revisa el celular o exige contraseñas?<br>• ¿Te aleja de amistades o familia?<br>• ¿Sientes miedo o ansiedad cuando están juntos?<br><br>Si respondiste SÍ a alguna, podrías estar en una situación violenta. Llama al <strong>147</strong> para orientación gratuita.";
+    // Cómo saber si hay violencia
+    if (/como saber|cómo saber|como se si|cómo sé si/.test(m) && /violenta/.test(m)) {
+      return "🔍 <strong>¿Cómo saber si tu pareja te violenta?</strong><br><br>" +
+             "Pregúntate:<br>" +
+             "• ¿Controla tu dinero, horarios o con quién hablas?<br>" +
+             "• ¿Te insulta, humilla o amenaza?<br>" +
+             "• ¿Te revisa el celular o exige contraseñas?<br>" +
+             "• ¿Te aleja de amistades o familia?<br>" +
+             "• ¿Sientes miedo o ansiedad cuando están juntos?<br><br>" +
+             "Si respondiste SÍ a alguna, podrías estar en una situación violenta. Llama al <strong>147</strong> para orientación gratuita.";
     }
     
-    if (m.includes("señales") || (m.includes("signos") && m.includes("violencia"))) {
-      return "⚠️ <strong>Señales de violencia</strong><br><br>• Control excesivo de tu tiempo y dinero<br>• Celos constantes y acusaciones<br>• Insultos, humillaciones o gritos<br>• Amenazas (explícitas o sutiles)<br>• Aislamiento de amistades y familia<br>• Revisar tu celular o redes sin permiso<br>• Empujones, golpes o cualquier daño físico<br>• Obligarte a hacer algo que no quieres<br>• Usar a tus hijos/as para lastimarte<br><br>Si reconoces alguna, busca apoyo. No estás sola.";
+    // Señales de violencia
+    if (/señales|signos/.test(m) && /violencia/.test(m)) {
+      return "⚠️ <strong>Señales de violencia</strong><br><br>" +
+             "• Control excesivo de tu tiempo y dinero<br>" +
+             "• Celos constantes y acusaciones<br>" +
+             "• Insultos, humillaciones o gritos<br>" +
+             "• Amenazas (explícitas o sutiles)<br>" +
+             "• Aislamiento de amistades y familia<br>" +
+             "• Revisar tu celular o redes sin permiso<br>" +
+             "• Empujones, golpes o cualquier daño físico<br>" +
+             "• Obligarte a hacer algo que no quieres<br>" +
+             "• Usar a tus hijos/as para lastimarte<br><br>" +
+             "Si reconoces alguna, busca apoyo. No estás sola.";
     }
     
-    // Violencia psicológica
-    if (m.includes("psicologica") || m.includes("psicológica")) {
-      return "🧠 <strong>¿Qué es la violencia psicológica?</strong><br><br>Es toda acción que daña tu salud mental y dignidad. Incluye:<br>• Insultos, humillaciones, gritos<br>• Control, aislamiento, vigilancia<br>• Gaslighting (hacerte dudar de tu realidad)<br>• Amenazas, chantajes, culpabilización<br><br>No deja marcas físicas pero duele igual. Si la reconoces, mereces ayuda. Llama al <strong>147</strong>.";
+    // Tipos de violencia
+    if (/tipos/.test(m)) {
+      return "📚 <strong>Tipos de violencia:</strong> psicológica, física, sexual, económica, vicaria (con hijos), digital. ¿Quieres que te explique alguno en detalle?";
     }
     
-    // Violencia física
-    if (m.includes("fisica") || m.includes("golpe") || m.includes("empujon") || m.includes("cachetada")) {
-      return "✋ <strong>Violencia física</strong><br><br>Incluye golpes, empujones, bofetadas, quemaduras, sacudidas, o cualquier daño corporal. En Ecuador está tipificada en el COIP. Si la sufres, busca ayuda: <strong>911</strong> o <strong>147</strong>.";
+    // Recursos
+    if (/recursos|ayuda|denunciar/.test(m)) {
+      return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong>";
     }
     
-    // Violencia digital
-    if (m.includes("digital") || m.includes("celular") || m.includes("contraseña") || m.includes("vigila") || m.includes("redes")) {
-      return "📱 <strong>Violencia digital</strong><br><br>Incluye:<br>• Revisar tu celular sin permiso<br>• Exigir tus contraseñas<br>• Vigilar tu ubicación o actividad en línea<br>• Difundir fotos íntimas sin consentimiento<br><br>Guarda evidencias y denuncia. Línea Violeta: <strong>1800 VIOLETA</strong>.";
+    // Privacidad
+    if (/privacidad/.test(m)) {
+      return "🔒 Tus conversaciones son locales. No guardamos nada. Botón rojo = salida rápida a Google.";
     }
     
-    // Recursos de ayuda
-    if (m.includes("recursos") || m.includes("ayuda") || m.includes("denunciar")) {
-      return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong><br>🔒 Todo es confidencial.";
+    // Salir
+    if (/salir/.test(m)) {
+      return "Usa el botón rojo flotante 'Salir rápido' para ir a Google al instante.";
     }
     
-    if (m.includes("tipos")) {
-      return "📚 <strong>Tipos de violencia reconocidos en Ecuador</strong><br><br>• Violencia psicológica<br>• Violencia física<br>• Violencia sexual<br>• Violencia económica<br>• Violencia vicaria (usar hijos/as para dañar)<br>• Violencia digital<br><br>¿Quieres que te explique alguno en detalle?";
+    // Test
+    if (/test/.test(m)) {
+      return "Escribe 'test' para iniciar el test de violencia.";
     }
     
-    if (m.includes("privacidad")) {
-      return "🔒 <strong>Tu privacidad es absoluta</strong><br><br>Tus conversaciones se procesan localmente. No guardamos ningún dato. Puedes borrar el historial cerrando la pestaña. El botón de salida rápida te lleva a Google al instante.";
-    }
-    
-    if (m.includes("salir")) {
-      return "Si deseas salir de forma segura, usa el botón rojo flotante 'Salir rápido'. Te redirigirá a Google para proteger tu privacidad.";
-    }
-    
-    if (m.includes("test")) {
-      return "Puedes hacer el test de violencia respondiendo unas preguntas sencillas. Solo escribe <strong>test</strong> o pulsa el botón Test en el menú.";
-    }
-    
-    // Respuesta por defecto (más útil)
-    return "💜 Estoy aquí para ayudarte. Por favor, cuéntame con más detalle qué está pasando. Por ejemplo:\n- ¿Tu pareja te amenaza con algo?\n- ¿Controla tu dinero o tus horarios?\n- ¿Te insulta o humilla?\n- ¿Te revisa el celular?\n- ¿Usa a tus hijos para lastimarte?\n\nCuanto más específica seas, mejor podré orientarte. También puedes escribir 'test' para hacer preguntas guiadas.";
+    // Respuesta por defecto (orientadora)
+    return "💜 Cuéntame más específicamente qué está pasando. Por ejemplo:<br>" +
+           "- ¿Te amenaza con quitarte a tus hijos?<br>" +
+           "- ¿Controla tu dinero o tus horarios?<br>" +
+           "- ¿Te insulta o humilla?<br>" +
+           "- ¿Te revisa el celular?<br><br>" +
+           "Así podré orientarte mejor. También puedes escribir 'test' para hacer preguntas guiadas.";
   }
 
-  // ========== CONEXIÓN AL WORKER CON FALLBACK INTELIGENTE ==========
+  // ========== CONEXIÓN AL WORKER CON FALLBACK ==========
   async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
     try {
       estadoDiv.textContent = "⏳ Procesando...";
       const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -327,20 +392,19 @@
       if (data.error) throw new Error(data.error);
       estadoDiv.textContent = "✅ Conectado";
       const botMsg = data.response || "";
-      // Si el worker devuelve respuesta genérica o vacía, usamos local
       if (botMsg.length < 15 || botMsg.includes("Gracias por compartir") || botMsg.includes("Puedes preguntar por recursos")) {
-        throw new Error("Respuesta genérica del worker");
+        throw new Error("Respuesta genérica");
       }
       return botMsg;
     } catch (error) {
-      console.warn("Error en worker o respuesta insuficiente, usando local:", error);
-      estadoDiv.textContent = "⚠️ Modo local (respuesta offline)";
+      console.warn("Usando respuesta local:", error);
+      estadoDiv.textContent = "⚠️ Modo local";
       return respuestaLocal(mensajeUsuario);
     }
   }
 
-  // ========== UI ==========
-  const scroll = () => chat.scrollTop = chat.scrollHeight;
+  // ========== FUNCIONES AUXILIARES DE UI ==========
+  const scroll = () => { chat.scrollTop = chat.scrollHeight; };
   let escribiendoElement = null;
 
   const mostrarEscribiendo = (show) => {
@@ -379,7 +443,7 @@
     scroll();
   };
 
-  // ========== TEST ==========
+  // ========== LÓGICA DEL TEST ==========
   const mostrarPreguntaTest = () => {
     if (testIndice >= preguntasTest.length) {
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -403,11 +467,12 @@
     addOpciones(opcionesBotones);
   };
 
-  // ========== MANEJO CENTRAL ==========
+  // ========== MANEJO CENTRAL DE ENTRADA ==========
   const manejarInput = async (texto, esOpcion = false) => {
     const txt = texto.trim();
     if (!txt) return;
 
+    // Modo test
     if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
       addMsg(txt, 'user');
       testRespuestas.push(txt);
@@ -425,12 +490,12 @@
       return;
     }
 
+    // Mensaje normal
     addMsg(txt, 'user');
     mostrarEscribiendo(true);
 
-    let respuesta;
     const cmd = txt.toLowerCase();
-    // Comandos rápidos que podemos responder localmente sin depender del worker
+    let respuesta;
     if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
       respuesta = respuestaLocal(cmd);
     } else {
@@ -457,9 +522,9 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  // ========== INICIO ==========
+  // ========== INICIALIZACIÓN ==========
   const init = () => {
-    addMsg("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales y se procesan localmente.", 'bot');
+    addMsg("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
       { texto: "📚 Tipos de violencia", valor: "tipos" },
       { texto: "📞 Recursos Ecuador", valor: "recursos" },
