@@ -182,6 +182,7 @@
       border-radius: 30px;
       width: fit-content;
       border-left: 3px solid var(--calma);
+      align-self: flex-start; /* Alinea el indicador de escritura como un mensaje del bot */
     }
     .punto{
       width: 8px;
@@ -205,7 +206,8 @@
   <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc</h1>
   <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
 </div>
-<div id="estado" class="estado">🟢 Modo local · Respuestas inmediatas</div>
+<!-- El estado ahora refleja la conexión remota -->
+<div id="estado" class="estado">☁️ Modo remoto · Conectado a IA</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
   <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
@@ -226,6 +228,7 @@
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
+  const estado = document.getElementById('estado'); // Elemento de estado
   
   let testActivo = false;
   let testRespuestas = [];
@@ -239,6 +242,40 @@
     { q: "🧩 <strong>Pregunta 5/6</strong>\n\n¿Te <strong>obligan a hacer algo que no quieres</strong> (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
     { q: "🧩 <strong>Pregunta 6/6</strong>\n\n¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
+
+  // Nueva función para interactuar con el Worker de Cloudflare
+  async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
+    try {
+        // Actualizar estado mientras se procesa
+        estado.textContent = "⏳ Procesando con IA...";
+        
+        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // URL actualizada
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: mensajeUsuario }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error de Worker: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if (data.error) {
+            throw new Error(`Error de IA: ${data.error}`);
+        }
+        // Restaurar estado de conexión exitosa
+        estado.textContent = "✅ IA activa";
+        return data.response || "No pude generar una respuesta."; // Asegura un string de retorno
+
+    } catch (error) {
+        console.error("Error obteniendo respuesta:", error);
+        // Mostrar error en el chat y restaurar estado
+        estado.textContent = "❌ Error de conexión";
+        return `Lo siento, hubo un problema al procesar tu solicitud. Detalles: ${error.message}`;
+    }
+  }
   
   const scroll = () => chat.scrollTop = chat.scrollHeight;
   let escribiendo = null;
@@ -275,74 +312,48 @@
     chat.appendChild(wrap);
     scroll();
   };
+
+  // ========== MANEJAR INPUT (Ahora con Worker) ==========
+  const manejarInput = async (texto, esOpcion = false) => {
+    if(!texto.trim()) return;
+
+    // Test activo (se mantiene igual)
+    if(testActivo){
+      addMsg(texto, 'user');
+      testRespuestas.push(texto);
+      testPaso++;
+      mostrarTestPregunta();
+      return;
+    }
+
+    // Iniciar test
+    if(texto.toLowerCase() === "test"){
+      addMsg(texto, 'user');
+      testActivo = true;
+      testRespuestas = [];
+      testPaso = 0;
+      testPaso++;
+      mostrarTestPregunta();
+      return;
+    }
+
+    // Mensaje normal -> Enviar a Worker
+    addMsg(texto, 'user');
+
+    // Mostrar indicador de "escribiendo"
+    mostrarEscribiendo(true);
+
+    // Llamar al Worker y esperar la respuesta
+    const respuesta = await obtenerRespuestaDesdeWorker(texto);
+
+    // Ocultar indicador de "escribiendo"
+    mostrarEscribiendo(false);
+
+    // Agregar la respuesta del bot
+    addMsg(respuesta, 'bot');
+  };
   
-  // ========== RESPUESTAS INTELIGENTES EN ESPAÑOL ==========
-  function obtenerRespuesta(mensaje) {
-    const txt = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
-    // Saludos
-    if(txt.match(/^(hola|buenas|qué tal|hello|hi|saludos)/i)){
-      return "👋 <strong>¡Hola!</strong> ¿Cómo estás? Estoy aquí para escucharte y acompañarte. ¿En qué puedo ayudarte hoy?";
-    }
-    
-    // Tipos de violencia
-    if(txt.includes("tipo") || txt.includes("violencia") || txt === "tipos"){
-      return "📚 <strong>Tipos de violencia contra las mujeres</strong> (Ley Ecuador)\n\n✊ <strong>Física:</strong> golpes, empujones, quemaduras.\n💔 <strong>Psicológica:</strong> insultos, humillación, control, amenazas.\n🔞 <strong>Sexual:</strong> cualquier acto sexual no consentido.\n💰 <strong>Económica/Patrimonial:</strong> control del dinero, destrucción de bienes.\n🗣️ <strong>Simbólica:</strong> mensajes que perpetúan estereotipos.\n📱 <strong>Digital:</strong> acoso, difusión de información privada.\n\n✅ ¿Te gustaría saber más sobre alguno?";
-    }
-    
-    // Recursos
-    if(txt.includes("recurso") || txt.includes("ayuda") || txt.includes("contacto") || txt === "recursos"){
-      return "📞 <strong>Recursos Ecuador</strong>\n\n📞 <strong>147</strong> – Ministerio de la Mujer (24/7)\n🚨 <strong>911</strong> – Emergencias\n🏛️ <strong>Defensoría del Pueblo:</strong> 1800 333 555\n💚 <strong>Fundación Quimera:</strong> 099 467 6340\n🏠 <strong>Casa Matilde (Quito):</strong> 02 254 5782\n\n📍 ¿Necesitas contacto de alguna provincia en particular?";
-    }
-    
-    // Provincias
-    if(txt.includes("pichincha") || txt.includes("quito")){
-      return "📍 <strong>Pichincha (Quito)</strong>\n🏠 Casa Matilde: 02 254 5782\n💚 Fundación Quimera: 099 467 6340\n📞 Línea 147";
-    }
-    if(txt.includes("guayas") || txt.includes("guayaquil")){
-      return "📍 <strong>Guayas (Guayaquil)</strong>\n⚖️ Centro de Equidad: 04 259 3100\n🏛️ Patronato Municipal: 099 846 2315\n📞 Línea 147";
-    }
-    if(txt.includes("azuay") || txt.includes("cuenca")){
-      return "📍 <strong>Azuay (Cuenca)</strong>\n🏠 Casa de la Mujer: 07 282 4783\n⚖️ Comisaría de la Mujer: 07 284 0921\n📞 Línea 147";
-    }
-    
-    // Privacidad
-    if(txt.includes("privacidad") || txt.includes("seguridad") || txt.includes("confidencial")){
-      return "🔒 <strong>Privacidad total</strong>\n\n✅ No guardamos ningún mensaje.\n✅ Todo se procesa en tu navegador.\n✅ Al cerrar la pestaña, el chat desaparece.\n🚨 Botón rojo <strong>\"Salir rápido\"</strong> te lleva a Google al instante.\n\n💜 Tu seguridad es lo más importante para nosotras.";
-    }
-    
-    // Salir
-    if(txt.includes("salir") || txt === "salir"){
-      return "🛡️ <strong>Salida segura</strong>\n\n🔒 Puedes cerrar esta pestaña en cualquier momento.\n🚀 El botón rojo te lleva a Google al instante.\n🗑️ Borra el historial del navegador si necesitas más privacidad.\n📞 En emergencia llama al <strong>911</strong>.\n\n💜 Cuídate mucho. Vuelve cuando lo necesites.";
-    }
-    
-    // Menú
-    if(txt.includes("menú") || txt === "menu" || txt === "opciones"){
-      return "📋 <strong>Opciones disponibles</strong>\n\n✏️ Puedes escribir o usar el menú inferior:\n\n• <strong>tipos</strong> → tipos de violencia\n• <strong>recursos</strong> → contactos de ayuda\n• <strong>test</strong> → autoevaluación interactiva\n• <strong>privacidad</strong> → información de seguridad\n• <strong>salir</strong> → cerrar de forma segura\n\n✏️ También puedes contarme cómo te sientes.";
-    }
-    
-    // Gracias
-    if(txt.includes("gracias")){
-      return "💜 <strong>Gracias a ti</strong> por confiar en LiberaEc. Estoy aquí siempre que me necesites. ¿Hay algo más en lo que pueda ayudarte?";
-    }
-    
-    // Apoyo emocional (palabras clave)
-    if(txt.includes("golpe") || txt.includes("miedo") || txt.includes("control") || txt.includes("insulto") || 
-       txt.includes("triste") || txt.includes("sola") || txt.includes("angustia") || txt.includes("llorar") ||
-       txt.includes("duele") || txt.includes("sufro") || txt.includes("cansada") || txt.includes("cansado")){
-      return "💜 <strong>Lamento mucho que estés pasando por esto.</strong>\n\n<strong>No es tu culpa.</strong> La violencia nunca está justificada. Mereces respeto, tranquilidad y seguridad.\n\n📞 ¿Te gustaría que te comparta números de ayuda? Puedes llamar al <strong>147</strong> (Ministerio de la Mujer) las 24 horas.\n\n🗣️ Si quieres, puedes contarme más. Estoy aquí para escucharte sin juzgar.";
-    }
-    
-    // Pregunta si necesita algo específico
-    if(txt.includes("qué") || txt.includes("como") || txt.includes("cómo") || txt.includes("puedo")){
-      return "🤝 Entiendo tu pregunta. ¿Podrías contarme un poco más para ayudarte mejor? También puedes usar el menú inferior para ver <strong>tipos de violencia</strong>, <strong>recursos de ayuda</strong> o hacer el <strong>test</strong> de autoevaluación.";
-    }
-    
-    // Respuesta por defecto (amigable)
-    return "🤝 <strong>Gracias por compartir.</strong>\n\nEstoy aquí para escucharte. ¿Te gustaría que te explique los <strong>tipos de violencia</strong>, te comparta <strong>recursos de ayuda</strong> o prefieres hacer el <strong>test</strong> de autoevaluación?\n\n📌 También puedes escribir <strong>menú</strong> para ver todas las opciones.";
-  }
-  
-  // Test interactivo
+  // ========== FUNCIÓN PARA TEST ==========
   const mostrarTestPregunta = () => {
     if(testPaso >= preguntasTest.length){
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -359,39 +370,6 @@
     const p = preguntasTest[testPaso];
     addMsg(p.q, 'bot');
     addOpciones(p.opciones.map(opt => ({texto: opt, valor: opt})));
-  };
-  
-  // ========== MANEJAR INPUT ==========
-  const manejarInput = async (texto, esOpcion = false) => {
-    if(!texto.trim()) return;
-    
-    // Test activo
-    if(testActivo){
-      addMsg(texto, 'user');
-      testRespuestas.push(texto);
-      testPaso++;
-      mostrarTestPregunta();
-      return;
-    }
-    
-    // Iniciar test
-    if(texto.toLowerCase() === "test"){
-      addMsg(texto, 'user');
-      testActivo = true;
-      testRespuestas = [];
-      testPaso = 0;
-      testPaso++;
-      mostrarTestPregunta();
-      return;
-    }
-    
-    // Mensaje normal
-    addMsg(texto, 'user');
-    mostrarEscribiendo(true);
-    await new Promise(r => setTimeout(r, 500));
-    const respuesta = obtenerRespuesta(texto);
-    mostrarEscribiendo(false);
-    addMsg(respuesta, 'bot');
   };
   
   // ========== EVENTOS ==========
@@ -413,13 +391,15 @@
   
   // ========== INICIO ==========
   const init = () => {
-    addMsg("👋 <strong>Hola, soy LiberaEc</strong>\n\nEstoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Todo es confidencial y privado.", 'bot');
+    addMsg("👋 <strong>Hola, soy LiberaEc</strong>\n\nAhora conectado a una IA especializada. Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
       {texto:"📚 Tipos de violencia", valor:"tipos"},
       {texto:"📞 Recursos Ecuador", valor:"recursos"},
       {texto:"🔒 Privacidad", valor:"privacidad"},
       {texto:"🧩 Test interactivo", valor:"test"}
     ]);
+    // Cambia el estado inicial a conectado
+    estado.textContent = "✅ Conectado a IA";
   };
   
   init();
