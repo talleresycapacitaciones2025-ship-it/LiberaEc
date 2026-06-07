@@ -206,7 +206,6 @@
   <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc</h1>
   <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
 </div>
-<!-- El estado ahora refleja la conexión remota -->
 <div id="estado" class="estado">☁️ Modo remoto · Conectado a IA</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
@@ -229,11 +228,11 @@
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estado = document.getElementById('estado'); // Elemento de estado
-  
+
   let testActivo = false;
   let testRespuestas = [];
   let testPaso = 0;
-  
+
   const preguntasTest = [
     { q: "🧩 <strong>Pregunta 1/6</strong>\n\n¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
     { q: "🧩 <strong>Pregunta 2/6</strong>\n\n¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
@@ -248,8 +247,8 @@
     try {
         // Actualizar estado mientras se procesa
         estado.textContent = "⏳ Procesando con IA...";
-        
-        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // URL actualizada
+
+        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // URL CORREGIDA
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -276,10 +275,10 @@
         return `Lo siento, hubo un problema al procesar tu solicitud. Detalles: ${error.message}`;
     }
   }
-  
+
   const scroll = () => chat.scrollTop = chat.scrollHeight;
   let escribiendo = null;
-  
+
   const mostrarEscribiendo = (show) => {
     if(show && !escribiendo){
       escribiendo = document.createElement('div');
@@ -289,7 +288,7 @@
       scroll();
     } else if(!show && escribiendo){ escribiendo.remove(); escribiendo = null; }
   };
-  
+
   const addMsg = (txt, tipo) => {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
@@ -298,7 +297,7 @@
     chat.appendChild(div);
     scroll();
   };
-  
+
   const addOpciones = (lista) => {
     const wrap = document.createElement('div');
     wrap.className = 'opciones';
@@ -352,7 +351,7 @@
     // Agregar la respuesta del bot
     addMsg(respuesta, 'bot');
   };
-  
+
   // ========== FUNCIÓN PARA TEST ==========
   const mostrarTestPregunta = () => {
     if(testPaso >= preguntasTest.length){
@@ -371,24 +370,24 @@
     addMsg(p.q, 'bot');
     addOpciones(p.opciones.map(opt => ({texto: opt, valor: opt})));
   };
-  
+
   // ========== EVENTOS ==========
-  form.onsubmit = (e) => { 
-    e.preventDefault(); 
-    const val = input.value.trim(); 
-    if(val) manejarInput(val); 
-    input.value = ''; 
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const val = input.value.trim();
+    if(val) manejarInput(val);
+    input.value = '';
   };
-  
+
   document.querySelectorAll('.item-menu').forEach(btn => {
     btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
   });
-  
+
   document.getElementById('escape').onclick = () => {
     document.body.style.opacity = '0.8';
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
-  
+
   // ========== INICIO ==========
   const init = () => {
     addMsg("👋 <strong>Hola, soy LiberaEc</strong>\n\nAhora conectado a una IA especializada. Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Tus conversaciones son confidenciales.", 'bot');
@@ -401,7 +400,7 @@
     // Cambia el estado inicial a conectado
     estado.textContent = "✅ Conectado a IA";
   };
-  
+
   init();
 })();
 </script>
