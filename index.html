@@ -213,11 +213,11 @@
   <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
 </form>
 <div class="menu-persistente">
-  <button class="item-menu" data-accion="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
-  <button class="item-menu" data-accion="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
-  <button class="item-menu" data-accion="test"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg><span>Test</span></button>
-  <button class="item-menu" data-accion="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
-  <button class="item-menu" data-accion="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
+  <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
+  <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
+  <button class="item-menu" data-a="test"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg><span>Test</span></button>
+  <button class="item-menu" data-a="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
+  <button class="item-menu" data-a="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
 </div>
 <button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
 <footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p></footer>
@@ -229,10 +229,10 @@
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
 
-  // ---------- Estado del test ----------
   let testActivo = false;
   let testRespuestas = [];
-  let testIndice = 0;          // 0..5
+  let testIndice = 0;
+
   const preguntasTest = [
     { q: "🧩 <strong>Pregunta 1/6</strong><br><br>¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
     { q: "🧩 <strong>Pregunta 2/6</strong><br><br>¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
@@ -242,26 +242,71 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ---------- Respuestas locales (fallback) ----------
-  function respuestaLocal(comando) {
-    const c = comando.toLowerCase();
-    if (c === "tipos") return "📚 <strong>Tipos de violencia reconocidos en Ecuador</strong><br><br>• Violencia psicológica (insultos, control, humillación)<br>• Violencia física (golpes, empujones)<br>• Violencia sexual<br>• Violencia económica (control del dinero)<br>• Violencia vicaria (usar a hijos/as para dañar)<br>• Violencia digital (vigilancia, difusión íntima)";
-    if (c === "recursos") return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: 1800-354-378<br>🔒 Todo es confidencial.";
-    if (c === "privacidad") return "🔒 <strong>Tu privacidad es absoluta</strong><br><br>Tus conversaciones se procesan localmente. No guardamos ningún dato. Puedes borrar el historial cerrando la pestaña. El botón de salida rápida te lleva a Google al instante.";
-    if (c === "salir") return "Si deseas salir de forma segura, usa el botón rojo flotante 'Salir rápido'. Te redirigirá a Google para proteger tu privacidad.";
-    return "Gracias por compartir. ¿Quieres que hablemos sobre algún tema en específico? Puedes preguntar por recursos, tipos de violencia o hacer el test.";
+  // ========== RESPUESTAS LOCALES INTELIGENTES ==========
+  function respuestaLocal(mensaje) {
+    const m = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    
+    // Detección de violencia
+    if (m.includes("como saber") || m.includes("cómo saber") || (m.includes("saber") && m.includes("violenta")) || m.includes("detectar") || m.includes("identificar")) {
+      return "🔍 <strong>¿Cómo saber si estoy viviendo violencia?</strong><br><br>Puedes preguntarte:<br>• ¿Sientes miedo o ansiedad cuando estás con esa persona?<br>• ¿Controla tu dinero, horarios o con quién hablas?<br>• ¿Te insulta, humilla o amenaza?<br>• ¿Te aleja de amistades o familia?<br>• ¿Revisa tu celular o exige contraseñas?<br><br>Si respondiste SÍ a alguna, podrías estar en una situación violenta. No estás sola. Llama al <strong>147</strong> para orientación gratuita.";
+    }
+    
+    // Violencia psicológica
+    if (m.includes("psicologica") || m.includes("psicológica")) {
+      return "🧠 <strong>¿Qué es la violencia psicológica?</strong><br><br>Es toda acción u omisión que daña la salud mental y la dignidad de una persona. Incluye:<br>• Insultos, humillaciones, gritos<br>• Control, aislamiento, vigilancia<br>• Gaslighting (hacerte dudar de tu realidad)<br>• Amenazas, chantajes, culpabilización<br><br>No deja marcas físicas pero duele igual. Si la reconoces, mereces ayuda. Llama al <strong>147</strong>.";
+    }
+    
+    // Violencia física
+    if (m.includes("fisica") || m.includes("golpe") || m.includes("empujon") || m.includes("cachetada")) {
+      return "✋ <strong>Violencia física</strong><br><br>Incluye golpes, empujones, bofetadas, quemaduras, sacudidas, o cualquier daño corporal. En Ecuador está tipificada en el COIP. Si la sufres, busca ayuda: <strong>911</strong> o <strong>147</strong>.";
+    }
+    
+    // Violencia vicaria
+    if (m.includes("vicaria") || (m.includes("hijos") && m.includes("dañar"))) {
+      return "👧🧒 <strong>Violencia vicaria</strong><br><br>Es cuando alguien usa a tus hijos/as para lastimarte: amenaza con quitártelos, los maltrata para herirte, o impide que los veas. En Ecuador aún no está tipificada como figura autónoma, pero puedes denunciar los actos concretos (amenazas, sustracción, daño psicológico) ante Fiscalía: <strong>1800-354-378</strong>.";
+    }
+    
+    // Violencia digital
+    if (m.includes("digital") || m.includes("celular") || m.includes("contraseña") || m.includes("vigila") || m.includes("redes")) {
+      return "📱 <strong>Violencia digital</strong><br><br>Incluye:<br>• Revisar tu celular sin permiso<br>• Exigir tus contraseñas<br>• Vigilar tu ubicación o actividad en línea<br>• Difundir fotos íntimas sin consentimiento<br><br>Guarda evidencias y denuncia. Línea Violeta: <strong>1800 VIOLETA</strong>.";
+    }
+    
+    // Recursos si no coincide
+    if (m.includes("recursos") || m.includes("ayuda") || m.includes("denunciar")) {
+      return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong><br>🔒 Todo es confidencial.";
+    }
+    
+    if (m.includes("tipos")) {
+      return "📚 <strong>Tipos de violencia reconocidos en Ecuador</strong><br><br>• Violencia psicológica<br>• Violencia física<br>• Violencia sexual<br>• Violencia económica<br>• Violencia vicaria (usar hijos/as para dañar)<br>• Violencia digital<br><br>¿Quieres que te explique alguno en detalle?";
+    }
+    
+    if (m.includes("privacidad")) {
+      return "🔒 <strong>Tu privacidad es absoluta</strong><br><br>Tus conversaciones se procesan localmente. No guardamos ningún dato. Puedes borrar el historial cerrando la pestaña. El botón de salida rápida te lleva a Google al instante.";
+    }
+    
+    if (m.includes("salir")) {
+      return "Si deseas salir de forma segura, usa el botón rojo flotante 'Salir rápido'. Te redirigirá a Google para proteger tu privacidad.";
+    }
+    
+    if (m.includes("test")) {
+      return "Puedes hacer el test de violencia respondiendo unas preguntas sencillas. Solo escribe <strong>test</strong> o pulsa el botón Test en el menú.";
+    }
+    
+    // Si nada de lo anterior, respuesta general pero útil
+    return "💜 Gracias por confiar en LiberaEc. Para poder ayudarte mejor, cuéntame más sobre lo que estás viviendo o pregúntame específicamente sobre: tipos de violencia, cómo detectarla, recursos de ayuda, o cómo proteger tu privacidad. También puedes hacer el test escribiendo 'test'.";
   }
 
-  // ---------- Comunicación con el worker (con timeout y fallback) ----------
-  async function consultarWorker(mensaje) {
-    const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
+  // ========== CONEXIÓN AL WORKER CON FALLBACK ==========
+  async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
     try {
+      estadoDiv.textContent = "⏳ Procesando...";
+      const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 8000);
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: mensaje }),
+        body: JSON.stringify({ message: mensajeUsuario }),
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -271,63 +316,62 @@
       estadoDiv.textContent = "✅ Conectado";
       return data.response;
     } catch (error) {
-      console.warn("Worker no disponible, usando respuesta local:", error);
-      estadoDiv.textContent = "⚠️ Modo local";
-      return respuestaLocal(mensaje);
+      console.warn("Error en worker, usando respuesta local:", error);
+      estadoDiv.textContent = "⚠️ Modo local (respuesta offline)";
+      return respuestaLocal(mensajeUsuario);
     }
   }
 
-  // ---------- UI ----------
-  const scrollChat = () => chat.scrollTop = chat.scrollHeight;
-  let escribiendoDiv = null;
+  // ========== UI ==========
+  const scroll = () => chat.scrollTop = chat.scrollHeight;
+  let escribiendoElement = null;
 
-  function mostrarEscribiendo(mostrar) {
-    if (mostrar && !escribiendoDiv) {
-      escribiendoDiv = document.createElement('div');
-      escribiendoDiv.className = 'escribiendo';
-      escribiendoDiv.innerHTML = '<div class="punto"></div><div class="punto"></div><div class="punto"></div>';
-      chat.appendChild(escribiendoDiv);
-      scrollChat();
-    } else if (!mostrar && escribiendoDiv) {
-      escribiendoDiv.remove();
-      escribiendoDiv = null;
+  const mostrarEscribiendo = (show) => {
+    if (show && !escribiendoElement) {
+      escribiendoElement = document.createElement('div');
+      escribiendoElement.className = 'escribiendo';
+      escribiendoElement.innerHTML = '<div class="punto"></div><div class="punto"></div><div class="punto"></div>';
+      chat.appendChild(escribiendoElement);
+      scroll();
+    } else if (!show && escribiendoElement) {
+      escribiendoElement.remove();
+      escribiendoElement = null;
     }
-  }
+  };
 
-  function agregarMensaje(texto, esUsuario) {
+  const addMsg = (txt, tipo) => {
     const div = document.createElement('div');
-    div.className = `mensaje ${esUsuario ? 'user' : 'bot'}`;
+    div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    div.innerHTML = `${texto}<div class="tiempo">${hora}</div>`;
+    div.innerHTML = `${txt}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
-    scrollChat();
-  }
+    scroll();
+  };
 
-  function agregarBotonesOpciones(lista) {
-    const contenedor = document.createElement('div');
-    contenedor.className = 'opciones';
+  const addOpciones = (lista) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'opciones';
     lista.forEach(op => {
       const btn = document.createElement('button');
       btn.className = 'btn-op';
       btn.innerHTML = `📌 ${op.texto}`;
-      btn.onclick = () => manejarEntradaUsuario(op.valor, true);
-      contenedor.appendChild(btn);
+      btn.onclick = () => manejarInput(op.valor, true);
+      wrap.appendChild(btn);
     });
-    chat.appendChild(contenedor);
-    scrollChat();
-  }
+    chat.appendChild(wrap);
+    scroll();
+  };
 
-  // ---------- Lógica del test ----------
-  function mostrarSiguientePreguntaTest() {
+  // ========== TEST ==========
+  const mostrarPreguntaTest = () => {
     if (testIndice >= preguntasTest.length) {
-      // Fin del test, calcular resultado
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
       let resultado = "";
       if (totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
       else if (totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
       else resultado = "🆘 <strong>Has identificado varias señales de violencia.</strong> No estás sola. Llama al <strong>147</strong> (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
-      agregarMensaje(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, false);
-      agregarBotonesOpciones([
+      addMsg(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
+      addOpciones([
         { texto: "📞 Ver recursos de ayuda", valor: "recursos" },
         { texto: "📚 Tipos de violencia", valor: "tipos" }
       ]);
@@ -336,67 +380,61 @@
       testIndice = 0;
       return;
     }
-
     const pregunta = preguntasTest[testIndice];
-    agregarMensaje(pregunta.q, false);
-    const botones = pregunta.opciones.map(opt => ({ texto: opt, valor: opt }));
-    agregarBotonesOpciones(botones);
-  }
+    addMsg(pregunta.q, 'bot');
+    const opcionesBotones = pregunta.opciones.map(opt => ({ texto: opt, valor: opt }));
+    addOpciones(opcionesBotones);
+  };
 
-  // ---------- Manejador central ----------
-  async function manejarEntradaUsuario(texto, esOpcion = false) {
+  // ========== MANEJO CENTRAL ==========
+  const manejarInput = async (texto, esOpcion = false) => {
     const txt = texto.trim();
     if (!txt) return;
 
-    // Si estamos en medio del test
-    if (testActivo) {
-      agregarMensaje(txt, true);
+    if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
+      addMsg(txt, 'user');
       testRespuestas.push(txt);
       testIndice++;
-      mostrarSiguientePreguntaTest();
+      mostrarPreguntaTest();
       return;
     }
 
-    // Comando especial para iniciar test
     if (txt.toLowerCase() === "test") {
-      agregarMensaje(txt, true);
+      addMsg(txt, 'user');
       testActivo = true;
       testRespuestas = [];
       testIndice = 0;
-      mostrarSiguientePreguntaTest();
+      mostrarPreguntaTest();
       return;
     }
 
-    // Mensaje normal (puede ser texto libre o comando del menú)
-    agregarMensaje(txt, true);
+    addMsg(txt, 'user');
     mostrarEscribiendo(true);
 
     let respuesta;
-    // Si es un comando conocido, podemos responder más rápido (incluso en modo local)
+    // Si es una palabra clave de las que ya manejamos localmente, podemos responder rápido sin worker
     const cmd = txt.toLowerCase();
     if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
       respuesta = respuestaLocal(cmd);
     } else {
-      respuesta = await consultarWorker(txt);
+      respuesta = await obtenerRespuestaDesdeWorker(txt);
+      // Si el worker devuelve algo vacío o muy corto, usamos local
+      if (!respuesta || respuesta.length < 10) respuesta = respuestaLocal(txt);
     }
-
     mostrarEscribiendo(false);
-    agregarMensaje(respuesta, false);
-  }
+    addMsg(respuesta, 'bot');
+  };
 
-  // ---------- Eventos ----------
+  // ========== EVENTOS ==========
   form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
-    if (val) manejarEntradaUsuario(val);
+    if (val) manejarInput(val);
     input.value = '';
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    btn.onclick = () => {
-      const accion = btn.getAttribute('data-accion');
-      if (accion) manejarEntradaUsuario(accion);
-    };
+    btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
   });
 
   document.getElementById('escape').onclick = () => {
@@ -404,19 +442,19 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  // ---------- Inicialización ----------
-  function iniciar() {
-    agregarMensaje("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales y se procesan localmente.", false);
-    agregarBotonesOpciones([
+  // ========== INICIO ==========
+  const init = () => {
+    addMsg("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales y se procesan localmente.", 'bot');
+    addOpciones([
       { texto: "📚 Tipos de violencia", valor: "tipos" },
       { texto: "📞 Recursos Ecuador", valor: "recursos" },
       { texto: "🔒 Privacidad", valor: "privacidad" },
       { texto: "🧩 Test interactivo", valor: "test" }
     ]);
     estadoDiv.textContent = "✅ Conectado";
-  }
+  };
 
-  iniciar();
+  init();
 })();
 </script>
 </body>
