@@ -2,7 +2,7 @@
 <html lang="es-EC">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
     :root {
@@ -182,7 +182,7 @@
       border-radius: 30px;
       width: fit-content;
       border-left: 3px solid var(--calma);
-      align-self: flex-start; /* Alinea el indicador de escritura como un mensaje del bot */
+      align-self: flex-start;
     }
     .punto{
       width: 8px;
@@ -206,7 +206,7 @@
   <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc</h1>
   <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
 </div>
-<div id="estado" class="estado">☁️ Modo remoto · Conectado a IA</div>
+<div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
   <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
@@ -227,7 +227,7 @@
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
-  const estado = document.getElementById('estado'); // Elemento de estado
+  const estado = document.getElementById('estado');
 
   let testActivo = false;
   let testRespuestas = [];
@@ -242,13 +242,12 @@
     { q: "🧩 <strong>Pregunta 6/6</strong>\n\n¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // Nueva función para interactuar con el Worker de Cloudflare
+  // Función para llamar al Worker de Cloudflare
   async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
     try {
-        // Actualizar estado mientras se procesa
-        estado.textContent = "⏳ Procesando con IA...";
+        estado.textContent = "⏳ Procesando..."; // Actualiza estado
 
-        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // URL CORREGIDA
+        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // Asegúrate que sea esta URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -257,21 +256,20 @@
         });
 
         if (!response.ok) {
-            throw new Error(`Error de Worker: ${response.status} ${response.statusText}`);
+            throw new Error(`Error del Worker: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
         if (data.error) {
-            throw new Error(`Error de IA: ${data.error}`);
+            throw new Error(`Error de la IA: ${data.error}`);
         }
-        // Restaurar estado de conexión exitosa
-        estado.textContent = "✅ IA activa";
-        return data.response || "No pude generar una respuesta."; // Asegura un string de retorno
+
+        estado.textContent = "✅ Conectado"; // Actualiza estado
+        return data.response || "No pude generar una respuesta.";
 
     } catch (error) {
-        console.error("Error obteniendo respuesta:", error);
-        // Mostrar error en el chat y restaurar estado
-        estado.textContent = "❌ Error de conexión";
+        console.error("Error en fetch:", error);
+        estado.textContent = "❌ Error de conexión"; // Actualiza estado
         return `Lo siento, hubo un problema al procesar tu solicitud. Detalles: ${error.message}`;
     }
   }
@@ -312,11 +310,9 @@
     scroll();
   };
 
-  // ========== MANEJAR INPUT (Ahora con Worker) ==========
   const manejarInput = async (texto, esOpcion = false) => {
     if(!texto.trim()) return;
 
-    // Test activo (se mantiene igual)
     if(testActivo){
       addMsg(texto, 'user');
       testRespuestas.push(texto);
@@ -325,7 +321,6 @@
       return;
     }
 
-    // Iniciar test
     if(texto.toLowerCase() === "test"){
       addMsg(texto, 'user');
       testActivo = true;
@@ -336,23 +331,15 @@
       return;
     }
 
-    // Mensaje normal -> Enviar a Worker
     addMsg(texto, 'user');
-
-    // Mostrar indicador de "escribiendo"
     mostrarEscribiendo(true);
 
-    // Llamar al Worker y esperar la respuesta
     const respuesta = await obtenerRespuestaDesdeWorker(texto);
 
-    // Ocultar indicador de "escribiendo"
     mostrarEscribiendo(false);
-
-    // Agregar la respuesta del bot
     addMsg(respuesta, 'bot');
   };
 
-  // ========== FUNCIÓN PARA TEST ==========
   const mostrarTestPregunta = () => {
     if(testPaso >= preguntasTest.length){
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -371,7 +358,6 @@
     addOpciones(p.opciones.map(opt => ({texto: opt, valor: opt})));
   };
 
-  // ========== EVENTOS ==========
   form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
@@ -388,7 +374,6 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  // ========== INICIO ==========
   const init = () => {
     addMsg("👋 <strong>Hola, soy LiberaEc</strong>\n\nAhora conectado a una IA especializada. Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
@@ -397,8 +382,7 @@
       {texto:"🔒 Privacidad", valor:"privacidad"},
       {texto:"🧩 Test interactivo", valor:"test"}
     ]);
-    // Cambia el estado inicial a conectado
-    estado.textContent = "✅ Conectado a IA";
+    estado.textContent = "✅ Conectado"; // Actualiza estado inicial
   };
 
   init();
