@@ -213,11 +213,11 @@
   <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
 </form>
 <div class="menu-persistente">
-  <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
-  <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
-  <button class="item-menu" data-a="test"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg><span>Test</span></button>
-  <button class="item-menu" data-a="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
-  <button class="item-menu" data-a="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
+  <button class="item-menu" data-accion="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
+  <button class="item-menu" data-accion="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
+  <button class="item-menu" data-accion="test"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg><span>Test</span></button>
+  <button class="item-menu" data-accion="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
+  <button class="item-menu" data-accion="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
 </div>
 <button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
 <footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p></footer>
@@ -227,146 +227,176 @@
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
-  const estado = document.getElementById('estado');
+  const estadoDiv = document.getElementById('estado');
 
+  // ---------- Estado del test ----------
   let testActivo = false;
   let testRespuestas = [];
-  let testPaso = 0;
-
+  let testIndice = 0;          // 0..5
   const preguntasTest = [
-    { q: "🧩 <strong>Pregunta 1/6</strong>\n\n¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 2/6</strong>\n\n¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 3/6</strong>\n\n¿Te <strong>alejan de amistades o familiares</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 4/6</strong>\n\n¿Has recibido <strong>empujones, golpes o algún daño físico</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 5/6</strong>\n\n¿Te <strong>obligan a hacer algo que no quieres</strong> (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 6/6</strong>\n\n¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
+    { q: "🧩 <strong>Pregunta 1/6</strong><br><br>¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 2/6</strong><br><br>¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 3/6</strong><br><br>¿Te <strong>alejan de amistades o familiares</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 4/6</strong><br><br>¿Has recibido <strong>empujones, golpes o algún daño físico</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 5/6</strong><br><br>¿Te <strong>obligan a hacer algo que no quieres</strong> (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
+    { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // Función para llamar al Worker de Cloudflare
-  async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
+  // ---------- Respuestas locales (fallback) ----------
+  function respuestaLocal(comando) {
+    const c = comando.toLowerCase();
+    if (c === "tipos") return "📚 <strong>Tipos de violencia reconocidos en Ecuador</strong><br><br>• Violencia psicológica (insultos, control, humillación)<br>• Violencia física (golpes, empujones)<br>• Violencia sexual<br>• Violencia económica (control del dinero)<br>• Violencia vicaria (usar a hijos/as para dañar)<br>• Violencia digital (vigilancia, difusión íntima)";
+    if (c === "recursos") return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer (Ministerio de la Mujer)<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: 1800-354-378<br>🔒 Todo es confidencial.";
+    if (c === "privacidad") return "🔒 <strong>Tu privacidad es absoluta</strong><br><br>Tus conversaciones se procesan localmente. No guardamos ningún dato. Puedes borrar el historial cerrando la pestaña. El botón de salida rápida te lleva a Google al instante.";
+    if (c === "salir") return "Si deseas salir de forma segura, usa el botón rojo flotante 'Salir rápido'. Te redirigirá a Google para proteger tu privacidad.";
+    return "Gracias por compartir. ¿Quieres que hablemos sobre algún tema en específico? Puedes preguntar por recursos, tipos de violencia o hacer el test.";
+  }
+
+  // ---------- Comunicación con el worker (con timeout y fallback) ----------
+  async function consultarWorker(mensaje) {
+    const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
     try {
-        estado.textContent = "⏳ Procesando..."; // Actualiza estado
-
-        const response = await fetch('https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat', { // Asegúrate que sea esta URL
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: mensajeUsuario }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error del Worker: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(`Error de la IA: ${data.error}`);
-        }
-
-        estado.textContent = "✅ Conectado"; // Actualiza estado
-        return data.response || "No pude generar una respuesta.";
-
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: mensaje }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      if (data.error) throw new Error(data.error);
+      estadoDiv.textContent = "✅ Conectado";
+      return data.response;
     } catch (error) {
-        console.error("Error en fetch:", error);
-        estado.textContent = "❌ Error de conexión"; // Actualiza estado
-        return `Lo siento, hubo un problema al procesar tu solicitud. Detalles: ${error.message}`;
+      console.warn("Worker no disponible, usando respuesta local:", error);
+      estadoDiv.textContent = "⚠️ Modo local";
+      return respuestaLocal(mensaje);
     }
   }
 
-  const scroll = () => chat.scrollTop = chat.scrollHeight;
-  let escribiendo = null;
+  // ---------- UI ----------
+  const scrollChat = () => chat.scrollTop = chat.scrollHeight;
+  let escribiendoDiv = null;
 
-  const mostrarEscribiendo = (show) => {
-    if(show && !escribiendo){
-      escribiendo = document.createElement('div');
-      escribiendo.className = 'escribiendo';
-      escribiendo.innerHTML = '<div class="punto"></div><div class="punto"></div><div class="punto"></div>';
-      chat.appendChild(escribiendo);
-      scroll();
-    } else if(!show && escribiendo){ escribiendo.remove(); escribiendo = null; }
-  };
+  function mostrarEscribiendo(mostrar) {
+    if (mostrar && !escribiendoDiv) {
+      escribiendoDiv = document.createElement('div');
+      escribiendoDiv.className = 'escribiendo';
+      escribiendoDiv.innerHTML = '<div class="punto"></div><div class="punto"></div><div class="punto"></div>';
+      chat.appendChild(escribiendoDiv);
+      scrollChat();
+    } else if (!mostrar && escribiendoDiv) {
+      escribiendoDiv.remove();
+      escribiendoDiv = null;
+    }
+  }
 
-  const addMsg = (txt, tipo) => {
+  function agregarMensaje(texto, esUsuario) {
     const div = document.createElement('div');
-    div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
-    const hora = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-    div.innerHTML = `${txt}<div class="tiempo">${hora}</div>`;
+    div.className = `mensaje ${esUsuario ? 'user' : 'bot'}`;
+    const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    div.innerHTML = `${texto}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
-    scroll();
-  };
+    scrollChat();
+  }
 
-  const addOpciones = (lista) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'opciones';
+  function agregarBotonesOpciones(lista) {
+    const contenedor = document.createElement('div');
+    contenedor.className = 'opciones';
     lista.forEach(op => {
       const btn = document.createElement('button');
       btn.className = 'btn-op';
       btn.innerHTML = `📌 ${op.texto}`;
-      btn.onclick = () => manejarInput(op.valor, true);
-      wrap.appendChild(btn);
+      btn.onclick = () => manejarEntradaUsuario(op.valor, true);
+      contenedor.appendChild(btn);
     });
-    chat.appendChild(wrap);
-    scroll();
-  };
+    chat.appendChild(contenedor);
+    scrollChat();
+  }
 
-  const manejarInput = async (texto, esOpcion = false) => {
-    if(!texto.trim()) return;
-
-    if(testActivo){
-      addMsg(texto, 'user');
-      testRespuestas.push(texto);
-      testPaso++;
-      mostrarTestPregunta();
-      return;
-    }
-
-    if(texto.toLowerCase() === "test"){
-      addMsg(texto, 'user');
-      testActivo = true;
-      testRespuestas = [];
-      testPaso = 0;
-      testPaso++;
-      mostrarTestPregunta();
-      return;
-    }
-
-    addMsg(texto, 'user');
-    mostrarEscribiendo(true);
-
-    const respuesta = await obtenerRespuestaDesdeWorker(texto);
-
-    mostrarEscribiendo(false);
-    addMsg(respuesta, 'bot');
-  };
-
-  const mostrarTestPregunta = () => {
-    if(testPaso >= preguntasTest.length){
+  // ---------- Lógica del test ----------
+  function mostrarSiguientePreguntaTest() {
+    if (testIndice >= preguntasTest.length) {
+      // Fin del test, calcular resultado
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
       let resultado = "";
-      if(totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
-      else if(totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
+      if (totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
+      else if (totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
       else resultado = "🆘 <strong>Has identificado varias señales de violencia.</strong> No estás sola. Llama al <strong>147</strong> (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
-      addMsg(`📋 <strong>Resultado del test</strong>\n\n${resultado}\n\n💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
-      addOpciones([{texto:"📞 Ver recursos de ayuda", valor:"recursos"},{texto:"📚 Tipos de violencia", valor:"tipos"}]);
+      agregarMensaje(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, false);
+      agregarBotonesOpciones([
+        { texto: "📞 Ver recursos de ayuda", valor: "recursos" },
+        { texto: "📚 Tipos de violencia", valor: "tipos" }
+      ]);
       testActivo = false;
       testRespuestas = [];
+      testIndice = 0;
       return;
     }
-    const p = preguntasTest[testPaso];
-    addMsg(p.q, 'bot');
-    addOpciones(p.opciones.map(opt => ({texto: opt, valor: opt})));
-  };
 
+    const pregunta = preguntasTest[testIndice];
+    agregarMensaje(pregunta.q, false);
+    const botones = pregunta.opciones.map(opt => ({ texto: opt, valor: opt }));
+    agregarBotonesOpciones(botones);
+  }
+
+  // ---------- Manejador central ----------
+  async function manejarEntradaUsuario(texto, esOpcion = false) {
+    const txt = texto.trim();
+    if (!txt) return;
+
+    // Si estamos en medio del test
+    if (testActivo) {
+      agregarMensaje(txt, true);
+      testRespuestas.push(txt);
+      testIndice++;
+      mostrarSiguientePreguntaTest();
+      return;
+    }
+
+    // Comando especial para iniciar test
+    if (txt.toLowerCase() === "test") {
+      agregarMensaje(txt, true);
+      testActivo = true;
+      testRespuestas = [];
+      testIndice = 0;
+      mostrarSiguientePreguntaTest();
+      return;
+    }
+
+    // Mensaje normal (puede ser texto libre o comando del menú)
+    agregarMensaje(txt, true);
+    mostrarEscribiendo(true);
+
+    let respuesta;
+    // Si es un comando conocido, podemos responder más rápido (incluso en modo local)
+    const cmd = txt.toLowerCase();
+    if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
+      respuesta = respuestaLocal(cmd);
+    } else {
+      respuesta = await consultarWorker(txt);
+    }
+
+    mostrarEscribiendo(false);
+    agregarMensaje(respuesta, false);
+  }
+
+  // ---------- Eventos ----------
   form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
-    if(val) manejarInput(val);
+    if (val) manejarEntradaUsuario(val);
     input.value = '';
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
+    btn.onclick = () => {
+      const accion = btn.getAttribute('data-accion');
+      if (accion) manejarEntradaUsuario(accion);
+    };
   });
 
   document.getElementById('escape').onclick = () => {
@@ -374,18 +404,19 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  const init = () => {
-    addMsg("👋 <strong>Hola, soy LiberaEc</strong>\n\nAhora conectado a una IA especializada. Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.\n\n🔒 Tus conversaciones son confidenciales.", 'bot');
-    addOpciones([
-      {texto:"📚 Tipos de violencia", valor:"tipos"},
-      {texto:"📞 Recursos Ecuador", valor:"recursos"},
-      {texto:"🔒 Privacidad", valor:"privacidad"},
-      {texto:"🧩 Test interactivo", valor:"test"}
+  // ---------- Inicialización ----------
+  function iniciar() {
+    agregarMensaje("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte y acompañarte sin juzgar. Puedes contarme cómo te sientes o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales y se procesan localmente.", false);
+    agregarBotonesOpciones([
+      { texto: "📚 Tipos de violencia", valor: "tipos" },
+      { texto: "📞 Recursos Ecuador", valor: "recursos" },
+      { texto: "🔒 Privacidad", valor: "privacidad" },
+      { texto: "🧩 Test interactivo", valor: "test" }
     ]);
-    estado.textContent = "✅ Conectado"; // Actualiza estado inicial
-  };
+    estadoDiv.textContent = "✅ Conectado";
+  }
 
-  init();
+  iniciar();
 })();
 </script>
 </body>
