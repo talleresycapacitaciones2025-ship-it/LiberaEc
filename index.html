@@ -2,10 +2,9 @@
 <html lang="es-EC">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
-    /* Tu mismo CSS original (sin cambios) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -22,7 +21,7 @@
       box-sizing: border-box;
     }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--fondo);
       color: var(--texto);
       padding-bottom: 70px;
@@ -133,6 +132,7 @@
       border-radius: 60px;
       font-size: 1rem;
       background: white;
+      font-family: inherit;
     }
     .input-chat:focus {
       outline: none;
@@ -241,36 +241,74 @@
       padding: 1rem;
       background: white;
     }
+    .error-msg {
+      color: #c0392b;
+      font-size: 0.8rem;
+      background: #ffe6e6;
+      padding: 0.5rem;
+      border-radius: 12px;
+      margin: 0.5rem 0;
+    }
   </style>
 </head>
 <body>
 <div class="encabezado">
-  <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>LiberaEc</h1>
+  <h1>
+    <svg width="28" viewBox="0 0 24 24" fill="none" stroke="white">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+    LiberaEc
+  </h1>
   <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
 </div>
-<div id="estado" class="estado">☁️ Conectando...</div>
+<div id="estado" class="estado">☁️ Conectando con el servidor...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
   <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
-  <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+  <button type="submit" class="btn-enviar">
+    <svg width="20" viewBox="0 0 24 24" fill="none" stroke="white">
+      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+    </svg>
+  </button>
 </form>
 <div class="menu-persistente">
-  <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
-  <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
-  <button class="item-menu" data-a="test"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg><span>Test</span></button>
-  <button class="item-menu" data-a="privacidad"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Privacidad</span></button>
-  <button class="item-menu" data-a="salir"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Salir</span></button>
+  <button class="item-menu" data-a="tipos">
+    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <span>Tipos</span>
+  </button>
+  <button class="item-menu" data-a="recursos">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span>Recursos</span>
+  </button>
+  <button class="item-menu" data-a="test">
+    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg>
+    <span>Test</span>
+  </button>
+  <button class="item-menu" data-a="privacidad">
+    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <span>Privacidad</span>
+  </button>
+  <button class="item-menu" data-a="salir">
+    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+    <span>Salir</span>
+  </button>
 </div>
-<button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
-<footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p></footer>
+<button class="btn-escape" id="escape">
+  <svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <span>Salir rápido</span>
+</button>
+<footer>
+  <p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p>
+</footer>
 
 <script>
-(function(){
+(function() {
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
 
+  // Variables para el test
   let testActivo = false;
   let testRespuestas = [];
   let testIndice = 0;
@@ -284,70 +322,36 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ========== FALLBACK LOCAL DE EMERGENCIA (MUY SIMPLE) ==========
-  // Solo se usa si el Worker no responde por completo (problemas de red o timeout)
-  function fallbackLocal(mensaje) {
-    return "💜 Lo siento, no puedo conectarme al servidor en este momento. Por favor, intenta de nuevo o llama directamente al **147** (Línea Mujer) para ayuda inmediata.";
+  // ========== FUNCIONES DE UI ==========
+  function scrollToBottom() {
+    chat.scrollTop = chat.scrollHeight;
   }
 
-  // ========== CONEXIÓN AL WORKER CON GROQ ==========
-  async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
-    try {
-      estadoDiv.textContent = "⏳ Conectando con asistente seguro...";
-      // URL de tu Worker existente
-      const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: mensajeUsuario }),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      estadoDiv.textContent = "✅ Conectado";
-      // El worker devuelve { response: "...", fallback?: true }
-      if (data.response && typeof data.response === 'string' && data.response.length > 0) {
-        return data.response;
-      } else {
-        throw new Error("Respuesta vacía del worker");
-      }
-    } catch (error) {
-      console.warn("Error usando Worker con Groq:", error);
-      estadoDiv.textContent = "⚠️ Sin conexión (modo local limitado)";
-      return fallbackLocal(mensajeUsuario);
-    }
-  }
-
-  // ========== FUNCIONES AUXILIARES DE UI ==========
-  const scroll = () => { chat.scrollTop = chat.scrollHeight; };
   let escribiendoElement = null;
 
-  const mostrarEscribiendo = (show) => {
+  function mostrarEscribiendo(show) {
     if (show && !escribiendoElement) {
       escribiendoElement = document.createElement('div');
       escribiendoElement.className = 'escribiendo';
       escribiendoElement.innerHTML = '<div class="punto"></div><div class="punto"></div><div class="punto"></div>';
       chat.appendChild(escribiendoElement);
-      scroll();
+      scrollToBottom();
     } else if (!show && escribiendoElement) {
       escribiendoElement.remove();
       escribiendoElement = null;
     }
-  };
+  }
 
-  const addMsg = (txt, tipo) => {
+  function addMessage(text, tipo) {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    div.innerHTML = `${txt}<div class="tiempo">${hora}</div>`;
+    div.innerHTML = `${text}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
-    scroll();
-  };
+    scrollToBottom();
+  }
 
-  const addOpciones = (lista) => {
+  function addOpciones(lista) {
     const wrap = document.createElement('div');
     wrap.className = 'opciones';
     lista.forEach(op => {
@@ -358,18 +362,18 @@
       wrap.appendChild(btn);
     });
     chat.appendChild(wrap);
-    scroll();
-  };
+    scrollToBottom();
+  }
 
-  // ========== LÓGICA DEL TEST ==========
-  const mostrarPreguntaTest = () => {
+  // ========== TEST ==========
+  function mostrarPreguntaTest() {
     if (testIndice >= preguntasTest.length) {
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
       let resultado = "";
       if (totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
       else if (totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
       else resultado = "🆘 <strong>Has identificado varias señales de violencia.</strong> No estás sola. Llama al <strong>147</strong> (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
-      addMsg(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
+      addMessage(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
       addOpciones([
         { texto: "📞 Ver recursos de ayuda", valor: "recursos" },
         { texto: "📚 Tipos de violencia", valor: "tipos" }
@@ -380,27 +384,63 @@
       return;
     }
     const pregunta = preguntasTest[testIndice];
-    addMsg(pregunta.q, 'bot');
+    addMessage(pregunta.q, 'bot');
     const opcionesBotones = pregunta.opciones.map(opt => ({ texto: opt, valor: opt }));
     addOpciones(opcionesBotones);
-  };
+  }
 
-  // ========== MANEJO CENTRAL DE ENTRADA ==========
-  const manejarInput = async (texto, esOpcion = false) => {
+  // ========== CONEXIÓN AL WORKER CON GROQ ==========
+  async function obtenerRespuestaWorker(mensaje) {
+    const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: mensaje }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      if (!data.response || typeof data.response !== 'string') {
+        throw new Error('Respuesta inválida del servidor');
+      }
+      return data.response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      console.error('Error en fetch al Worker:', error);
+      // Devolvemos un mensaje de error amigable pero informativo
+      if (error.name === 'AbortError') {
+        return "⏱️ El servidor tardó demasiado en responder. Por favor, intenta de nuevo. Si el problema persiste, llama al **147** para ayuda inmediata.";
+      }
+      return "🔌 Lo siento, no puedo conectarme al servidor en este momento. Por favor, verifica tu conexión a internet o intenta más tarde. También puedes llamar al **147** (Línea Mujer).\n\n**Error técnico:** " + error.message;
+    }
+  }
+
+  // ========== MANEJO PRINCIPAL ==========
+  async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
 
-    // Modo test
+    // Modo test activo
     if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
-      addMsg(txt, 'user');
+      addMessage(txt, 'user');
       testRespuestas.push(txt);
       testIndice++;
       mostrarPreguntaTest();
       return;
     }
 
+    // Comando para iniciar test
     if (txt.toLowerCase() === "test") {
-      addMsg(txt, 'user');
+      addMessage(txt, 'user');
       testActivo = true;
       testRespuestas = [];
       testIndice = 0;
@@ -408,39 +448,44 @@
       return;
     }
 
-    // Mensaje normal (incluye comandos como "tipos", "recursos", etc.)
-    addMsg(txt, 'user');
+    // Mensaje normal (incluye comandos rápidos como "tipos", "recursos")
+    addMessage(txt, 'user');
     mostrarEscribiendo(true);
+    estadoDiv.textContent = "⏳ Procesando con Groq...";
 
-    let respuesta;
-    // Para comandos rápidos del menú, igualmente se los enviamos al Worker (que tiene su propio sistema)
-    // pero también podríamos responder localmente si quisiéramos ahorrar llamadas.
-    // Por simplicidad, todo se lo enviamos al Worker, que ya está optimizado.
-    respuesta = await obtenerRespuestaDesdeWorker(txt);
+    const respuesta = await obtenerRespuestaWorker(txt);
+
     mostrarEscribiendo(false);
-    addMsg(respuesta, 'bot');
-  };
+    estadoDiv.textContent = "✅ Conectado";
+    addMessage(respuesta, 'bot');
+  }
 
   // ========== EVENTOS ==========
-  form.onsubmit = (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     const val = input.value.trim();
-    if (val) manejarInput(val);
-    input.value = '';
-  };
-
-  document.querySelectorAll('.item-menu').forEach(btn => {
-    btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
+    if (val) {
+      manejarInput(val);
+      input.value = '';
+    }
   });
 
-  document.getElementById('escape').onclick = () => {
+  document.querySelectorAll('.item-menu').forEach(btn => {
+    btn.addEventListener('click', () => {
+      manejarInput(btn.getAttribute('data-a'));
+    });
+  });
+
+  document.getElementById('escape').addEventListener('click', () => {
     document.body.style.opacity = '0.8';
-    setTimeout(() => location.href = 'https://www.google.com', 150);
-  };
+    setTimeout(() => {
+      location.href = 'https://www.google.com';
+    }, 150);
+  });
 
   // ========== INICIALIZACIÓN ==========
-  const init = () => {
-    addMsg("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
+  function init() {
+    addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
       { texto: "📚 Tipos de violencia", valor: "tipos" },
       { texto: "📞 Recursos Ecuador", valor: "recursos" },
@@ -448,7 +493,7 @@
       { texto: "🧩 Test interactivo", valor: "test" }
     ]);
     estadoDiv.textContent = "✅ Conectado";
-  };
+  }
 
   init();
 })();
