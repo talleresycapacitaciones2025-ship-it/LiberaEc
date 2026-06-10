@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
+    /* Tu mismo CSS original (sin cambios) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -283,103 +284,20 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ========== RESPUESTAS LOCALES MUY REFORZADAS ==========
-  function respuestaLocal(mensaje) {
-    const m = mensaje.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
-    // VIOLENCIA VICARIA (hijos) - DETECCIÓN MEJORADA
-    const tieneHijos = /hijos?|hijas?|niños?|niñas?/.test(m);
-    const amenazaQuitar = /quita|quitarme|quitar|quito|quiere|usar|dañar|quiten|perder|separar/.test(m);
-    if (tieneHijos && amenazaQuitar) {
-      return "👧🧒 <strong>Violencia vicaria (amenaza con hijos/as)</strong><br><br>" +
-             "Lo que describes es <strong>violencia vicaria</strong>: usar a los hijos/as para dañar a la madre.<br><br>" +
-             "En Ecuador NO está tipificada como figura autónoma, pero SÍ puedes denunciar los actos concretos:<br>" +
-             "• <strong>Amenazas</strong> (Art. 166 COIP)<br>" +
-             "• <strong>Sustracción de menores</strong> (Art. 191 COIP)<br>" +
-             "• <strong>Violencia psicológica</strong> (Art. 155 COIP)<br><br>" +
-             "<strong>Qué hacer ahora:</strong><br>" +
-             "1. Documenta las amenazas (capturas de pantalla, audios, testigos).<br>" +
-             "2. Guarda la evidencia (puedes usar la Bóveda Segura de esta app).<br>" +
-             "3. Denuncia en Fiscalía: <strong>1800-354-378</strong><br>" +
-             "4. Pide medidas de protección.<br><br>" +
-             "No estás sola. Llama también al <strong>147</strong> (Línea Mujer) para orientación legal gratuita.";
-    }
-    
-    // Amenazas en general
-    if (/amenaza/.test(m)) {
-      return "⚠️ <strong>Las amenazas son un delito en Ecuador</strong> (Art. 166 del COIP). " +
-             "Si te amenazan con dañarte a ti o a tus seres queridos, puedes denunciar. " +
-             "Guarda evidencias (capturas, grabaciones). Llama al <strong>911</strong> si el peligro es inminente, o al <strong>147</strong> para orientación.";
-    }
-    
-    // Cómo saber si hay violencia
-    if (/como saber|cómo saber|como se si|cómo sé si/.test(m) && /violenta/.test(m)) {
-      return "🔍 <strong>¿Cómo saber si tu pareja te violenta?</strong><br><br>" +
-             "Pregúntate:<br>" +
-             "• ¿Controla tu dinero, horarios o con quién hablas?<br>" +
-             "• ¿Te insulta, humilla o amenaza?<br>" +
-             "• ¿Te revisa el celular o exige contraseñas?<br>" +
-             "• ¿Te aleja de amistades o familia?<br>" +
-             "• ¿Sientes miedo o ansiedad cuando están juntos?<br><br>" +
-             "Si respondiste SÍ a alguna, podrías estar en una situación violenta. Llama al <strong>147</strong> para orientación gratuita.";
-    }
-    
-    // Señales de violencia
-    if (/señales|signos/.test(m) && /violencia/.test(m)) {
-      return "⚠️ <strong>Señales de violencia</strong><br><br>" +
-             "• Control excesivo de tu tiempo y dinero<br>" +
-             "• Celos constantes y acusaciones<br>" +
-             "• Insultos, humillaciones o gritos<br>" +
-             "• Amenazas (explícitas o sutiles)<br>" +
-             "• Aislamiento de amistades y familia<br>" +
-             "• Revisar tu celular o redes sin permiso<br>" +
-             "• Empujones, golpes o cualquier daño físico<br>" +
-             "• Obligarte a hacer algo que no quieres<br>" +
-             "• Usar a tus hijos/as para lastimarte<br><br>" +
-             "Si reconoces alguna, busca apoyo. No estás sola.";
-    }
-    
-    // Tipos de violencia
-    if (/tipos/.test(m)) {
-      return "📚 <strong>Tipos de violencia:</strong> psicológica, física, sexual, económica, vicaria (con hijos), digital. ¿Quieres que te explique alguno en detalle?";
-    }
-    
-    // Recursos
-    if (/recursos|ayuda|denunciar/.test(m)) {
-      return "📞 <strong>Recursos en Ecuador</strong><br><br>🚨 <strong>911</strong> – Emergencias<br>💜 <strong>147</strong> – Línea Mujer<br>📞 <strong>1800 VIOLETA</strong> – Línea Violeta<br>⚖️ Fiscalía: <strong>1800-354-378</strong>";
-    }
-    
-    // Privacidad
-    if (/privacidad/.test(m)) {
-      return "🔒 Tus conversaciones son locales. No guardamos nada. Botón rojo = salida rápida a Google.";
-    }
-    
-    // Salir
-    if (/salir/.test(m)) {
-      return "Usa el botón rojo flotante 'Salir rápido' para ir a Google al instante.";
-    }
-    
-    // Test
-    if (/test/.test(m)) {
-      return "Escribe 'test' para iniciar el test de violencia.";
-    }
-    
-    // Respuesta por defecto (orientadora)
-    return "💜 Cuéntame más específicamente qué está pasando. Por ejemplo:<br>" +
-           "- ¿Te amenaza con quitarte a tus hijos?<br>" +
-           "- ¿Controla tu dinero o tus horarios?<br>" +
-           "- ¿Te insulta o humilla?<br>" +
-           "- ¿Te revisa el celular?<br><br>" +
-           "Así podré orientarte mejor. También puedes escribir 'test' para hacer preguntas guiadas.";
+  // ========== FALLBACK LOCAL DE EMERGENCIA (MUY SIMPLE) ==========
+  // Solo se usa si el Worker no responde por completo (problemas de red o timeout)
+  function fallbackLocal(mensaje) {
+    return "💜 Lo siento, no puedo conectarme al servidor en este momento. Por favor, intenta de nuevo o llama directamente al **147** (Línea Mujer) para ayuda inmediata.";
   }
 
-  // ========== CONEXIÓN AL WORKER CON FALLBACK ==========
+  // ========== CONEXIÓN AL WORKER CON GROQ ==========
   async function obtenerRespuestaDesdeWorker(mensajeUsuario) {
     try {
-      estadoDiv.textContent = "⏳ Procesando...";
+      estadoDiv.textContent = "⏳ Conectando con asistente seguro...";
+      // URL de tu Worker existente
       const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -389,17 +307,17 @@
       clearTimeout(timeoutId);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      if (data.error) throw new Error(data.error);
       estadoDiv.textContent = "✅ Conectado";
-      const botMsg = data.response || "";
-      if (botMsg.length < 15 || botMsg.includes("Gracias por compartir") || botMsg.includes("Puedes preguntar por recursos")) {
-        throw new Error("Respuesta genérica");
+      // El worker devuelve { response: "...", fallback?: true }
+      if (data.response && typeof data.response === 'string' && data.response.length > 0) {
+        return data.response;
+      } else {
+        throw new Error("Respuesta vacía del worker");
       }
-      return botMsg;
     } catch (error) {
-      console.warn("Usando respuesta local:", error);
-      estadoDiv.textContent = "⚠️ Modo local";
-      return respuestaLocal(mensajeUsuario);
+      console.warn("Error usando Worker con Groq:", error);
+      estadoDiv.textContent = "⚠️ Sin conexión (modo local limitado)";
+      return fallbackLocal(mensajeUsuario);
     }
   }
 
@@ -490,17 +408,15 @@
       return;
     }
 
-    // Mensaje normal
+    // Mensaje normal (incluye comandos como "tipos", "recursos", etc.)
     addMsg(txt, 'user');
     mostrarEscribiendo(true);
 
-    const cmd = txt.toLowerCase();
     let respuesta;
-    if (cmd === "tipos" || cmd === "recursos" || cmd === "privacidad" || cmd === "salir") {
-      respuesta = respuestaLocal(cmd);
-    } else {
-      respuesta = await obtenerRespuestaDesdeWorker(txt);
-    }
+    // Para comandos rápidos del menú, igualmente se los enviamos al Worker (que tiene su propio sistema)
+    // pero también podríamos responder localmente si quisiéramos ahorrar llamadas.
+    // Por simplicidad, todo se lo enviamos al Worker, que ya está optimizado.
+    respuesta = await obtenerRespuestaDesdeWorker(txt);
     mostrarEscribiendo(false);
     addMsg(respuesta, 'bot');
   };
