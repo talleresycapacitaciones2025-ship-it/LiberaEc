@@ -241,14 +241,6 @@
       padding: 1rem;
       background: white;
     }
-    .error-msg {
-      color: #c0392b;
-      font-size: 0.8rem;
-      background: #ffe6e6;
-      padding: 0.5rem;
-      border-radius: 12px;
-      margin: 0.5rem 0;
-    }
   </style>
 </head>
 <body>
@@ -261,7 +253,7 @@
   </h1>
   <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
 </div>
-<div id="estado" class="estado">☁️ Conectando con el servidor...</div>
+<div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
   <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
@@ -308,7 +300,6 @@
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
 
-  // Variables para el test
   let testActivo = false;
   let testRespuestas = [];
   let testIndice = 0;
@@ -322,7 +313,6 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  // ========== FUNCIONES DE UI ==========
   function scrollToBottom() {
     chat.scrollTop = chat.scrollHeight;
   }
@@ -365,7 +355,6 @@
     scrollToBottom();
   }
 
-  // ========== TEST ==========
   function mostrarPreguntaTest() {
     if (testIndice >= preguntasTest.length) {
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -389,12 +378,11 @@
     addOpciones(opcionesBotones);
   }
 
-  // ========== CONEXIÓN AL WORKER CON GROQ ==========
+  // === Conexión al Worker de Cloudflare ===
   async function obtenerRespuestaWorker(mensaje) {
     const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
-
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -403,33 +391,27 @@
         signal: controller.signal
       });
       clearTimeout(timeoutId);
-
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-
       const data = await response.json();
-      if (!data.response || typeof data.response !== 'string') {
-        throw new Error('Respuesta inválida del servidor');
-      }
+      if (!data.response) throw new Error('Respuesta vacía del servidor');
       return data.response;
-    } catch (error) {
+    } catch (err) {
       clearTimeout(timeoutId);
-      console.error('Error en fetch al Worker:', error);
-      // Devolvemos un mensaje de error amigable pero informativo
-      if (error.name === 'AbortError') {
-        return "⏱️ El servidor tardó demasiado en responder. Por favor, intenta de nuevo. Si el problema persiste, llama al **147** para ayuda inmediata.";
+      console.error('Error en Worker:', err);
+      if (err.name === 'AbortError') {
+        return "⏱️ El servidor tardó demasiado. Intenta de nuevo o llama al **147**.";
       }
-      return "🔌 Lo siento, no puedo conectarme al servidor en este momento. Por favor, verifica tu conexión a internet o intenta más tarde. También puedes llamar al **147** (Línea Mujer).\n\n**Error técnico:** " + error.message;
+      return "🔌 No se pudo conectar al servidor. Verifica tu internet o intenta más tarde. También puedes llamar al **147** para ayuda inmediata.\n\n**Error técnico:** " + err.message;
     }
   }
 
-  // ========== MANEJO PRINCIPAL ==========
   async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
 
-    // Modo test activo
+    // Test activo
     if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
       addMessage(txt, 'user');
       testRespuestas.push(txt);
@@ -438,7 +420,6 @@
       return;
     }
 
-    // Comando para iniciar test
     if (txt.toLowerCase() === "test") {
       addMessage(txt, 'user');
       testActivo = true;
@@ -448,10 +429,9 @@
       return;
     }
 
-    // Mensaje normal (incluye comandos rápidos como "tipos", "recursos")
     addMessage(txt, 'user');
     mostrarEscribiendo(true);
-    estadoDiv.textContent = "⏳ Procesando con Groq...";
+    estadoDiv.textContent = "⏳ Consultando con Groq...";
 
     const respuesta = await obtenerRespuestaWorker(txt);
 
@@ -460,30 +440,22 @@
     addMessage(respuesta, 'bot');
   }
 
-  // ========== EVENTOS ==========
-  form.addEventListener('submit', (e) => {
+  form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
-    if (val) {
-      manejarInput(val);
-      input.value = '';
-    }
-  });
+    if (val) manejarInput(val);
+    input.value = '';
+  };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    btn.addEventListener('click', () => {
-      manejarInput(btn.getAttribute('data-a'));
-    });
+    btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
   });
 
-  document.getElementById('escape').addEventListener('click', () => {
+  document.getElementById('escape').onclick = () => {
     document.body.style.opacity = '0.8';
-    setTimeout(() => {
-      location.href = 'https://www.google.com';
-    }, 150);
-  });
+    setTimeout(() => location.href = 'https://www.google.com', 150);
+  };
 
-  // ========== INICIALIZACIÓN ==========
   function init() {
     addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
