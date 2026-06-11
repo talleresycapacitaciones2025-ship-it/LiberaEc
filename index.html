@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
-    /* (Mismo CSS que antes, sin cambios) */
+    /* ========== ESTILOS (sin cambios) ========== */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -285,6 +285,13 @@
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
     <span>Salir</span>
   </button>
+  <!-- BOTÓN LIMPIAR CHAT (NUEVO) -->
+  <button class="item-menu" id="btn-limpiar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/>
+    </svg>
+    <span>Limpiar</span>
+  </button>
 </div>
 <button class="btn-escape" id="escape">
   <svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -333,15 +340,21 @@
     }
   }
 
-  // Función modificada para convertir **texto** en negritas
+  // Formato Markdown
+  function formatMarkdown(text) {
+    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    formatted = formatted.replace(/^###\s+(.*)$/gm, '<strong>$1</strong>');
+    formatted = formatted.replace(/^##\s+(.*)$/gm, '<strong>$1</strong>');
+    return formatted;
+  }
+
   function addMessage(text, tipo) {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     let contenido = text;
     if (tipo === 'bot') {
-      // Convertir **texto** a <strong>texto</strong>
-      contenido = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      contenido = formatMarkdown(text);
     }
     div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
@@ -362,6 +375,7 @@
     scrollToBottom();
   }
 
+  // Test
   function mostrarPreguntaTest() {
     if (testIndice >= preguntasTest.length) {
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -385,7 +399,7 @@
     addOpciones(opcionesBotones);
   }
 
-  // === Conexión al Worker de Cloudflare (con modelo ya corregido) ===
+  // Conexión al Worker
   async function obtenerRespuestaWorker(mensaje) {
     const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
     const controller = new AbortController();
@@ -408,6 +422,7 @@
     }
   }
 
+  // Manejador principal
   async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
@@ -429,6 +444,18 @@
       return;
     }
 
+    if (txt === "recursos") {
+      addMessage(txt, 'user');
+      const mensajeRecursos = "📞 **Recursos disponibles en Ecuador:**\n\n" +
+                              "🚨 **911** – Emergencias (peligro inminente)\n" +
+                              "💜 **147** – Línea Mujer (orientación gratuita)\n" +
+                              "⚖️ **Fiscalía: 1800-354-378** – Para denuncias\n\n" +
+                              "⚠️ Actualmente no contamos con una lista de centros de apoyo presenciales o recursos en línea verificados. Por favor, llama al **147** para que te orienten según tu ubicación.\n\n" +
+                              "No estás sola. ¿Necesitas ayuda con otro tema?";
+      addMessage(mensajeRecursos, 'bot');
+      return;
+    }
+
     addMessage(txt, 'user');
     mostrarEscribiendo(true);
     estadoDiv.textContent = "⏳ Consultando con Groq...";
@@ -440,6 +467,26 @@
     addMessage(respuesta, 'bot');
   }
 
+  // Función para limpiar el chat (NUEVA)
+  function limpiarChat() {
+    // Vaciar el contenedor del chat
+    chat.innerHTML = '';
+    // Reiniciar el estado del test
+    testActivo = false;
+    testRespuestas = [];
+    testIndice = 0;
+    // Mostrar mensaje de bienvenida y opciones iniciales
+    addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
+    addOpciones([
+      { texto: "📚 Tipos de violencia", valor: "tipos" },
+      { texto: "📞 Recursos Ecuador", valor: "recursos" },
+      { texto: "🔒 Privacidad", valor: "privacidad" },
+      { texto: "🧩 Test interactivo", valor: "test" }
+    ]);
+    estadoDiv.textContent = "✅ Conectado";
+  }
+
+  // Eventos
   form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
@@ -448,14 +495,20 @@
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
+    if (btn.id !== 'btn-limpiar') {  // excluir el botón limpiar
+      btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
+    }
   });
+
+  // Evento para el botón de limpiar
+  document.getElementById('btn-limpiar').onclick = limpiarChat;
 
   document.getElementById('escape').onclick = () => {
     document.body.style.opacity = '0.8';
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
+  // Inicialización
   function init() {
     addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
