@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
+    /* (Mismo CSS que antes, sin cambios) */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -332,11 +333,17 @@
     }
   }
 
+  // Función modificada para convertir **texto** en negritas
   function addMessage(text, tipo) {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    div.innerHTML = `${text}<div class="tiempo">${hora}</div>`;
+    let contenido = text;
+    if (tipo === 'bot') {
+      // Convertir **texto** a <strong>texto</strong>
+      contenido = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    }
+    div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
     scrollToBottom();
   }
@@ -378,11 +385,11 @@
     addOpciones(opcionesBotones);
   }
 
-  // === Conexión al Worker de Cloudflare ===
+  // === Conexión al Worker de Cloudflare (con modelo ya corregido) ===
   async function obtenerRespuestaWorker(mensaje) {
     const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 20000);
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -391,19 +398,13 @@
         signal: controller.signal
       });
       clearTimeout(timeoutId);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      if (!data.response) throw new Error('Respuesta vacía del servidor');
-      return data.response;
+      return data.response || "Lo siento, no obtuve respuesta.";
     } catch (err) {
       clearTimeout(timeoutId);
       console.error('Error en Worker:', err);
-      if (err.name === 'AbortError') {
-        return "⏱️ El servidor tardó demasiado. Intenta de nuevo o llama al **147**.";
-      }
-      return "🔌 No se pudo conectar al servidor. Verifica tu internet o intenta más tarde. También puedes llamar al **147** para ayuda inmediata.\n\n**Error técnico:** " + err.message;
+      return "🔌 No se pudo conectar al servidor. Intenta de nuevo o llama al **147**.";
     }
   }
 
@@ -411,7 +412,6 @@
     const txt = texto.trim();
     if (!txt) return;
 
-    // Test activo
     if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
       addMessage(txt, 'user');
       testRespuestas.push(txt);
