@@ -75,19 +75,11 @@ Para distribuirla, súbela a GitHub Releases (explicado más abajo).
   🛠️ Personalización avanzada
 Modificar el prompt del Worker
 El archivo worker.js contiene la variable systemPrompt. Puedes editarla para:
-
 Ajustar el tono (más cálido, más directo).
-
 Añadir nuevas leyes o recursos.
-
 Incluir ejemplos de respuestas (few-shot).
-
 Cambiar el modelo de Groq
-Dentro del Worker, busca model: "llama-3.3-70b-versatile". Otros modelos válidos:
-
-llama-3.1-8b-instant (más rápido)
-
-mixtral-8x7b-32768 (buen equilibrio)
+Dentro del Worker, busca model: "llama-3.3-70b-versatile". Otros modelos válidos: llama-3.1-8b-instant (más rápido), mixtral-8x7b-32768 (buen equilibrio)
 
 📄 Licencia
 Este proyecto se distribuye bajo la licencia MIT. Puedes usarlo, modificarlo y redistribuirlo libremente, siempre que mantengas la atribución original.
