@@ -14,7 +14,7 @@ Instala LiberaEc directamente en tu dispositivo Android.
 
 ### 📥 Enlace directo de descarga
 
-🔗 **[Descargar LiberaEc v1.0.0 APK](https://github.com/talleresycapacitaciones2025-ship-it/LiberaEc/releases/download/v1.0.0/LiberaEc-v1.0.0.apk)**
+🔗 **[Descargar LiberaEc v1.0.0 APK: [https://github.com/talleresycapacitaciones2025-ship-it/LiberaEc/releases](https://github.com/talleresycapacitaciones2025-ship-it/LiberaEc/releases)
 
 *(Si el enlace no funciona, ve a la sección de **Releases** y descarga el archivo manualmente)*
 
