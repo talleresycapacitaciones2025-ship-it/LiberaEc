@@ -581,4 +581,97 @@
       if (txt === "recursos") {
         addMessage("📞 **Recursos en Ecuador:**\n\n🚨 **911** – Emergencias\n💜 **147** – Línea Mujer\n⚖️ **Fiscalía: 1800-354-378**", 'bot');
       } else {
-        addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones.<br>• <
+        addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones.<br>• <strong>Psicológica:</strong> Insultos, amenazas.<br>• <strong>Sexual:</strong> Actos sin consentimiento.<br>• <strong>Económica:</strong> Control del dinero.<br>• <strong>Vicaria:</strong> Daño a los hijos para lastimar a la madre.", 'bot');
+      }
+      return;
+    }
+
+    const esEmergencia = palabrasEmergencia.some(p => txt.toLowerCase().includes(p));
+    if (esEmergencia) {
+      addMessage(txt, 'user');
+      const alertaHTML = `
+        <div class="alerta-emergencia">
+          <strong>🚨 PELIGRO INMINENTE 🚨</strong>
+          <p>Busca un lugar seguro y llama inmediatamente. No estás sola.</p>
+          <button onclick="window.location.href='tel:911'">📞 Llamar al 911</button>
+          <button onclick="window.location.href='tel:147'">📞 Llamar al 147</button>
+        </div>
+      `;
+      addMessage(alertaHTML, 'bot');
+      historial.push({ role: "user", content: txt });
+      historial.push({ role: "assistant", content: "Se detectó emergencia. Se mostraron números de auxilio." });
+      return;
+    }
+
+    addMessage(txt, 'user');
+    historial.push({ role: "user", content: txt });
+    
+    mostrarEscribiendo(true);
+    estadoDiv.textContent = "⏳ Analizando...";
+
+    const respuesta = await obtenerRespuestaWorker(txt);
+
+    mostrarEscribiendo(false);
+    estadoDiv.textContent = "✅ Conectado";
+    
+    historial.push({ role: "assistant", content: respuesta });
+    addMessage(respuesta, 'bot');
+
+    if (currentRole === "victima") {
+      addOpciones([
+        { texto: "📞 Ver recursos", valor: "recursos" },
+        { texto: "🧩 Hacer el test", valor: "tipos" }
+      ]);
+    } else if (currentRole === "abogado") {
+      addOpciones([
+        { texto: "📝 Redactar denuncia", valor: "Redacta una denuncia por violencia intrafamiliar" },
+        { texto: "📄 Solicitar medidas", valor: "Redacta una solicitud de medidas de protección" }
+      ]);
+    }
+  }
+
+  function limpiarChat() {
+    if (!confirm("¿Seguro que quieres borrar la conversación?")) return;
+    window.speechSynthesis.cancel();
+    if(reconocimiento) reconocimiento.stop();
+    chat.innerHTML = '';
+    historial = [];
+    addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
+  }
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const val = input.value.trim();
+    if (val) manejarInput(val);
+    input.value = '';
+    textoAcumulado = ""; 
+  };
+
+  document.querySelectorAll('.item-menu').forEach(btn => {
+    if (btn.id !== 'btn-limpiar' && btn.id !== 'btn-exportar') {
+      btn.onclick = () => {
+         const accion = btn.getAttribute('data-a');
+         if(accion) manejarInput(accion);
+      };
+    }
+  });
+
+  document.getElementById('btn-limpiar').onclick = limpiarChat;
+  document.getElementById('escape').onclick = () => {
+    window.speechSynthesis.cancel();
+    if(reconocimiento) reconocimiento.stop();
+    chat.innerHTML = '';
+    historial = [];
+    window.location.replace('https://www.google.com');
+  };
+
+  function init() {
+    mostrarMenuPerfiles();
+    estadoDiv.textContent = "✅ Conectado";
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
