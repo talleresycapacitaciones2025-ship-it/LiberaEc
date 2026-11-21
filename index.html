@@ -41,10 +41,15 @@
     .btn-op:hover { background: var(--borde); }
     .btn-descarga { display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s; }
     
-    .input-area { max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.6rem; position: sticky; bottom: 70px; background: var(--fondo); }
+    .input-area { max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.4rem; position: sticky; bottom: 70px; background: var(--fondo); }
     .input-chat { flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px; font-size: 1rem; background: var(--card); color: var(--texto); font-family: inherit; }
     .btn-enviar { background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; }
+    .btn-microfono { background: var(--card); border: 1px solid var(--borde); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--texto); transition: all 0.2s; }
     
+    /* Animación del micrófono cuando está escuchando */
+    .grabando { background: #ffebee !important; color: #d32f2f !important; border-color: #ef9a9a !important; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
+
     .menu-persistente { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); display: flex; justify-content: space-around; padding: 0.5rem 0.2rem; border-top: 1px solid var(--borde); z-index: 100; overflow-x: auto; }
     .item-menu { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; font-size: 0.65rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px; border-radius: 40px; min-width: 60px; }
     .item-menu svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
@@ -71,7 +76,10 @@
 <div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
-  <input type="text" id="input" class="input-chat" placeholder="Escribe aquí..." autocomplete="off">
+  <button type="button" class="btn-microfono" id="btn-mic" title="Hablar por micrófono">
+    <svg width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+  </button>
+  <input type="text" id="input" class="input-chat" placeholder="Escribe o usa el micrófono..." autocomplete="off">
   <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
 </form>
 <div class="menu-persistente">
@@ -90,11 +98,11 @@
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
+  const btnMic = document.getElementById('btn-mic');
   const WORKER_URL = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/';
   
   let currentRole = "publico";
   let historial = []; 
-  
   const palabrasEmergencia = ["me va a matar", "cuchillo", "me está golpeando", "me va a pegar", "pistola", "me quiere matar", "auxilio", "socorro", "violando", "abusando de mí"];
 
   // ========== CONFIGURACIÓN INICIAL Y PREFERENCIAS ==========
@@ -158,34 +166,81 @@
   // ========== LECTURA EN VOZ ALTA CON BOTÓN DE DETENER ==========
   let vozActual = null;
   function toggleVoz(texto, boton) {
-    // Si ya está hablando, lo detenemos
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
-      // Restaurar todos los botones de audio
       document.querySelectorAll('.btn-audio').forEach(b => b.innerHTML = '🔊 Escuchar');
-      if (vozActual === boton) {
-        vozActual = null;
-        return;
-      }
+      if (vozActual === boton) { vozActual = null; return; }
     }
-
-    // Si el botón presionado no es el que estaba hablando, iniciamos nuevo
     vozActual = boton;
     boton.innerHTML = '⏹️ Detener';
-
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(texto);
       utterance.lang = 'es-ES';
-      // Evento cuando termina de hablar
-      utterance.onend = () => {
-        boton.innerHTML = '🔊 Escuchar';
-        if (vozActual === boton) vozActual = null;
-      };
+      utterance.onend = () => { boton.innerHTML = '🔊 Escuchar'; if (vozActual === boton) vozActual = null; };
       window.speechSynthesis.speak(utterance);
     } else {
       alert("Tu navegador no soporta lectura en voz alta.");
       boton.innerHTML = '🔊 Escuchar';
     }
+  }
+
+  // ========== DICTADO POR VOZ (RECONOCIMIENTO DE HABLA) ==========
+  let reconocimiento = null;
+  let escuchando = false;
+
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    reconocimiento = new SpeechRecognition();
+    reconocimiento.lang = 'es-EC'; // Español de Ecuador
+    reconocimiento.continuous = false;
+    reconocimiento.interimResults = false;
+
+    reconocimiento.onstart = () => {
+      escuchando = true;
+      btnMic.classList.add('grabando');
+      estadoDiv.textContent = "🎙️ Escuchando...";
+    };
+
+    reconocimiento.onresult = (event) => {
+      const texto = event.results[0][0].transcript;
+      input.value = texto;
+      // Enviar automáticamente después de dictar
+      setTimeout(() => {
+        if (input.value.trim() !== "") manejarInput(input.value.trim());
+        input.value = '';
+      }, 500);
+    };
+
+    reconocimiento.onerror = (event) => {
+      console.error("Error de micrófono:", event.error);
+      estadoDiv.textContent = "❌ Error al escuchar. Intenta de nuevo.";
+      escuchando = false;
+      btnMic.classList.remove('grabando');
+    };
+
+    reconocimiento.onend = () => {
+      escuchando = false;
+      btnMic.classList.remove('grabando');
+      estadoDiv.textContent = "✅ Conectado";
+    };
+
+    btnMic.onclick = () => {
+      if (escuchando) {
+        reconocimiento.stop();
+      } else {
+        // Detener cualquier voz que esté hablando antes de escuchar
+        window.speechSynthesis.cancel();
+        try {
+          reconocimiento.start();
+        } catch (e) {
+          reconocimiento.stop(); // Si hay un error de doble inicio, forzar detención
+        }
+      }
+    };
+  } else {
+    // Si el navegador no soporta dictado, ocultamos el botón
+    btnMic.style.display = 'none';
+    console.warn("Este navegador no soporta el reconocimiento de voz.");
   }
 
   // ========== MANEJO DE MENSAJES EN EL DOM ==========
@@ -197,7 +252,6 @@
     
     if (tipo === 'bot') {
       contenido = formatMarkdown(text);
-      
       const rolesPermitidos = ["abogado", "juez", "junta"];
       if (text.length > 300 && rolesPermitidos.includes(currentRole)) {
         const btnId = 'btn-dl-' + Date.now();
@@ -207,13 +261,10 @@
           if (btn) btn.onclick = () => generarWord(text, 'Documento_Legal');
         }, 50);
       }
-
-      // Botón de lectura con clase 'btn-audio' para identificarlos
       const audioId = 'btn-audio-' + Date.now();
       contenido += `<br><button id="${audioId}" class="btn-accion-mini btn-audio" title="Leer en voz alta">🔊 Escuchar</button>`;
       setTimeout(() => {
         const btnAudio = document.getElementById(audioId);
-        // Le pasamos el botón a la función para poder cambiar su texto
         if (btnAudio) btnAudio.onclick = () => toggleVoz(text, btnAudio);
       }, 50);
     }
@@ -343,7 +394,7 @@
 
   function limpiarChat() {
     if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
-    window.speechSynthesis.cancel(); // Detener voz si está hablando
+    window.speechSynthesis.cancel();
     chat.innerHTML = '';
     historial = [];
     addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
@@ -367,7 +418,8 @@
 
   document.getElementById('btn-limpiar').onclick = limpiarChat;
   document.getElementById('escape').onclick = () => {
-    window.speechSynthesis.cancel(); // Detener voz si está hablando
+    window.speechSynthesis.cancel();
+    if(reconocimiento) reconocimiento.stop();
     chat.innerHTML = '';
     historial = [];
     window.location.replace('https://www.google.com');
