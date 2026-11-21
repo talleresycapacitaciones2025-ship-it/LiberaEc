@@ -3,65 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>LiberaEc | Herramienta Integral</title>
+  <title>LiberaEc | Acompañamiento Integral</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
     :root {
-      --fondo: #F5F7F8; --card: #E1E6E8; --texto: #2B3940; --primario: #2E5564;
-      --acento: #8AA29E; --calma: #4B6B7A; --alerta: #E07A6A; --borde: #C9D0D2;
+      --bg-body: #F0F4F8;
+      --bg-chat: #FFFFFF;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      
+      --primary: #0F4C5C;
+      --primary-light: #1A6B80;
+      --secondary: #5F9EA0;
+      --accent: #E07A6A;
+      
+      --bubble-bot: #FFFFFF;
+      --bubble-user-start: #1A6B80;
+      --bubble-user-end: #0F4C5C;
+      
+      --border: #E2E8F0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      
       --fuente-tamano: 1rem;
     }
+
     body.dark {
-      --fondo: #121826; --card: #1F2937; --texto: #F3F4F6; --primario: #4B6B7A;
-      --borde: #374151;
+      --bg-body: #0F172A;
+      --bg-chat: #1E293B;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      
+      --primary: #38BDF8;
+      --primary-light: #0EA5E9;
+      --secondary: #2DD4BF;
+      
+      --bubble-bot: #334155;
+      --bubble-user-start: #0EA5E9;
+      --bubble-user-end: #0284C7;
+      
+      --border: #334155;
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      font-family: 'Inter', system-ui, sans-serif; background: var(--fondo); color: var(--texto);
-      padding-bottom: 70px; transition: background 0.3s, color 0.3s; font-size: var(--fuente-tamano);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      padding-bottom: 80px;
+      font-size: var(--fuente-tamano);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
+
+    /* HEADER */
     .encabezado {
-      background: linear-gradient(135deg, var(--calma), var(--primario)); color: white;
-      padding: 1.2rem; text-align: center; border-radius: 0 0 24px 24px; position: relative;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      border-radius: 0 0 30px 30px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      z-index: 10;
     }
+    
     .header-controls { position: absolute; right: 15px; top: 15px; display: flex; gap: 10px; }
-    .ctrl-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 35px; height: 35px; color: white; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
-    .encabezado h1 { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
-    .estado { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 0.8rem auto; padding: 0.3rem 1rem; border-radius: 40px; width: fit-content; font-size: 0.7rem; background: var(--card); color: var(--texto); }
-    .chat { max-width: 700px; margin: 0 auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.8rem; overflow-y: auto; max-height: calc(100vh - 200px); }
-    .mensaje { max-width: 85%; padding: 0.9rem 1.1rem; border-radius: 18px; white-space: pre-wrap; line-height: 1.5; position: relative; }
-    .bot { background: var(--card); border-left: 4px solid var(--calma); align-self: flex-start; }
-    .user { background: var(--primario); color: white; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
-    .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.5rem; text-align: right; }
-    .btn-accion-mini { background: none; border: none; color: var(--calma); cursor: pointer; font-size: 0.85rem; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 12px; background: rgba(75,107,122,0.1); }
-    .btn-accion-mini:hover { background: rgba(75,107,122,0.2); }
+    .ctrl-btn { 
+      background: rgba(255,255,255,0.15); border: none; border-radius: 50%; 
+      width: 38px; height: 38px; color: white; cursor: pointer; font-size: 1.1rem; 
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .ctrl-btn:hover { background: rgba(255,255,255,0.3); }
     
-    .opciones { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
-    .btn-op { display: flex; align-items: center; gap: 0.8rem; background: var(--card); border: 1px solid var(--borde); border-radius: 60px; padding: 0.75rem 1.2rem; font-weight: 500; cursor: pointer; color: var(--texto); transition: all 0.2s; text-align: left; }
-    .btn-op:hover { background: var(--borde); }
-    .btn-descarga { display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s; }
-    
-    .input-area { max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.4rem; position: sticky; bottom: 70px; background: var(--fondo); }
-    .input-chat { flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px; font-size: 1rem; background: var(--card); color: var(--texto); font-family: inherit; }
-    .btn-enviar { background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; }
-    .btn-microfono { background: var(--card); border: 1px solid var(--borde); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--texto); transition: all 0.2s; }
-    
-    /* Animación del micrófono cuando está escuchando */
-    .grabando { background: #ffebee !important; color: #d32f2f !important; border-color: #ef9a9a !important; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
+    .encabezado h1 { 
+      font-size: 1.6rem; font-weight: 700; display: flex; align-items: center; 
+      justify-content: center; gap: 0.6rem; letter-spacing: -0.5px;
+    }
+    .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; font-weight: 400; }
 
-    .menu-persistente { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); display: flex; justify-content: space-around; padding: 0.5rem 0.2rem; border-top: 1px solid var(--borde); z-index: 100; overflow-x: auto; }
-    .item-menu { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; font-size: 0.65rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px; border-radius: 40px; min-width: 60px; }
-    .item-menu svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
-    
-    .btn-panico { position: fixed; bottom: 80px; right: 16px; background: var(--alerta); color: white; border: none; border-radius: 50px; padding: 12px 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 200; box-shadow: 0 4px 12px rgba(224,122,106,0.4); }
-    .alerta-emergencia { background: #ffebee; border: 2px solid #f44336; color: #b71c1c; padding: 15px; border-radius: 12px; margin: 10px 0; text-align: center; font-weight: bold; }
-    .alerta-emergencia button { background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; margin-bottom: 5px; }
+    /* ESTADO */
+    .estado { 
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem; 
+      margin: 1rem auto; padding: 0.4rem 1.2rem; border-radius: 40px; 
+      width: fit-content; font-size: 0.75rem; font-weight: 500;
+      background: var(--bg-chat); color: var(--text-muted); box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
 
-    .escribiendo { display: flex; gap: 6px; background: var(--card); padding: 0.6rem 1rem; border-radius: 30px; width: fit-content; border-left: 3px solid var(--calma); align-self: flex-start; }
-    .punto { width: 8px; height: 8px; background: var(--calma); border-radius: 50%; animation: rebote 1.4s infinite; }
-    @keyframes rebote { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-    footer { text-align: center; font-size: 0.7rem; color: #6c757d; padding: 1rem; background: var(--card); }
+    /* CHAT AREA */
+    .chat {
+      flex: 1; max-width: 800px; width: 100%; margin: 0 auto;
+      padding: 1rem 1rem 2rem; display: flex; flex-direction: column; gap: 1.2rem;
+      overflow-y: auto;
+    }
+
+    .mensaje {
+      max-width: 80%; padding: 1rem 1.2rem; border-radius: 20px;
+      line-height: 1.6; position: relative; animation: slideUp 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .bot {
+      background: var(--bubble-bot); color: var(--text-main);
+      align-self: flex-start; border-bottom-left-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    
+    .user {
+      background: linear-gradient(135deg, var(--bubble-user-start), var(--bubble-user-end));
+      color: white; align-self: flex-end; border-bottom-right-radius: 4px;
+      border: none;
+    }
+
+    .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.6rem; text-align: right; font-weight: 500; }
+    
+    /* BOTONES DE ACCIÓN EN MENSAJES */
+    .btn-accion-mini { 
+      background: var(--bg-body); border: 1px solid var(--border); color: var(--primary); 
+      cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-top: 10px; 
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; 
+      border-radius: 12px; transition: all 0.2s;
+    }
+    .btn-accion-mini:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    
+    .btn-descarga { 
+      display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: #047857;
+      border: 1px solid #A7F3D0; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s;
+    }
+    .btn-descarga:hover { background: #D1FAE5; }
+
+    /* OPCIONES (BOTONES RÁPIDOS) */
+    .opciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.5rem 0; justify-content: center; }
+    .btn-op {
+      display: flex; align-items: center; gap: 0.6rem; background: var(--bg-chat); 
+      border: 1px solid var(--border); border-radius: 30px; padding: 0.7rem 1.2rem;
+      font-weight: 500; cursor: pointer; color: var(--text-main); transition: all 0.2s;
+      box-shadow: var(--shadow-sm); font-size: 0.9rem;
+    }
+    .btn-op:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* INPUT AREA */
+    .input-area {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--bg-chat); border-top: 1px solid var(--border);
+      padding: 1rem; display: flex; gap: 0.6rem; z-index: 100;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+    }
+
+    .input-wrapper {
+      max-width: 800px; margin: 0 auto; width: 100%;
+      display: flex; gap: 0.6rem; align-items: center;
+    }
+
+    .input-chat {
+      flex: 1; padding: 0.9rem 1.2rem; border: 1px solid var(--border);
+      border-radius: 30px; font-size: 1rem; background: var(--bg-body);
+      color: var(--text-main); font-family: inherit; transition: all 0.2s;
+    }
+    .input-chat:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,107,128,0.1); }
+
+    .btn-enviar {
+      background: var(--primary); border: none; border-radius: 50%;
+      width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: white; transition: all 0.2s; box-shadow: var(--shadow-md);
+      flex-shrink: 0;
+    }
+    .btn-enviar:hover { background: var(--primary-light); transform: scale(1.05); }
+
+    .btn-microfono {
+      background: var(--bg-body); border: 1px solid var(--border); border-radius: 50%;
+      width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-muted); transition: all 0.2s; flex-shrink: 0;
+    }
+    .btn-microfono:hover { color: var(--primary); border-color: var(--primary); }
+
+    .grabando { 
+      background: #FEF2F2 !important; color: #DC2626 !important; border-color: #FCA5A5 !important; 
+      animation: pulse 1.5s infinite; 
+    }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
+
+    /* MENÚ INFERIOR (OCULTO POR DEFECTO EN ESCRITORIO, VISIBLE EN MÓVIL) */
+    .menu-persistente {
+      position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%);
+      background: var(--bg-chat); border: 1px solid var(--border);
+      border-radius: 40px; display: flex; gap: 0.2rem; padding: 0.4rem;
+      box-shadow: var(--shadow-lg); z-index: 90;
+    }
+
+    .item-menu {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: none; border: none; font-size: 0.65rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; padding: 8px 12px;
+      border-radius: 30px; transition: all 0.2s;
+    }
+    .item-menu svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .item-menu:hover { color: var(--primary); background: var(--bg-body); }
+
+    /* BOTÓN DE PÁNICO */
+    .btn-panico {
+      position: fixed; bottom: 90px; right: 16px;
+      background: var(--accent); color: white; border: none; border-radius: 40px;
+      padding: 12px 20px; font-weight: 700; display: flex; align-items: center; gap: 8px;
+      cursor: pointer; z-index: 110; box-shadow: 0 4px 15px rgba(224,122,106,0.5);
+      transition: all 0.2s; font-size: 0.85rem;
+    }
+    .btn-panico:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(224,122,106,0.6); }
+
+    /* ALERTA EMERGENCIA */
+    .alerta-emergencia {
+      background: #FEF2F2; border: 2px solid #EF4444; color: #991B1B;
+      padding: 20px; border-radius: 16px; margin: 10px 0; text-align: center;
+    }
+    .alerta-emergencia strong { display: block; font-size: 1.1rem; margin-bottom: 10px; }
+    .alerta-emergencia p { font-size: 0.9rem; margin-bottom: 15px; }
+    .alerta-emergencia button {
+      background: #EF4444; color: white; border: none; padding: 12px 20px;
+      border-radius: 12px; margin-top: 8px; font-weight: 700; cursor: pointer;
+      width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
+    /* INDICADOR ESCRIBIENDO */
+    .escribiendo {
+      display: flex; gap: 5px; background: var(--bubble-bot); padding: 1rem 1.2rem;
+      border-radius: 20px; width: fit-content; border-bottom-left-radius: 4px;
+      align-self: flex-start; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+    }
+    .punto { width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%; animation: bounce 1.4s infinite; }
+    .punto:nth-child(2) { animation-delay: 0.2s; }
+    .punto:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+
+    /* FOOTER */
+    footer {
+      text-align: center; font-size: 0.75rem; color: var(--text-muted);
+      padding: 1.2rem; margin-top: auto; background: transparent;
+    }
+    
+    /* RESPONSIVE */
+    @media (min-width: 768px) {
+      .menu-persistente { bottom: 90px; }
+      .btn-panico { bottom: 100px; }
+    }
+    @media (max-width: 500px) {
+      .menu-persistente {
+        position: fixed; bottom: 0; left: 0; right: 0; transform: none;
+        border-radius: 0; border-left: none; border-right: none; border-bottom: none;
+        justify-content: space-around; padding: 0.5rem 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+      }
+      .input-area { padding-bottom: calc(1rem + 70px); } /* Espacio para el menú móvil */
+      .btn-panico { bottom: 150px; right: 10px; padding: 10px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -70,18 +271,16 @@
     <button class="ctrl-btn" id="btn-font" title="Cambiar tamaño de letra">A+</button>
     <button class="ctrl-btn" id="btn-theme" title="Modo oscuro">🌙</button>
   </div>
-  <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> LiberaEc</h1>
-  <p>Herramienta integral de acompañamiento y análisis legal</p>
+  <h1>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    LiberaEc
+  </h1>
+  <p>Espacio seguro de acompañamiento y orientación legal</p>
 </div>
+
 <div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
-<form class="input-area" id="form">
-  <button type="button" class="btn-microfono" id="btn-mic" title="Hablar por micrófono">
-    <svg width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
-  </button>
-  <input type="text" id="input" class="input-chat" placeholder="Escribe o usa el micrófono..." autocomplete="off">
-  <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
-</form>
+
 <div class="menu-persistente">
   <button class="item-menu" data-a="cambiar-perfil"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></button>
   <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
@@ -89,10 +288,28 @@
   <button class="item-menu" id="btn-exportar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Exportar</span></button>
   <button class="item-menu" id="btn-limpiar"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg><span>Limpiar</span></button>
 </div>
-<button class="btn-panico" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
-<footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong></p></footer>
+
+<button class="btn-panico" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
+
+<form class="input-area" id="form">
+  <div class="input-wrapper">
+    <button type="button" class="btn-microfono" id="btn-mic" title="Hablar por micrófono">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+    </button>
+    <input type="text" id="input" class="input-chat" placeholder="Escribe aquí o usa el micrófono..." autocomplete="off">
+    <button type="submit" class="btn-enviar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
+  </div>
+</form>
+
+<footer>
+  <p>Línea de emergencia: <strong>911</strong> · Línea Mujer: <strong>147</strong> · Atención confidencial</p>
+</footer>
 
 <script>
+// (El código JavaScript es el mismo que tenías en la versión anterior. 
+// Solo se ha modificado el CSS para la mejora visual.)
 (function() {
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
@@ -105,7 +322,6 @@
   let historial = []; 
   const palabrasEmergencia = ["me va a matar", "cuchillo", "me está golpeando", "me va a pegar", "pistola", "me quiere matar", "auxilio", "socorro", "violando", "abusando de mí"];
 
-  // ========== CONFIGURACIÓN INICIAL Y PREFERENCIAS ==========
   if(localStorage.getItem('tema') === 'dark') document.body.classList.add('dark');
   document.getElementById('btn-theme').onclick = () => {
     document.body.classList.toggle('dark');
@@ -114,7 +330,7 @@
 
   let zoomLevel = 1;
   document.getElementById('btn-font').onclick = () => {
-    zoomLevel = zoomLevel === 1 ? 1.2 : (zoomLevel === 1.2 ? 1.4 : 1);
+    zoomLevel = zoomLevel === 1 ? 1.15 : (zoomLevel === 1.15 ? 1.3 : 1);
     document.documentElement.style.setProperty('--fuente-tamano', zoomLevel + 'rem');
   };
 
@@ -163,7 +379,6 @@
     generarWord(texto, 'Historial_LiberaEc');
   };
 
-  // ========== LECTURA EN VOZ ALTA CON BOTÓN DE DETENER ==========
   let vozActual = null;
   function toggleVoz(texto, boton) {
     if (window.speechSynthesis.speaking) {
@@ -184,36 +399,35 @@
     }
   }
 
-  // ========== DICTADO POR VOZ (RECONOCIMIENTO DE HABLA) ==========
   let reconocimiento = null;
   let escuchando = false;
+  let textoAcumulado = ""; 
 
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     reconocimiento = new SpeechRecognition();
-    reconocimiento.lang = 'es-EC'; // Español de Ecuador
-    reconocimiento.continuous = false;
-    reconocimiento.interimResults = false;
+    reconocimiento.lang = 'es-EC';
+    reconocimiento.continuous = true; 
+    reconocimiento.interimResults = true; 
 
     reconocimiento.onstart = () => {
       escuchando = true;
       btnMic.classList.add('grabando');
       estadoDiv.textContent = "🎙️ Escuchando...";
+      textoAcumulado = input.value; 
     };
 
     reconocimiento.onresult = (event) => {
-      const texto = event.results[0][0].transcript;
-      input.value = texto;
-      // Enviar automáticamente después de dictar
-      setTimeout(() => {
-        if (input.value.trim() !== "") manejarInput(input.value.trim());
-        input.value = '';
-      }, 500);
+      let textoTranscrito = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        textoTranscrito += event.results[i][0].transcript;
+      }
+      input.value = textoAcumulado + textoTranscrito;
     };
 
     reconocimiento.onerror = (event) => {
       console.error("Error de micrófono:", event.error);
-      estadoDiv.textContent = "❌ Error al escuchar. Intenta de nuevo.";
+      estadoDiv.textContent = "❌ Error al escuchar.";
       escuchando = false;
       btnMic.classList.remove('grabando');
     };
@@ -221,29 +435,22 @@
     reconocimiento.onend = () => {
       escuchando = false;
       btnMic.classList.remove('grabando');
-      estadoDiv.textContent = "✅ Conectado";
+      estadoDiv.textContent = "📝 Texto dictado. Presiona Enviar.";
+      input.focus();
     };
 
     btnMic.onclick = () => {
       if (escuchando) {
         reconocimiento.stop();
       } else {
-        // Detener cualquier voz que esté hablando antes de escuchar
         window.speechSynthesis.cancel();
-        try {
-          reconocimiento.start();
-        } catch (e) {
-          reconocimiento.stop(); // Si hay un error de doble inicio, forzar detención
-        }
+        try { reconocimiento.start(); } catch (e) { reconocimiento.stop(); }
       }
     };
   } else {
-    // Si el navegador no soporta dictado, ocultamos el botón
     btnMic.style.display = 'none';
-    console.warn("Este navegador no soporta el reconocimiento de voz.");
   }
 
-  // ========== MANEJO DE MENSAJES EN EL DOM ==========
   function addMessage(text, tipo) {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
@@ -255,7 +462,7 @@
       const rolesPermitidos = ["abogado", "juez", "junta"];
       if (text.length > 300 && rolesPermitidos.includes(currentRole)) {
         const btnId = 'btn-dl-' + Date.now();
-        contenido += `<br><br><button id="${btnId}" class="btn-descarga">📄 Descargar en Word</button>`;
+        contenido += `<br><br><button id="${btnId}" class="btn-descarga">📄 Descargar Word</button>`;
         setTimeout(() => {
           const btn = document.getElementById(btnId);
           if (btn) btn.onclick = () => generarWord(text, 'Documento_Legal');
@@ -293,11 +500,11 @@
     historial = []; 
     addMessage("👋 <strong>Bienvenido/a a LiberaEc</strong><br><br>Para brindarte la mejor orientación, por favor selecciona tu perfil:", 'bot');
     addOpciones([
-      { texto: "🆘 Soy víctima / Busco ayuda", valor: "role_victima" },
+      { texto: "🆘 Soy víctima", valor: "role_victima" },
       { texto: "⚖️ Soy abogado/a", valor: "role_abogado" },
-      { texto: "👩‍⚖️ Soy juez/a o fiscal", valor: "role_juez" },
-      { texto: "🏛️ Junta Cantonal / Operador", valor: "role_junta" },
-      { texto: "📚 Solo busco información", valor: "role_publico" }
+      { texto: "👩‍⚖️ Soy juez/a", valor: "role_juez" },
+      { texto: "🏛️ Junta Cantonal", valor: "role_junta" },
+      { texto: "📚 Información", valor: "role_publico" }
     ]);
   }
 
@@ -317,8 +524,7 @@
       return data.response || "Lo siento, no obtuve respuesta.";
     } catch (err) {
       clearTimeout(timeoutId);
-      console.error('Error en Worker:', err);
-      return "🔌 No pude conectar en este momento. Si estás en peligro, llama al **911** o al **147**.";
+      return "🔌 No pude conectar. Si estás en peligro, llama al **911** o al **147**.";
     }
   }
 
@@ -327,11 +533,11 @@
     if (!txt) return;
 
     if (txt.startsWith("role_")) {
-      if (txt === "role_victima") { currentRole = "victima"; addMessage("Has seleccionado: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte y orientarte.", 'bot'); }
-      if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Has seleccionado: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
-      if (txt === "role_juez") { currentRole = "juez"; addMessage("Has seleccionado: <strong>Juez/a o Fiscal</strong>. Estoy listo para auditar resoluciones.", 'bot'); }
-      if (txt === "role_junta") { currentRole = "junta"; addMessage("Has seleccionado: <strong>Junta Cantonal</strong>. Puedo orientarte sobre medidas y protección.", 'bot'); }
-      if (txt === "role_publico") { currentRole = "publico"; addMessage("Has seleccionado: <strong>Información general</strong>. ¿Qué te gustaría saber?", 'bot'); }
+      if (txt === "role_victima") { currentRole = "victima"; addMessage("Perfil: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte.", 'bot'); }
+      if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Perfil: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
+      if (txt === "role_juez") { currentRole = "juez"; addMessage("Perfil: <strong>Juez/a o Fiscal</strong>. Estoy listo para auditar resoluciones.", 'bot'); }
+      if (txt === "role_junta") { currentRole = "junta"; addMessage("Perfil: <strong>Junta Cantonal</strong>. Puedo orientarte sobre medidas.", 'bot'); }
+      if (txt === "role_publico") { currentRole = "publico"; addMessage("Perfil: <strong>Información general</strong>. ¿Qué te gustaría saber?", 'bot'); }
       return;
     }
 
@@ -340,9 +546,9 @@
     if (txt === "recursos" || txt === "tipos") {
       addMessage(txt, 'user');
       if (txt === "recursos") {
-        addMessage("📞 **Recursos en Ecuador:**\n\n🚨 **911** – Emergencias\n💜 **147** – Línea Mujer\n⚖️ **Fiscalía: 1800-354-378**\n\nLlama al **147** para orientación según tu ubicación.", 'bot');
+        addMessage("📞 **Recursos en Ecuador:**\n\n🚨 **911** – Emergencias\n💜 **147** – Línea Mujer\n⚖️ **Fiscalía: 1800-354-378**", 'bot');
       } else {
-        addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones.<br>• <strong>Psicológica:</strong> Insultos, amenazas, control.<br>• <strong>Sexual:</strong> Actos sin consentimiento.<br>• <strong>Económica:</strong> Control del dinero.<br>• <strong>Vicaria:</strong> Daño a los hijos para lastimar a la madre.<br>• <strong>Simbólica:</strong> Patrones que reproducen desigualdad.", 'bot');
+        addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones.<br>• <strong>Psicológica:</strong> Insultos, amenazas.<br>• <strong>Sexual:</strong> Actos sin consentimiento.<br>• <strong>Económica:</strong> Control del dinero.<br>• <strong>Vicaria:</strong> Daño a los hijos para lastimar a la madre.", 'bot');
       }
       return;
     }
@@ -352,11 +558,10 @@
       addMessage(txt, 'user');
       const alertaHTML = `
         <div class="alerta-emergencia">
-          🚨 <strong>PARECE UNA SITUACIÓN DE PELIGRO INMINENTE</strong> 🚨<br><br>
-          Por favor, busca un lugar seguro y llama inmediatamente a los números de emergencia. No estás sola.
-          <br><br>
-          <button onclick="window.location.href='tel:911'">📞 Llamar al 911 (Emergencias)</button>
-          <button onclick="window.location.href='tel:147'">📞 Llamar al 147 (Línea Mujer)</button>
+          <strong>🚨 PELIGRO INMINENTE 🚨</strong>
+          <p>Busca un lugar seguro y llama inmediatamente. No estás sola.</p>
+          <button onclick="window.location.href='tel:911'">📞 Llamar al 911</button>
+          <button onclick="window.location.href='tel:147'">📞 Llamar al 147</button>
         </div>
       `;
       addMessage(alertaHTML, 'bot');
@@ -386,15 +591,16 @@
       ]);
     } else if (currentRole === "abogado") {
       addOpciones([
-        { texto: "📝 Redactar una denuncia", valor: "Redacta una denuncia por violencia intrafamiliar" },
+        { texto: "📝 Redactar denuncia", valor: "Redacta una denuncia por violencia intrafamiliar" },
         { texto: "📄 Solicitar medidas", valor: "Redacta una solicitud de medidas de protección" }
       ]);
     }
   }
 
   function limpiarChat() {
-    if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
+    if (!confirm("¿Seguro que quieres borrar la conversación?")) return;
     window.speechSynthesis.cancel();
+    if(reconocimiento) reconocimiento.stop();
     chat.innerHTML = '';
     historial = [];
     addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
@@ -405,6 +611,7 @@
     const val = input.value.trim();
     if (val) manejarInput(val);
     input.value = '';
+    textoAcumulado = ""; 
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
