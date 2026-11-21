@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>LiberaEc | Acompañamiento seguro</title>
+  <title>LiberaEc | Herramienta Integral</title>
   <style>
     :root {
       --fondo: #F5F7F8;
@@ -67,162 +67,67 @@
       white-space: pre-wrap;
       line-height: 1.5;
     }
-    .bot {
-      background: white;
-      border-left: 4px solid var(--calma);
-      align-self: flex-start;
-    }
-    .user {
-      background: var(--primario);
-      color: white;
-      align-self: flex-end;
-      border-radius: 18px 18px 4px 18px;
-    }
+    .bot { background: white; border-left: 4px solid var(--calma); align-self: flex-start; }
+    .user { background: var(--primario); color: white; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
     .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.5rem; text-align: right; }
+    
     .opciones { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
     .btn-op {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: white;
-      border: 1px solid var(--borde);
-      border-radius: 60px;
-      padding: 0.75rem 1.2rem;
-      font-weight: 500;
-      cursor: pointer;
-      color: var(--texto);
-      transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.8rem; background: white; border: 1px solid var(--borde);
+      border-radius: 60px; padding: 0.75rem 1.2rem; font-weight: 500; cursor: pointer; color: var(--texto); transition: all 0.2s;
     }
     .btn-op:hover { background: var(--card); border-color: var(--calma); }
-    
-    /* ESTILO PARA EL BOTÓN DE DESCARGA */
+
     .btn-descarga {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #e8f5e9;
-      color: #2e7d32;
-      border: 1px solid #a5d6a7;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 0.8rem;
-      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32;
+      border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem;
+      font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s;
     }
     .btn-descarga:hover { background: #c8e6c9; }
 
     .input-area {
-      max-width: 700px;
-      margin: 0 auto 1rem;
-      padding: 0 1rem;
-      display: flex;
-      gap: 0.6rem;
-      position: sticky;
-      bottom: 70px;
-      background: var(--fondo);
+      max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.6rem;
+      position: sticky; bottom: 70px; background: var(--fondo);
     }
     .input-chat {
-      flex: 1;
-      padding: 0.85rem 1.2rem;
-      border: 1px solid var(--borde);
-      border-radius: 60px;
-      font-size: 1rem;
-      background: white;
-      font-family: inherit;
+      flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px;
+      font-size: 1rem; background: white; font-family: inherit;
     }
     .input-chat:focus { outline: none; border-color: var(--calma); }
     .btn-enviar {
-      background: var(--primario);
-      border: none;
-      border-radius: 60px;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: white;
-      transition: background 0.2s;
+      background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: background 0.2s;
     }
     .btn-enviar:hover { background: var(--calma); }
+    
     .menu-persistente {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0.8rem;
-      border-top: 1px solid var(--borde);
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 0.5rem 0.8rem;
+      border-top: 1px solid var(--borde); z-index: 100;
     }
     .item-menu {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--texto);
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 40px;
-      transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none;
+      font-size: 0.7rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px;
+      border-radius: 40px; transition: all 0.2s;
     }
     .item-menu svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
     .item-menu:hover { color: var(--calma); background: var(--card); }
+    
     .btn-escape {
-      position: fixed;
-      bottom: 80px;
-      right: 16px;
-      background: var(--alerta);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 18px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      z-index: 200;
-      transition: transform 0.2s, background 0.2s;
+      position: fixed; bottom: 80px; right: 16px; background: var(--alerta); color: white;
+      border: none; border-radius: 50px; padding: 12px 18px; font-weight: bold; display: flex;
+      align-items: center; gap: 8px; cursor: pointer; z-index: 200; transition: transform 0.2s, background 0.2s;
     }
     .btn-escape:hover { background: #c0392b; transform: scale(1.02); }
+    
     .escribiendo {
-      display: flex;
-      gap: 6px;
-      background: white;
-      padding: 0.6rem 1rem;
-      border-radius: 30px;
-      width: fit-content;
-      border-left: 3px solid var(--calma);
-      align-self: flex-start;
+      display: flex; gap: 6px; background: white; padding: 0.6rem 1rem; border-radius: 30px;
+      width: fit-content; border-left: 3px solid var(--calma); align-self: flex-start;
     }
-    .punto {
-      width: 8px;
-      height: 8px;
-      background: var(--calma);
-      border-radius: 50%;
-      animation: rebote 1.4s infinite;
-    }
-    @keyframes rebote {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
-    }
-    footer {
-      text-align: center;
-      font-size: 0.7rem;
-      color: #6c757d;
-      padding: 1rem;
-      background: white;
-    }
+    .punto { width: 8px; height: 8px; background: var(--calma); border-radius: 50%; animation: rebote 1.4s infinite; }
+    @keyframes rebote { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    
+    footer { text-align: center; font-size: 0.7rem; color: #6c757d; padding: 1rem; background: white; }
   </style>
 </head>
 <body>
@@ -233,12 +138,12 @@
     </svg>
     LiberaEc
   </h1>
-  <p>Acompañamiento tranquilo, confidencial y seguro · Ecuador</p>
+  <p>Herramienta integral de acompañamiento y análisis legal</p>
 </div>
 <div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
-  <input type="text" id="input" class="input-chat" placeholder="Escribe aquí, con confianza..." autocomplete="off">
+  <input type="text" id="input" class="input-chat" placeholder="Escribe aquí..." autocomplete="off">
   <button type="submit" class="btn-enviar">
     <svg width="20" viewBox="0 0 24 24" fill="none" stroke="white">
       <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -246,40 +151,13 @@
   </button>
 </form>
 <div class="menu-persistente">
-  <button class="item-menu" data-a="tipos">
-    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    <span>Tipos</span>
-  </button>
-  <button class="item-menu" data-a="recursos">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-    <span>Recursos</span>
-  </button>
-  <button class="item-menu" data-a="test">
-    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2"/><path d="M9 12h6M9 16h6"/></svg>
-    <span>Test</span>
-  </button>
-  <button class="item-menu" data-a="privacidad">
-    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    <span>Privacidad</span>
-  </button>
-  <button class="item-menu" data-a="salir">
-    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-    <span>Salir</span>
-  </button>
-  <button class="item-menu" id="btn-limpiar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/>
-    </svg>
-    <span>Limpiar</span>
-  </button>
+  <button class="item-menu" data-a="cambiar-perfil"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></button>
+  <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
+  <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
+  <button class="item-menu" id="btn-limpiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg><span>Limpiar</span></button>
 </div>
-<button class="btn-escape" id="escape">
-  <svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  <span>Salir rápido</span>
-</button>
-<footer>
-  <p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p>
-</footer>
+<button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
+<footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p></footer>
 
 <script>
 (function() {
@@ -288,26 +166,14 @@
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
 
-  // URL de tu Worker
   const WORKER_URL = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/';
-
-  let testActivo = false;
-  let testRespuestas = [];
-  let testIndice = 0;
-
-  const preguntasTest = [
-    { q: "🧩 <strong>Pregunta 1/6</strong><br><br>¿Tu pareja o familiar <strong>controla tus horarios, redes sociales o dinero</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 2/6</strong><br><br>¿<strong>Recibes insultos, humillaciones o amenazas</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 3/6</strong><br><br>¿Te <strong>alejan de amistades o familiares</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 4/6</strong><br><br>¿Has recibido <strong>empujones, golpes o algún daño físico</strong>?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 5/6</strong><br><br>¿Te <strong>obligan a hacer algo que no quieres</strong> (sexual o económicamente)?", opciones: ["Sí", "No", "No estoy segura"] },
-    { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
-  ];
+  
+  // Variable global para el perfil actual (por defecto: público general)
+  let currentRole = "publico";
 
   function scrollToBottom() { chat.scrollTop = chat.scrollHeight; }
 
   let escribiendoElement = null;
-
   function mostrarEscribiendo(show) {
     if (show && !escribiendoElement) {
       escribiendoElement = document.createElement('div');
@@ -323,21 +189,15 @@
 
   function formatMarkdown(text) {
     let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    formatted = formatted.replace(/^###\s+(.*)$/gm, '<strong>$1</strong>');
-    formatted = formatted.replace(/^##\s+(.*)$/gm, '<strong>$1</strong>');
     formatted = formatted.replace(/\n/g, '<br>');
     return formatted;
   }
 
-  // Función para generar y descargar el archivo de Word
   function descargarWord(textoPlano) {
-    // Cabecera HTML para que Word lo reconozca
     const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento</title></head><body>`;
     const footer = "</body></html>";
-    // Convertimos los saltos de línea a párrafos de HTML
     const content = textoPlano.split('\n').map(p => `<p>${p}</p>`).join('');
     const html = header + content + footer;
-    
     const blob = new Blob([html], { type: 'application/msword' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -353,35 +213,23 @@
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
     let contenido = text;
+    
     if (tipo === 'bot') {
       contenido = formatMarkdown(text);
-      
-      // Si la respuesta es larga (ej. un escrito judicial), añadir botón de descarga
       if (text.length > 300) {
-        // Creamos un ID único para este botón
         const btnId = 'btn-dl-' + Date.now();
         contenido += `<br><br><button id="${btnId}" class="btn-descarga">📄 Descargar en Word</button>`;
-        
-        // Añadimos el mensaje al DOM
         div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
         chat.appendChild(div);
-        
-        // Asignamos el evento al botón recién creado
         setTimeout(() => {
           const btn = document.getElementById(btnId);
-          if (btn) {
-            // Guardamos el texto original en el evento del botón
-            btn.onclick = () => descargarWord(text);
-          }
+          if (btn) btn.onclick = () => descargarWord(text);
         }, 50);
-        
         scrollToBottom();
         return;
       }
     }
-    
     div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
     scrollToBottom();
@@ -393,7 +241,7 @@
     lista.forEach(op => {
       const btn = document.createElement('button');
       btn.className = 'btn-op';
-      btn.innerHTML = `📌 ${op.texto}`;
+      btn.innerHTML = op.texto;
       btn.onclick = () => manejarInput(op.valor, true);
       wrap.appendChild(btn);
     });
@@ -401,37 +249,28 @@
     scrollToBottom();
   }
 
-  function mostrarPreguntaTest() {
-    if (testIndice >= preguntasTest.length) {
-      const totalSi = testRespuestas.filter(r => r === "Sí").length;
-      let resultado = "";
-      if (totalSi === 0) resultado = "✅ <strong>No se identificaron señales de violencia.</strong> Recuerda que siempre puedes buscar apoyo si algo te preocupa.";
-      else if (totalSi <= 2) resultado = "⚠️ <strong>Hay algunas señales de alerta.</strong> Te recomendamos hablar con alguien de confianza o llamar al <strong>147</strong> para orientación.";
-      else resultado = "🆘 <strong>Has identificado varias señales de violencia.</strong> No estás sola. Llama al <strong>147</strong> (Ministerio de la Mujer) para recibir ayuda profesional gratuita.";
-      addMessage(`📋 <strong>Resultado del test</strong><br><br>${resultado}<br><br>💜 Recuerda: <strong>la violencia nunca es tu culpa.</strong>`, 'bot');
-      addOpciones([
-        { texto: "📞 Ver recursos de ayuda", valor: "recursos" },
-        { texto: "📚 Tipos de violencia", valor: "tipos" }
-      ]);
-      testActivo = false;
-      testRespuestas = [];
-      testIndice = 0;
-      return;
-    }
-    const pregunta = preguntasTest[testIndice];
-    addMessage(pregunta.q, 'bot');
-    const opcionesBotones = pregunta.opciones.map(opt => ({ texto: opt, valor: opt }));
-    addOpciones(opcionesBotones);
+  // PANTALLA DE SELECCIÓN DE PERFIL
+  function mostrarMenuPerfiles() {
+    chat.innerHTML = '';
+    addMessage("👋 <strong>Bienvenido/a a LiberaEc</strong><br><br>Para brindarte la mejor orientación, por favor selecciona tu perfil:", 'bot');
+    addOpciones([
+      { texto: "🆘 Soy víctima / Busco ayuda", valor: "role_victima" },
+      { texto: "⚖️ Soy abogado/a", valor: "role_abogado" },
+      { texto: "👩‍⚖️ Soy juez/a o fiscal", valor: "role_juez" },
+      { texto: "🏛️ Junta Cantonal / Operador", valor: "role_junta" },
+      { texto: "📚 Solo busco información", valor: "role_publico" }
+    ]);
   }
 
   async function obtenerRespuestaWorker(mensaje) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 40000); // Subimos el timeout a 40s
+    const timeoutId = setTimeout(() => controller.abort(), 40000);
     try {
       const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: mensaje }),
+        // Enviamos el mensaje Y el rol actual
+        body: JSON.stringify({ message: mensaje, role: currentRole }),
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -441,7 +280,7 @@
     } catch (err) {
       clearTimeout(timeoutId);
       console.error('Error en Worker:', err);
-      return "🔌 No pude conectar en este momento. Puedes intentarlo de nuevo o, si necesitas hablar con alguien ahora, llama al **147** (Línea Mujer) o al **911** si estás en peligro.";
+      return "🔌 No pude conectar en este momento. Si estás en peligro, llama al **911** o al **147**.";
     }
   }
 
@@ -449,20 +288,18 @@
     const txt = texto.trim();
     if (!txt) return;
 
-    if (testActivo && (txt === "Sí" || txt === "No" || txt === "No estoy segura")) {
-      addMessage(txt, 'user');
-      testRespuestas.push(txt);
-      testIndice++;
-      mostrarPreguntaTest();
+    // Manejo de selección de perfiles
+    if (txt.startsWith("role_")) {
+      if (txt === "role_victima") { currentRole = "victima"; addMessage("Has seleccionado: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte y orientarte.", 'bot'); }
+      if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Has seleccionado: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
+      if (txt === "role_juez") { currentRole = "juez"; addMessage("Has seleccionado: <strong>Juez/a o Fiscal</strong>. Estoy listo para auditar resoluciones y sentencias.", 'bot'); }
+      if (txt === "role_junta") { currentRole = "junta"; addMessage("Has seleccionado: <strong>Junta Cantonal</strong>. Puedo orientarte sobre medidas de protección.", 'bot'); }
+      if (txt === "role_publico") { currentRole = "publico"; addMessage("Has seleccionado: <strong>Información general</strong>. ¿Qué te gustaría saber?", 'bot'); }
       return;
     }
 
-    if (txt.toLowerCase() === "test") {
-      addMessage(txt, 'user');
-      testActivo = true;
-      testRespuestas = [];
-      testIndice = 0;
-      mostrarPreguntaTest();
+    if (txt === "cambiar-perfil") {
+      mostrarMenuPerfiles();
       return;
     }
 
@@ -477,6 +314,12 @@
       addMessage(mensajeRecursos, 'bot');
       return;
     }
+    
+    if (txt === "tipos") {
+       addMessage(txt, 'user');
+       addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones, daño corporal.<br>• <strong>Psicológica:</strong> Insultos, amenazas, humillaciones, control.<br>• <strong>Sexual:</strong> Cualquier acto sexual sin consentimiento.<br>• <strong>Económica/Patrimonial:</strong> Control del dinero, destrucción de bienes.<br>• <strong>Vicaria:</strong> Daño a los hijos o seres queridos para lastimar a la madre.<br>• <strong>Simbólica:</strong> Mensajes o patrones que reproducen desigualdad.", 'bot');
+       return;
+    }
 
     addMessage(txt, 'user');
     mostrarEscribiendo(true);
@@ -490,19 +333,10 @@
   }
 
   function limpiarChat() {
-    if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
+    if (!confirm("¿Seguro que quieres borrar la conversación?")) return;
     chat.innerHTML = '';
-    testActivo = false;
-    testRespuestas = [];
-    testIndice = 0;
-    addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
-    addOpciones([
-      { texto: "📚 Tipos de violencia", valor: "tipos" },
-      { texto: "📞 Recursos Ecuador", valor: "recursos" },
-      { texto: "🔒 Privacidad", valor: "privacidad" },
-      { texto: "🧩 Test interactivo", valor: "test" }
-    ]);
-    estadoDiv.textContent = "✅ Conectado";
+    // Mantenemos el perfil actual, solo reiniciamos el chat visual
+    addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
   }
 
   form.onsubmit = (e) => {
@@ -514,25 +348,22 @@
 
   document.querySelectorAll('.item-menu').forEach(btn => {
     if (btn.id !== 'btn-limpiar') {
-      btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
+      btn.onclick = () => {
+         const accion = btn.getAttribute('data-a');
+         if(accion) manejarInput(accion);
+      };
     }
   });
 
   document.getElementById('btn-limpiar').onclick = limpiarChat;
-
   document.getElementById('escape').onclick = () => {
     document.body.style.opacity = '0.8';
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
+  // Iniciar mostrando el menú de perfiles
   function init() {
-    addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
-    addOpciones([
-      { texto: "📚 Tipos de violencia", valor: "tipos" },
-      { texto: "📞 Recursos Ecuador", valor: "recursos" },
-      { texto: "🔒 Privacidad", valor: "privacidad" },
-      { texto: "🧩 Test interactivo", valor: "test" }
-    ]);
+    mostrarMenuPerfiles();
     estadoDiv.textContent = "✅ Conectado";
   }
 
