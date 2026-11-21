@@ -33,30 +33,26 @@
     .bot { background: var(--card); border-left: 4px solid var(--calma); align-self: flex-start; }
     .user { background: var(--primario); color: white; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
     .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.5rem; text-align: right; }
-    .btn-accion-mini { background: none; border: none; color: var(--calma); cursor: pointer; font-size: 1.2rem; margin-top: 8px; display: block; }
+    .btn-accion-mini { background: none; border: none; color: var(--calma); cursor: pointer; font-size: 0.85rem; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 12px; background: rgba(75,107,122,0.1); }
+    .btn-accion-mini:hover { background: rgba(75,107,122,0.2); }
     
-    /* Estilos de opciones y botones */
     .opciones { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
     .btn-op { display: flex; align-items: center; gap: 0.8rem; background: var(--card); border: 1px solid var(--borde); border-radius: 60px; padding: 0.75rem 1.2rem; font-weight: 500; cursor: pointer; color: var(--texto); transition: all 0.2s; text-align: left; }
     .btn-op:hover { background: var(--borde); }
     .btn-descarga { display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s; }
     
-    /* Área de input */
     .input-area { max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.6rem; position: sticky; bottom: 70px; background: var(--fondo); }
     .input-chat { flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px; font-size: 1rem; background: var(--card); color: var(--texto); font-family: inherit; }
     .btn-enviar { background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; }
     
-    /* Menú */
     .menu-persistente { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); display: flex; justify-content: space-around; padding: 0.5rem 0.2rem; border-top: 1px solid var(--borde); z-index: 100; overflow-x: auto; }
     .item-menu { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; font-size: 0.65rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px; border-radius: 40px; min-width: 60px; }
     .item-menu svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
     
-    /* Botones flotantes de pánico y emergencia */
     .btn-panico { position: fixed; bottom: 80px; right: 16px; background: var(--alerta); color: white; border: none; border-radius: 50px; padding: 12px 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 200; box-shadow: 0 4px 12px rgba(224,122,106,0.4); }
     .alerta-emergencia { background: #ffebee; border: 2px solid #f44336; color: #b71c1c; padding: 15px; border-radius: 12px; margin: 10px 0; text-align: center; font-weight: bold; }
-    .alerta-emergencia button { background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
+    .alerta-emergencia button { background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; margin-bottom: 5px; }
 
-    /* Animaciones */
     .escribiendo { display: flex; gap: 6px; background: var(--card); padding: 0.6rem 1rem; border-radius: 30px; width: fit-content; border-left: 3px solid var(--calma); align-self: flex-start; }
     .punto { width: 8px; height: 8px; background: var(--calma); border-radius: 50%; animation: rebote 1.4s infinite; }
     @keyframes rebote { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
@@ -97,9 +93,8 @@
   const WORKER_URL = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/';
   
   let currentRole = "publico";
-  let historial = []; // Memoria conversacional
+  let historial = []; 
   
-  // Palabras clave de emergencia (Detección de peligro inminente)
   const palabrasEmergencia = ["me va a matar", "cuchillo", "me está golpeando", "me va a pegar", "pistola", "me quiere matar", "auxilio", "socorro", "violando", "abusando de mí"];
 
   // ========== CONFIGURACIÓN INICIAL Y PREFERENCIAS ==========
@@ -137,7 +132,6 @@
     return formatted;
   }
 
-  // ========== FUNCIONES DE DESCARGA (WORD Y EXPORTAR TODO) ==========
   function generarWord(textoPlano, nombreArchivo) {
     const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento</title></head><body>`;
     const footer = "</body></html>";
@@ -161,14 +155,36 @@
     generarWord(texto, 'Historial_LiberaEc');
   };
 
-  // ========== LECTURA EN VOZ ALTA (ACCESIBILIDAD) ==========
-  function leerEnVozAlta(texto) {
+  // ========== LECTURA EN VOZ ALTA CON BOTÓN DE DETENER ==========
+  let vozActual = null;
+  function toggleVoz(texto, boton) {
+    // Si ya está hablando, lo detenemos
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      // Restaurar todos los botones de audio
+      document.querySelectorAll('.btn-audio').forEach(b => b.innerHTML = '🔊 Escuchar');
+      if (vozActual === boton) {
+        vozActual = null;
+        return;
+      }
+    }
+
+    // Si el botón presionado no es el que estaba hablando, iniciamos nuevo
+    vozActual = boton;
+    boton.innerHTML = '⏹️ Detener';
+
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(texto);
       utterance.lang = 'es-ES';
+      // Evento cuando termina de hablar
+      utterance.onend = () => {
+        boton.innerHTML = '🔊 Escuchar';
+        if (vozActual === boton) vozActual = null;
+      };
       window.speechSynthesis.speak(utterance);
     } else {
       alert("Tu navegador no soporta lectura en voz alta.");
+      boton.innerHTML = '🔊 Escuchar';
     }
   }
 
@@ -182,7 +198,6 @@
     if (tipo === 'bot') {
       contenido = formatMarkdown(text);
       
-      // Botón de descarga (solo si el rol es legal y el texto es largo)
       const rolesPermitidos = ["abogado", "juez", "junta"];
       if (text.length > 300 && rolesPermitidos.includes(currentRole)) {
         const btnId = 'btn-dl-' + Date.now();
@@ -193,12 +208,13 @@
         }, 50);
       }
 
-      // Botón de lectura en voz alta
+      // Botón de lectura con clase 'btn-audio' para identificarlos
       const audioId = 'btn-audio-' + Date.now();
-      contenido += `<br><button id="${audioId}" class="btn-accion-mini" title="Leer en voz alta">🔊 Escuchar</button>`;
+      contenido += `<br><button id="${audioId}" class="btn-accion-mini btn-audio" title="Leer en voz alta">🔊 Escuchar</button>`;
       setTimeout(() => {
         const btnAudio = document.getElementById(audioId);
-        if (btnAudio) btnAudio.onclick = () => leerEnVozAlta(text);
+        // Le pasamos el botón a la función para poder cambiar su texto
+        if (btnAudio) btnAudio.onclick = () => toggleVoz(text, btnAudio);
       }, 50);
     }
     
@@ -223,7 +239,7 @@
 
   function mostrarMenuPerfiles() {
     chat.innerHTML = '';
-    historial = []; // Reiniciar memoria al cambiar de perfil
+    historial = []; 
     addMessage("👋 <strong>Bienvenido/a a LiberaEc</strong><br><br>Para brindarte la mejor orientación, por favor selecciona tu perfil:", 'bot');
     addOpciones([
       { texto: "🆘 Soy víctima / Busco ayuda", valor: "role_victima" },
@@ -234,7 +250,6 @@
     ]);
   }
 
-  // ========== LLAMADA AL WORKER ==========
   async function obtenerRespuestaWorker(mensaje) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 40000);
@@ -242,7 +257,7 @@
       const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: mensaje, role: currentRole, history: historial }), // Enviamos historial
+        body: JSON.stringify({ message: mensaje, role: currentRole, history: historial }),
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -256,12 +271,10 @@
     }
   }
 
-  // ========== LÓGICA PRINCIPAL DE INPUT ==========
   async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
 
-    // 1. Manejo de perfiles
     if (txt.startsWith("role_")) {
       if (txt === "role_victima") { currentRole = "victima"; addMessage("Has seleccionado: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte y orientarte.", 'bot'); }
       if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Has seleccionado: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
@@ -273,7 +286,6 @@
 
     if (txt === "cambiar-perfil") { mostrarMenuPerfiles(); return; }
 
-    // 2. Atajos del menú
     if (txt === "recursos" || txt === "tipos") {
       addMessage(txt, 'user');
       if (txt === "recursos") {
@@ -284,7 +296,6 @@
       return;
     }
 
-    // 3. DETECCIÓN DE EMERGENCIAS (Palabras clave)
     const esEmergencia = palabrasEmergencia.some(p => txt.toLowerCase().includes(p));
     if (esEmergencia) {
       addMessage(txt, 'user');
@@ -294,19 +305,17 @@
           Por favor, busca un lugar seguro y llama inmediatamente a los números de emergencia. No estás sola.
           <br><br>
           <button onclick="window.location.href='tel:911'">📞 Llamar al 911 (Emergencias)</button>
-          <br><br>
           <button onclick="window.location.href='tel:147'">📞 Llamar al 147 (Línea Mujer)</button>
         </div>
       `;
       addMessage(alertaHTML, 'bot');
       historial.push({ role: "user", content: txt });
       historial.push({ role: "assistant", content: "Se detectó emergencia. Se mostraron números de auxilio." });
-      return; // Detenemos el flujo normal para no consultar a la IA
+      return;
     }
 
-    // 4. Flujo normal con IA
     addMessage(txt, 'user');
-    historial.push({ role: "user", content: txt }); // Guardar en memoria
+    historial.push({ role: "user", content: txt });
     
     mostrarEscribiendo(true);
     estadoDiv.textContent = "⏳ Analizando...";
@@ -316,11 +325,9 @@
     mostrarEscribiendo(false);
     estadoDiv.textContent = "✅ Conectado";
     
-    // Guardar respuesta en memoria
     historial.push({ role: "assistant", content: respuesta });
     addMessage(respuesta, 'bot');
 
-    // 5. Quick Replies (Sugerencias post-respuesta)
     if (currentRole === "victima") {
       addOpciones([
         { texto: "📞 Ver recursos", valor: "recursos" },
@@ -334,9 +341,9 @@
     }
   }
 
-  // ========== BOTONES DE LIMPIEZA Y PÁNICO ==========
   function limpiarChat() {
     if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
+    window.speechSynthesis.cancel(); // Detener voz si está hablando
     chat.innerHTML = '';
     historial = [];
     addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
@@ -360,13 +367,12 @@
 
   document.getElementById('btn-limpiar').onclick = limpiarChat;
   document.getElementById('escape').onclick = () => {
-    // Salida rápida: Borra el DOM y redirige
+    window.speechSynthesis.cancel(); // Detener voz si está hablando
     chat.innerHTML = '';
     historial = [];
     window.location.replace('https://www.google.com');
   };
 
-  // ========== INICIO ==========
   function init() {
     mostrarMenuPerfiles();
     estadoDiv.textContent = "✅ Conectado";
