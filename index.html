@@ -6,158 +6,87 @@
   <title>LiberaEc | Herramienta Integral</title>
   <style>
     :root {
-      --fondo: #F5F7F8;
-      --card: #E1E6E8;
-      --texto: #2B3940;
-      --primario: #2E5564;
-      --acento: #8AA29E;
-      --calma: #4B6B7A;
-      --alerta: #E07A6A;
-      --borde: #C9D0D2;
+      --fondo: #F5F7F8; --card: #E1E6E8; --texto: #2B3940; --primario: #2E5564;
+      --acento: #8AA29E; --calma: #4B6B7A; --alerta: #E07A6A; --borde: #C9D0D2;
+      --fuente-tamano: 1rem;
+    }
+    body.dark {
+      --fondo: #121826; --card: #1F2937; --texto: #F3F4F6; --primario: #4B6B7A;
+      --borde: #374151;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--fondo);
-      color: var(--texto);
-      padding-bottom: 70px;
+      font-family: 'Inter', system-ui, sans-serif; background: var(--fondo); color: var(--texto);
+      padding-bottom: 70px; transition: background 0.3s, color 0.3s; font-size: var(--fuente-tamano);
     }
     .encabezado {
-      background: linear-gradient(135deg, var(--calma), var(--primario));
-      color: white;
-      padding: 1.2rem;
-      text-align: center;
-      border-radius: 0 0 24px 24px;
+      background: linear-gradient(135deg, var(--calma), var(--primario)); color: white;
+      padding: 1.2rem; text-align: center; border-radius: 0 0 24px 24px; position: relative;
     }
-    .encabezado h1 {
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
+    .header-controls { position: absolute; right: 15px; top: 15px; display: flex; gap: 10px; }
+    .ctrl-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 35px; height: 35px; color: white; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+    .encabezado h1 { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
-    .estado {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin: 0.8rem auto;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      width: fit-content;
-      font-size: 0.7rem;
-      background: var(--card);
-      color: var(--texto);
-    }
-    .chat {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      overflow-y: auto;
-      max-height: calc(100vh - 200px);
-    }
-    .mensaje {
-      max-width: 85%;
-      padding: 0.9rem 1.1rem;
-      border-radius: 18px;
-      white-space: pre-wrap;
-      line-height: 1.5;
-    }
-    .bot { background: white; border-left: 4px solid var(--calma); align-self: flex-start; }
+    .estado { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 0.8rem auto; padding: 0.3rem 1rem; border-radius: 40px; width: fit-content; font-size: 0.7rem; background: var(--card); color: var(--texto); }
+    .chat { max-width: 700px; margin: 0 auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.8rem; overflow-y: auto; max-height: calc(100vh - 200px); }
+    .mensaje { max-width: 85%; padding: 0.9rem 1.1rem; border-radius: 18px; white-space: pre-wrap; line-height: 1.5; position: relative; }
+    .bot { background: var(--card); border-left: 4px solid var(--calma); align-self: flex-start; }
     .user { background: var(--primario); color: white; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
     .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.5rem; text-align: right; }
+    .btn-accion-mini { background: none; border: none; color: var(--calma); cursor: pointer; font-size: 1.2rem; margin-top: 8px; display: block; }
     
+    /* Estilos de opciones y botones */
     .opciones { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
-    .btn-op {
-      display: flex; align-items: center; gap: 0.8rem; background: white; border: 1px solid var(--borde);
-      border-radius: 60px; padding: 0.75rem 1.2rem; font-weight: 500; cursor: pointer; color: var(--texto); transition: all 0.2s;
-    }
-    .btn-op:hover { background: var(--card); border-color: var(--calma); }
+    .btn-op { display: flex; align-items: center; gap: 0.8rem; background: var(--card); border: 1px solid var(--borde); border-radius: 60px; padding: 0.75rem 1.2rem; font-weight: 500; cursor: pointer; color: var(--texto); transition: all 0.2s; text-align: left; }
+    .btn-op:hover { background: var(--borde); }
+    .btn-descarga { display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s; }
+    
+    /* Área de input */
+    .input-area { max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.6rem; position: sticky; bottom: 70px; background: var(--fondo); }
+    .input-chat { flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px; font-size: 1rem; background: var(--card); color: var(--texto); font-family: inherit; }
+    .btn-enviar { background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; }
+    
+    /* Menú */
+    .menu-persistente { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); display: flex; justify-content: space-around; padding: 0.5rem 0.2rem; border-top: 1px solid var(--borde); z-index: 100; overflow-x: auto; }
+    .item-menu { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; font-size: 0.65rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px; border-radius: 40px; min-width: 60px; }
+    .item-menu svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
+    
+    /* Botones flotantes de pánico y emergencia */
+    .btn-panico { position: fixed; bottom: 80px; right: 16px; background: var(--alerta); color: white; border: none; border-radius: 50px; padding: 12px 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 200; box-shadow: 0 4px 12px rgba(224,122,106,0.4); }
+    .alerta-emergencia { background: #ffebee; border: 2px solid #f44336; color: #b71c1c; padding: 15px; border-radius: 12px; margin: 10px 0; text-align: center; font-weight: bold; }
+    .alerta-emergencia button { background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 10px; font-weight: bold; cursor: pointer; }
 
-    .btn-descarga {
-      display: inline-flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32;
-      border: 1px solid #a5d6a7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem;
-      font-weight: 600; cursor: pointer; margin-top: 0.8rem; transition: all 0.2s;
-    }
-    .btn-descarga:hover { background: #c8e6c9; }
-
-    .input-area {
-      max-width: 700px; margin: 0 auto 1rem; padding: 0 1rem; display: flex; gap: 0.6rem;
-      position: sticky; bottom: 70px; background: var(--fondo);
-    }
-    .input-chat {
-      flex: 1; padding: 0.85rem 1.2rem; border: 1px solid var(--borde); border-radius: 60px;
-      font-size: 1rem; background: white; font-family: inherit;
-    }
-    .input-chat:focus { outline: none; border-color: var(--calma); }
-    .btn-enviar {
-      background: var(--primario); border: none; border-radius: 60px; width: 48px; height: 48px;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: background 0.2s;
-    }
-    .btn-enviar:hover { background: var(--calma); }
-    
-    .menu-persistente {
-      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 0.5rem 0.8rem;
-      border-top: 1px solid var(--borde); z-index: 100;
-    }
-    .item-menu {
-      display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none;
-      font-size: 0.7rem; font-weight: 500; color: var(--texto); cursor: pointer; padding: 6px 10px;
-      border-radius: 40px; transition: all 0.2s;
-    }
-    .item-menu svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
-    .item-menu:hover { color: var(--calma); background: var(--card); }
-    
-    .btn-escape {
-      position: fixed; bottom: 80px; right: 16px; background: var(--alerta); color: white;
-      border: none; border-radius: 50px; padding: 12px 18px; font-weight: bold; display: flex;
-      align-items: center; gap: 8px; cursor: pointer; z-index: 200; transition: transform 0.2s, background 0.2s;
-    }
-    .btn-escape:hover { background: #c0392b; transform: scale(1.02); }
-    
-    .escribiendo {
-      display: flex; gap: 6px; background: white; padding: 0.6rem 1rem; border-radius: 30px;
-      width: fit-content; border-left: 3px solid var(--calma); align-self: flex-start;
-    }
+    /* Animaciones */
+    .escribiendo { display: flex; gap: 6px; background: var(--card); padding: 0.6rem 1rem; border-radius: 30px; width: fit-content; border-left: 3px solid var(--calma); align-self: flex-start; }
     .punto { width: 8px; height: 8px; background: var(--calma); border-radius: 50%; animation: rebote 1.4s infinite; }
     @keyframes rebote { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-    
-    footer { text-align: center; font-size: 0.7rem; color: #6c757d; padding: 1rem; background: white; }
+    footer { text-align: center; font-size: 0.7rem; color: #6c757d; padding: 1rem; background: var(--card); }
   </style>
 </head>
 <body>
 <div class="encabezado">
-  <h1>
-    <svg width="28" viewBox="0 0 24 24" fill="none" stroke="white">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-    </svg>
-    LiberaEc
-  </h1>
+  <div class="header-controls">
+    <button class="ctrl-btn" id="btn-font" title="Cambiar tamaño de letra">A+</button>
+    <button class="ctrl-btn" id="btn-theme" title="Modo oscuro">🌙</button>
+  </div>
+  <h1><svg width="28" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> LiberaEc</h1>
   <p>Herramienta integral de acompañamiento y análisis legal</p>
 </div>
 <div id="estado" class="estado">☁️ Conectando...</div>
 <main class="chat" id="chat"></main>
 <form class="input-area" id="form">
   <input type="text" id="input" class="input-chat" placeholder="Escribe aquí..." autocomplete="off">
-  <button type="submit" class="btn-enviar">
-    <svg width="20" viewBox="0 0 24 24" fill="none" stroke="white">
-      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-    </svg>
-  </button>
+  <button type="submit" class="btn-enviar"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
 </form>
 <div class="menu-persistente">
   <button class="item-menu" data-a="cambiar-perfil"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></button>
   <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
   <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
-  <button class="item-menu" id="btn-limpiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg><span>Limpiar</span></button>
+  <button class="item-menu" id="btn-exportar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Exportar</span></button>
+  <button class="item-menu" id="btn-limpiar"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg><span>Limpiar</span></button>
 </div>
-<button class="btn-escape" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
-<footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong> · Información confidencial</p></footer>
+<button class="btn-panico" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
+<footer><p>Emergencia: <strong>911</strong> · Línea Mujer <strong>147</strong></p></footer>
 
 <script>
 (function() {
@@ -165,10 +94,26 @@
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
-
   const WORKER_URL = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/';
   
   let currentRole = "publico";
+  let historial = []; // Memoria conversacional
+  
+  // Palabras clave de emergencia (Detección de peligro inminente)
+  const palabrasEmergencia = ["me va a matar", "cuchillo", "me está golpeando", "me va a pegar", "pistola", "me quiere matar", "auxilio", "socorro", "violando", "abusando de mí"];
+
+  // ========== CONFIGURACIÓN INICIAL Y PREFERENCIAS ==========
+  if(localStorage.getItem('tema') === 'dark') document.body.classList.add('dark');
+  document.getElementById('btn-theme').onclick = () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('tema', document.body.classList.contains('dark') ? 'dark' : 'light');
+  };
+
+  let zoomLevel = 1;
+  document.getElementById('btn-font').onclick = () => {
+    zoomLevel = zoomLevel === 1 ? 1.2 : (zoomLevel === 1.2 ? 1.4 : 1);
+    document.documentElement.style.setProperty('--fuente-tamano', zoomLevel + 'rem');
+  };
 
   function scrollToBottom() { chat.scrollTop = chat.scrollHeight; }
 
@@ -192,7 +137,8 @@
     return formatted;
   }
 
-  function descargarWord(textoPlano) {
+  // ========== FUNCIONES DE DESCARGA (WORD Y EXPORTAR TODO) ==========
+  function generarWord(textoPlano, nombreArchivo) {
     const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento</title></head><body>`;
     const footer = "</body></html>";
     const content = textoPlano.split('\n').map(p => `<p>${p}</p>`).join('');
@@ -201,13 +147,32 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Documento_LiberaEc.doc';
+    a.download = nombreArchivo + '.doc';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
 
+  document.getElementById('btn-exportar').onclick = () => {
+    if (historial.length === 0) return alert("No hay conversación para exportar.");
+    let texto = "=== HISTORIAL DE CONVERSACIÓN - LIBERAEC ===\n\n";
+    historial.forEach(msg => { texto += `[${msg.role.toUpperCase()}]: ${msg.content}\n\n`; });
+    generarWord(texto, 'Historial_LiberaEc');
+  };
+
+  // ========== LECTURA EN VOZ ALTA (ACCESIBILIDAD) ==========
+  function leerEnVozAlta(texto) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = 'es-ES';
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Tu navegador no soporta lectura en voz alta.");
+    }
+  }
+
+  // ========== MANEJO DE MENSAJES EN EL DOM ==========
   function addMessage(text, tipo) {
     const div = document.createElement('div');
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
@@ -217,20 +182,24 @@
     if (tipo === 'bot') {
       contenido = formatMarkdown(text);
       
-      // Mostrar botón de descarga SOLO si el rol es abogado, juez o junta
+      // Botón de descarga (solo si el rol es legal y el texto es largo)
       const rolesPermitidos = ["abogado", "juez", "junta"];
       if (text.length > 300 && rolesPermitidos.includes(currentRole)) {
         const btnId = 'btn-dl-' + Date.now();
         contenido += `<br><br><button id="${btnId}" class="btn-descarga">📄 Descargar en Word</button>`;
-        div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
-        chat.appendChild(div);
         setTimeout(() => {
           const btn = document.getElementById(btnId);
-          if (btn) btn.onclick = () => descargarWord(text);
+          if (btn) btn.onclick = () => generarWord(text, 'Documento_Legal');
         }, 50);
-        scrollToBottom();
-        return;
       }
+
+      // Botón de lectura en voz alta
+      const audioId = 'btn-audio-' + Date.now();
+      contenido += `<br><button id="${audioId}" class="btn-accion-mini" title="Leer en voz alta">🔊 Escuchar</button>`;
+      setTimeout(() => {
+        const btnAudio = document.getElementById(audioId);
+        if (btnAudio) btnAudio.onclick = () => leerEnVozAlta(text);
+      }, 50);
     }
     
     div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
@@ -254,6 +223,7 @@
 
   function mostrarMenuPerfiles() {
     chat.innerHTML = '';
+    historial = []; // Reiniciar memoria al cambiar de perfil
     addMessage("👋 <strong>Bienvenido/a a LiberaEc</strong><br><br>Para brindarte la mejor orientación, por favor selecciona tu perfil:", 'bot');
     addOpciones([
       { texto: "🆘 Soy víctima / Busco ayuda", valor: "role_victima" },
@@ -264,6 +234,7 @@
     ]);
   }
 
+  // ========== LLAMADA AL WORKER ==========
   async function obtenerRespuestaWorker(mensaje) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 40000);
@@ -271,7 +242,7 @@
       const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: mensaje, role: currentRole }),
+        body: JSON.stringify({ message: mensaje, role: currentRole, history: historial }), // Enviamos historial
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -285,40 +256,58 @@
     }
   }
 
+  // ========== LÓGICA PRINCIPAL DE INPUT ==========
   async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
 
+    // 1. Manejo de perfiles
     if (txt.startsWith("role_")) {
       if (txt === "role_victima") { currentRole = "victima"; addMessage("Has seleccionado: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte y orientarte.", 'bot'); }
       if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Has seleccionado: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
-      if (txt === "role_juez") { currentRole = "juez"; addMessage("Has seleccionado: <strong>Juez/a o Fiscal</strong>. Estoy listo para auditar resoluciones y sentencias.", 'bot'); }
-      if (txt === "role_junta") { currentRole = "junta"; addMessage("Has seleccionado: <strong>Junta Cantonal</strong>. Puedo orientarte sobre medidas de protección.", 'bot'); }
+      if (txt === "role_juez") { currentRole = "juez"; addMessage("Has seleccionado: <strong>Juez/a o Fiscal</strong>. Estoy listo para auditar resoluciones.", 'bot'); }
+      if (txt === "role_junta") { currentRole = "junta"; addMessage("Has seleccionado: <strong>Junta Cantonal</strong>. Puedo orientarte sobre medidas y protección.", 'bot'); }
       if (txt === "role_publico") { currentRole = "publico"; addMessage("Has seleccionado: <strong>Información general</strong>. ¿Qué te gustaría saber?", 'bot'); }
       return;
     }
 
     if (txt === "cambiar-perfil") { mostrarMenuPerfiles(); return; }
 
-    if (txt === "recursos") {
+    // 2. Atajos del menú
+    if (txt === "recursos" || txt === "tipos") {
       addMessage(txt, 'user');
-      const mensajeRecursos = "📞 **Recursos disponibles en Ecuador:**\n\n" +
-                              "🚨 **911** – Emergencias (peligro inminente)\n" +
-                              "💜 **147** – Línea Mujer (orientación gratuita)\n" +
-                              "⚖️ **Fiscalía: 1800-354-378** – Para denuncias\n\n" +
-                              "⚠️ Actualmente no contamos con una lista de centros de apoyo presenciales o recursos en línea verificados. Por favor, llama al **147** para que te orienten según tu ubicación.\n\n" +
-                              "No estás sola. ¿Necesitas ayuda con otro tema?";
-      addMessage(mensajeRecursos, 'bot');
+      if (txt === "recursos") {
+        addMessage("📞 **Recursos en Ecuador:**\n\n🚨 **911** – Emergencias\n💜 **147** – Línea Mujer\n⚖️ **Fiscalía: 1800-354-378**\n\nLlama al **147** para orientación según tu ubicación.", 'bot');
+      } else {
+        addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones.<br>• <strong>Psicológica:</strong> Insultos, amenazas, control.<br>• <strong>Sexual:</strong> Actos sin consentimiento.<br>• <strong>Económica:</strong> Control del dinero.<br>• <strong>Vicaria:</strong> Daño a los hijos para lastimar a la madre.<br>• <strong>Simbólica:</strong> Patrones que reproducen desigualdad.", 'bot');
+      }
       return;
     }
-    
-    if (txt === "tipos") {
-       addMessage(txt, 'user');
-       addMessage("📚 <strong>Tipos de violencia:</strong><br><br>• <strong>Física:</strong> Golpes, empujones, daño corporal.<br>• <strong>Psicológica:</strong> Insultos, amenazas, humillaciones, control.<br>• <strong>Sexual:</strong> Cualquier acto sexual sin consentimiento.<br>• <strong>Económica/Patrimonial:</strong> Control del dinero, destrucción de bienes.<br>• <strong>Vicaria:</strong> Daño a los hijos o seres queridos para lastimar a la madre.<br>• <strong>Simbólica:</strong> Mensajes o patrones que reproducen desigualdad.", 'bot');
-       return;
+
+    // 3. DETECCIÓN DE EMERGENCIAS (Palabras clave)
+    const esEmergencia = palabrasEmergencia.some(p => txt.toLowerCase().includes(p));
+    if (esEmergencia) {
+      addMessage(txt, 'user');
+      const alertaHTML = `
+        <div class="alerta-emergencia">
+          🚨 <strong>PARECE UNA SITUACIÓN DE PELIGRO INMINENTE</strong> 🚨<br><br>
+          Por favor, busca un lugar seguro y llama inmediatamente a los números de emergencia. No estás sola.
+          <br><br>
+          <button onclick="window.location.href='tel:911'">📞 Llamar al 911 (Emergencias)</button>
+          <br><br>
+          <button onclick="window.location.href='tel:147'">📞 Llamar al 147 (Línea Mujer)</button>
+        </div>
+      `;
+      addMessage(alertaHTML, 'bot');
+      historial.push({ role: "user", content: txt });
+      historial.push({ role: "assistant", content: "Se detectó emergencia. Se mostraron números de auxilio." });
+      return; // Detenemos el flujo normal para no consultar a la IA
     }
 
+    // 4. Flujo normal con IA
     addMessage(txt, 'user');
+    historial.push({ role: "user", content: txt }); // Guardar en memoria
+    
     mostrarEscribiendo(true);
     estadoDiv.textContent = "⏳ Analizando...";
 
@@ -326,12 +315,30 @@
 
     mostrarEscribiendo(false);
     estadoDiv.textContent = "✅ Conectado";
+    
+    // Guardar respuesta en memoria
+    historial.push({ role: "assistant", content: respuesta });
     addMessage(respuesta, 'bot');
+
+    // 5. Quick Replies (Sugerencias post-respuesta)
+    if (currentRole === "victima") {
+      addOpciones([
+        { texto: "📞 Ver recursos", valor: "recursos" },
+        { texto: "🧩 Hacer el test", valor: "tipos" }
+      ]);
+    } else if (currentRole === "abogado") {
+      addOpciones([
+        { texto: "📝 Redactar una denuncia", valor: "Redacta una denuncia por violencia intrafamiliar" },
+        { texto: "📄 Solicitar medidas", valor: "Redacta una solicitud de medidas de protección" }
+      ]);
+    }
   }
 
+  // ========== BOTONES DE LIMPIEZA Y PÁNICO ==========
   function limpiarChat() {
-    if (!confirm("¿Seguro que quieres borrar la conversación?")) return;
+    if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
     chat.innerHTML = '';
+    historial = [];
     addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
   }
 
@@ -343,7 +350,7 @@
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    if (btn.id !== 'btn-limpiar') {
+    if (btn.id !== 'btn-limpiar' && btn.id !== 'btn-exportar') {
       btn.onclick = () => {
          const accion = btn.getAttribute('data-a');
          if(accion) manejarInput(accion);
@@ -353,10 +360,13 @@
 
   document.getElementById('btn-limpiar').onclick = limpiarChat;
   document.getElementById('escape').onclick = () => {
-    document.body.style.opacity = '0.8';
-    setTimeout(() => location.href = 'https://www.google.com', 150);
+    // Salida rápida: Borra el DOM y redirige
+    chat.innerHTML = '';
+    historial = [];
+    window.location.replace('https://www.google.com');
   };
 
+  // ========== INICIO ==========
   function init() {
     mostrarMenuPerfiles();
     estadoDiv.textContent = "✅ Conectado";
