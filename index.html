@@ -168,7 +168,6 @@
 
   const WORKER_URL = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/';
   
-  // Variable global para el perfil actual (por defecto: público general)
   let currentRole = "publico";
 
   function scrollToBottom() { chat.scrollTop = chat.scrollHeight; }
@@ -217,7 +216,10 @@
     
     if (tipo === 'bot') {
       contenido = formatMarkdown(text);
-      if (text.length > 300) {
+      
+      // Mostrar botón de descarga SOLO si el rol es abogado, juez o junta
+      const rolesPermitidos = ["abogado", "juez", "junta"];
+      if (text.length > 300 && rolesPermitidos.includes(currentRole)) {
         const btnId = 'btn-dl-' + Date.now();
         contenido += `<br><br><button id="${btnId}" class="btn-descarga">📄 Descargar en Word</button>`;
         div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
@@ -230,6 +232,7 @@
         return;
       }
     }
+    
     div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
     scrollToBottom();
@@ -249,7 +252,6 @@
     scrollToBottom();
   }
 
-  // PANTALLA DE SELECCIÓN DE PERFIL
   function mostrarMenuPerfiles() {
     chat.innerHTML = '';
     addMessage("👋 <strong>Bienvenido/a a LiberaEc</strong><br><br>Para brindarte la mejor orientación, por favor selecciona tu perfil:", 'bot');
@@ -269,7 +271,6 @@
       const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // Enviamos el mensaje Y el rol actual
         body: JSON.stringify({ message: mensaje, role: currentRole }),
         signal: controller.signal
       });
@@ -288,7 +289,6 @@
     const txt = texto.trim();
     if (!txt) return;
 
-    // Manejo de selección de perfiles
     if (txt.startsWith("role_")) {
       if (txt === "role_victima") { currentRole = "victima"; addMessage("Has seleccionado: <strong>Víctima / Busco ayuda</strong>. Estoy aquí para escucharte y orientarte.", 'bot'); }
       if (txt === "role_abogado") { currentRole = "abogado"; addMessage("Has seleccionado: <strong>Abogado/a</strong>. Puedo ayudarte a redactar escritos y analizar casos.", 'bot'); }
@@ -298,10 +298,7 @@
       return;
     }
 
-    if (txt === "cambiar-perfil") {
-      mostrarMenuPerfiles();
-      return;
-    }
+    if (txt === "cambiar-perfil") { mostrarMenuPerfiles(); return; }
 
     if (txt === "recursos") {
       addMessage(txt, 'user');
@@ -335,7 +332,6 @@
   function limpiarChat() {
     if (!confirm("¿Seguro que quieres borrar la conversación?")) return;
     chat.innerHTML = '';
-    // Mantenemos el perfil actual, solo reiniciamos el chat visual
     addMessage("🔄 Conversación reiniciada. ¿En qué puedo ayudarte ahora?", 'bot');
   }
 
@@ -361,7 +357,6 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  // Iniciar mostrando el menú de perfiles
   function init() {
     mostrarMenuPerfiles();
     estadoDiv.textContent = "✅ Conectado";
