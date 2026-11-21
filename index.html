@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>LiberaEc | Acompañamiento seguro</title>
   <style>
-    /* ========== ESTILOS (sin cambios) ========== */
     :root {
       --fondo: #F5F7F8;
       --card: #E1E6E8;
@@ -16,11 +15,7 @@
       --alerta: #E07A6A;
       --borde: #C9D0D2;
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--fondo);
@@ -41,11 +36,7 @@
       justify-content: center;
       gap: 0.5rem;
     }
-    .encabezado p {
-      font-size: 0.85rem;
-      opacity: 0.9;
-      margin-top: 0.2rem;
-    }
+    .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
     .estado {
       display: flex;
       align-items: center;
@@ -87,18 +78,8 @@
       align-self: flex-end;
       border-radius: 18px 18px 4px 18px;
     }
-    .tiempo {
-      font-size: 0.65rem;
-      opacity: 0.7;
-      margin-top: 0.5rem;
-      text-align: right;
-    }
-    .opciones {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin: 0.5rem 0;
-    }
+    .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.5rem; text-align: right; }
+    .opciones { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
     .btn-op {
       display: flex;
       align-items: center;
@@ -112,10 +93,7 @@
       color: var(--texto);
       transition: all 0.2s;
     }
-    .btn-op:hover {
-      background: var(--card);
-      border-color: var(--calma);
-    }
+    .btn-op:hover { background: var(--card); border-color: var(--calma); }
     .input-area {
       max-width: 700px;
       margin: 0 auto 1rem;
@@ -135,10 +113,7 @@
       background: white;
       font-family: inherit;
     }
-    .input-chat:focus {
-      outline: none;
-      border-color: var(--calma);
-    }
+    .input-chat:focus { outline: none; border-color: var(--calma); }
     .btn-enviar {
       background: var(--primario);
       border: none;
@@ -152,9 +127,7 @@
       color: white;
       transition: background 0.2s;
     }
-    .btn-enviar:hover {
-      background: var(--calma);
-    }
+    .btn-enviar:hover { background: var(--calma); }
     .menu-persistente {
       position: fixed;
       bottom: 0;
@@ -183,16 +156,8 @@
       border-radius: 40px;
       transition: all 0.2s;
     }
-    .item-menu svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-      fill: none;
-    }
-    .item-menu:hover {
-      color: var(--calma);
-      background: var(--card);
-    }
+    .item-menu svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
+    .item-menu:hover { color: var(--calma); background: var(--card); }
     .btn-escape {
       position: fixed;
       bottom: 80px;
@@ -210,10 +175,7 @@
       z-index: 200;
       transition: transform 0.2s, background 0.2s;
     }
-    .btn-escape:hover {
-      background: #c0392b;
-      transform: scale(1.02);
-    }
+    .btn-escape:hover { background: #c0392b; transform: scale(1.02); }
     .escribiendo {
       display: flex;
       gap: 6px;
@@ -285,7 +247,6 @@
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
     <span>Salir</span>
   </button>
-  <!-- BOTÓN LIMPIAR CHAT (NUEVO) -->
   <button class="item-menu" id="btn-limpiar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/>
@@ -308,6 +269,9 @@
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
 
+  // ⚠️ CAMBIA ESTA URL POR LA DE TU WORKER EN CLOUDFLARE
+  const WORKER_URL = 'https://liberaec-ai.TU_SUBDOMINIO.workers.dev';
+
   let testActivo = false;
   let testRespuestas = [];
   let testIndice = 0;
@@ -321,9 +285,7 @@
     { q: "🧩 <strong>Pregunta 6/6</strong><br><br>¿<strong>Sientes miedo constante o ansiedad</strong> cuando estás con esa persona?", opciones: ["Sí", "No", "No estoy segura"] }
   ];
 
-  function scrollToBottom() {
-    chat.scrollTop = chat.scrollHeight;
-  }
+  function scrollToBottom() { chat.scrollTop = chat.scrollHeight; }
 
   let escribiendoElement = null;
 
@@ -340,7 +302,6 @@
     }
   }
 
-  // Formato Markdown
   function formatMarkdown(text) {
     let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     formatted = formatted.replace(/^###\s+(.*)$/gm, '<strong>$1</strong>');
@@ -353,9 +314,7 @@
     div.className = `mensaje ${tipo === 'bot' ? 'bot' : 'user'}`;
     const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     let contenido = text;
-    if (tipo === 'bot') {
-      contenido = formatMarkdown(text);
-    }
+    if (tipo === 'bot') contenido = formatMarkdown(text);
     div.innerHTML = `${contenido}<div class="tiempo">${hora}</div>`;
     chat.appendChild(div);
     scrollToBottom();
@@ -375,7 +334,6 @@
     scrollToBottom();
   }
 
-  // Test
   function mostrarPreguntaTest() {
     if (testIndice >= preguntasTest.length) {
       const totalSi = testRespuestas.filter(r => r === "Sí").length;
@@ -399,13 +357,11 @@
     addOpciones(opcionesBotones);
   }
 
-  // Conexión al Worker
   async function obtenerRespuestaWorker(mensaje) {
-    const url = 'https://liberaec-ai.talleresycapacitaciones2025.workers.dev/chat';
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 20000);
     try {
-      const response = await fetch(url, {
+      const response = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: mensaje }),
@@ -418,11 +374,10 @@
     } catch (err) {
       clearTimeout(timeoutId);
       console.error('Error en Worker:', err);
-      return "🔌 No se pudo conectar al servidor. Intenta de nuevo o llama al **147**.";
+      return "🔌 No pude conectar en este momento. Puedes intentarlo de nuevo o, si necesitas hablar con alguien ahora, llama al **147** (Línea Mujer) o al **911** si estás en peligro.";
     }
   }
 
-  // Manejador principal
   async function manejarInput(texto, esOpcion = false) {
     const txt = texto.trim();
     if (!txt) return;
@@ -458,7 +413,7 @@
 
     addMessage(txt, 'user');
     mostrarEscribiendo(true);
-    estadoDiv.textContent = "⏳ Consultando con Groq...";
+    estadoDiv.textContent = "⏳ Pensando...";
 
     const respuesta = await obtenerRespuestaWorker(txt);
 
@@ -467,15 +422,12 @@
     addMessage(respuesta, 'bot');
   }
 
-  // Función para limpiar el chat (NUEVA)
   function limpiarChat() {
-    // Vaciar el contenedor del chat
+    if (!confirm("¿Seguro que quieres borrar la conversación? Esta acción no se puede deshacer.")) return;
     chat.innerHTML = '';
-    // Reiniciar el estado del test
     testActivo = false;
     testRespuestas = [];
     testIndice = 0;
-    // Mostrar mensaje de bienvenida y opciones iniciales
     addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
       { texto: "📚 Tipos de violencia", valor: "tipos" },
@@ -486,7 +438,6 @@
     estadoDiv.textContent = "✅ Conectado";
   }
 
-  // Eventos
   form.onsubmit = (e) => {
     e.preventDefault();
     const val = input.value.trim();
@@ -495,12 +446,11 @@
   };
 
   document.querySelectorAll('.item-menu').forEach(btn => {
-    if (btn.id !== 'btn-limpiar') {  // excluir el botón limpiar
+    if (btn.id !== 'btn-limpiar') {
       btn.onclick = () => manejarInput(btn.getAttribute('data-a'));
     }
   });
 
-  // Evento para el botón de limpiar
   document.getElementById('btn-limpiar').onclick = limpiarChat;
 
   document.getElementById('escape').onclick = () => {
@@ -508,7 +458,6 @@
     setTimeout(() => location.href = 'https://www.google.com', 150);
   };
 
-  // Inicialización
   function init() {
     addMessage("👋 <strong>Hola, soy LiberaEc</strong><br><br>Estoy aquí para escucharte. Puedes contarme qué está pasando o usar el menú de abajo.<br><br>🔒 Tus conversaciones son confidenciales.", 'bot');
     addOpciones([
