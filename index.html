@@ -15,7 +15,6 @@
       
       --primary: #0F4C5C;
       --primary-light: #1A6B80;
-      --secondary: #5F9EA0;
       --accent: #E07A6A;
       
       --bubble-bot: #FFFFFF;
@@ -24,8 +23,8 @@
       
       --border: #E2E8F0;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       
       --fuente-tamano: 1rem;
     }
@@ -35,43 +34,37 @@
       --bg-chat: #1E293B;
       --text-main: #F8FAFC;
       --text-muted: #94A3B8;
-      
       --primary: #38BDF8;
       --primary-light: #0EA5E9;
-      --secondary: #2DD4BF;
-      
       --bubble-bot: #334155;
       --bubble-user-start: #0EA5E9;
       --bubble-user-end: #0284C7;
-      
       --border: #334155;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg-body);
       color: var(--text-main);
       font-size: var(--fuente-tamano);
       transition: background 0.3s, color 0.3s;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      /* Espacio para el input (80px) + el menú flotante (70px) */
-      padding-bottom: 160px; 
+      overflow: hidden; /* Evita el scroll en el body */
     }
 
-    /* HEADER */
+    /* 1. HEADER (Arriba del todo) */
     .encabezado {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
-      padding: 1.5rem 1rem;
+      padding: 1.2rem 1rem;
       text-align: center;
-      border-radius: 0 0 30px 30px;
-      box-shadow: var(--shadow-md);
       position: relative;
       z-index: 10;
+      flex-shrink: 0;
     }
     
     .header-controls { position: absolute; right: 15px; top: 15px; display: flex; gap: 10px; }
@@ -81,27 +74,56 @@
       display: flex; align-items: center; justify-content: center; transition: background 0.2s;
     }
     .ctrl-btn:hover { background: rgba(255,255,255,0.3); }
-    
     .encabezado h1 { 
-      font-size: 1.6rem; font-weight: 700; display: flex; align-items: center; 
-      justify-content: center; gap: 0.6rem; letter-spacing: -0.5px;
+      font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; 
+      justify-content: center; gap: 0.6rem;
     }
-    .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; font-weight: 400; }
+    .encabezado p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
 
-    /* ESTADO */
+    /* 2. BARRA DE MENÚ (Fija debajo del header) */
+    .menu-superior {
+      background: var(--bg-chat);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0.2rem;
+      box-shadow: var(--shadow-sm);
+      z-index: 9;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+
+    .item-menu {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: none; border: none; font-size: 0.65rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; padding: 6px 10px;
+      border-radius: 12px; transition: all 0.2s; min-width: 60px;
+    }
+    .item-menu svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .item-menu:hover { color: var(--primary); background: var(--bg-body); }
+
+    /* 3. ESTADO (Conectado) */
     .estado { 
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem; 
-      margin: 1rem auto; padding: 0.4rem 1.2rem; border-radius: 40px; 
-      width: fit-content; font-size: 0.75rem; font-weight: 500;
-      background: var(--bg-chat); color: var(--text-muted); box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; 
+      padding: 0.5rem; font-size: 0.75rem; font-weight: 500;
+      background: var(--bg-body); color: var(--text-muted); 
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
-    /* CHAT AREA */
+    /* 4. CHAT AREA (Toma el espacio central restante) */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto; /* Solo esta área hace scroll */
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
     .chat {
-      flex: 1; max-width: 800px; width: 100%; margin: 0 auto;
-      padding: 1rem 1rem 2rem; display: flex; flex-direction: column; gap: 1.2rem;
-      overflow-y: auto;
+      max-width: 800px; width: 100%; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 1.2rem;
     }
 
     .mensaje {
@@ -126,7 +148,6 @@
 
     .tiempo { font-size: 0.65rem; opacity: 0.7; margin-top: 0.6rem; text-align: right; font-weight: 500; }
     
-    /* BOTONES DE ACCIÓN EN MENSAJES */
     .btn-accion-mini { 
       background: var(--bg-body); border: 1px solid var(--border); color: var(--primary); 
       cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-top: 10px; 
@@ -142,7 +163,6 @@
     }
     .btn-descarga:hover { background: #D1FAE5; }
 
-    /* OPCIONES (BOTONES RÁPIDOS) */
     .opciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.5rem 0; justify-content: center; }
     .btn-op {
       display: flex; align-items: center; gap: 0.6rem; background: var(--bg-chat); 
@@ -152,12 +172,12 @@
     }
     .btn-op:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
-    /* INPUT AREA (Fija abajo) */
+    /* 5. INPUT AREA (Fija abajo) */
     .input-area {
-      position: fixed; bottom: 70px; left: 0; right: 0; /* Sube para dejar espacio al menú en móvil */
+      flex-shrink: 0;
       background: var(--bg-chat); border-top: 1px solid var(--border);
-      padding: 0.8rem 1rem; display: flex; gap: 0.6rem; z-index: 100;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+      padding: 0.8rem 1rem; 
+      z-index: 10;
     }
 
     .input-wrapper {
@@ -193,39 +213,15 @@
     }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
 
-    /* MENÚ FLOTANTE (Entre el chat y el input) */
-    .menu-persistente {
-      position: fixed; 
-      bottom: 0; /* Pegado al fondo en móvil */
-      left: 0; 
-      right: 0;
-      background: var(--bg-chat); 
-      border-top: 1px solid var(--border);
-      display: flex; 
-      justify-content: space-around; 
-      padding: 0.5rem 0;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-      z-index: 101;
-    }
-
-    .item-menu {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      background: none; border: none; font-size: 0.65rem; font-weight: 600;
-      color: var(--text-muted); cursor: pointer; padding: 6px 10px;
-      border-radius: 30px; transition: all 0.2s;
-    }
-    .item-menu svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
-    .item-menu:hover { color: var(--primary); }
-
-    /* BOTÓN DE PÁNICO */
+    /* BOTÓN DE PÁNICO (Flotante a la derecha) */
     .btn-panico {
-      position: fixed; bottom: 150px; right: 16px;
+      position: fixed; bottom: 90px; right: 16px;
       background: var(--accent); color: white; border: none; border-radius: 40px;
       padding: 12px 20px; font-weight: 700; display: flex; align-items: center; gap: 8px;
       cursor: pointer; z-index: 110; box-shadow: 0 4px 15px rgba(224,122,106,0.5);
       transition: all 0.2s; font-size: 0.85rem;
     }
-    .btn-panico:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(224,122,106,0.6); }
+    .btn-panico:hover { transform: translateY(-3px); }
 
     /* ALERTA EMERGENCIA */
     .alerta-emergencia {
@@ -233,11 +229,10 @@
       padding: 20px; border-radius: 16px; margin: 10px 0; text-align: center;
     }
     .alerta-emergencia strong { display: block; font-size: 1.1rem; margin-bottom: 10px; }
-    .alerta-emergencia p { font-size: 0.9rem; margin-bottom: 15px; }
     .alerta-emergencia button {
       background: #EF4444; color: white; border: none; padding: 12px 20px;
       border-radius: 12px; margin-top: 8px; font-weight: 700; cursor: pointer;
-      width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; font-size: 1rem;
     }
 
     /* INDICADOR ESCRIBIENDO */
@@ -251,72 +246,28 @@
     .punto:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
 
-    /* FOOTER */
-    footer {
-      text-align: center; font-size: 0.75rem; color: var(--text-muted);
-      padding: 1.2rem; background: transparent;
-      position: fixed; bottom: 125px; left: 0; right: 0; z-index: 50;
-    }
-
-    /* RESPONSIVE (Escritorio) */
-    @media (min-width: 768px) {
-      body { padding-bottom: 140px; }
-      
-      .input-area {
-        bottom: 0;
-        padding: 1rem;
-        background: transparent;
-        box-shadow: none;
-        pointer-events: none;
-      }
-      .input-wrapper {
-        background: var(--bg-chat);
-        padding: 0.8rem;
-        border-radius: 40px;
-        box-shadow: var(--shadow-lg);
-        border: 1px solid var(--border);
-        pointer-events: auto;
-        max-width: 700px;
-      }
-
-      .menu-persistente {
-        bottom: 90px; /* Flota sobre el input */
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: fit-content;
-        border-radius: 40px;
-        border: 1px solid var(--border);
-        padding: 0.4rem;
-        box-shadow: var(--shadow-lg);
-      }
-      
-      .item-menu:hover { background: var(--bg-body); border-radius: 20px; }
-      
-      .btn-panico { bottom: 160px; right: 30px; }
-      footer { display: none; } /* Ocultar footer en escritorio */
+    @media (max-width: 600px) {
+      .btn-panico span { display: none; } /* Solo icono en móvil */
+      .btn-panico { padding: 12px; border-radius: 50%; }
     }
   </style>
 </head>
 <body>
+<!-- 1. HEADER -->
 <div class="encabezado">
   <div class="header-controls">
     <button class="ctrl-btn" id="btn-font" title="Cambiar tamaño de letra">A+</button>
     <button class="ctrl-btn" id="btn-theme" title="Modo oscuro">🌙</button>
   </div>
   <h1>
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     LiberaEc
   </h1>
-  <p>Espacio seguro de acompañamiento y orientación legal</p>
+  <p>Espacio seguro de acompañamiento legal</p>
 </div>
 
-<div id="estado" class="estado">☁️ Conectando...</div>
-<main class="chat" id="chat"></main>
-
-<button class="btn-panico" id="escape"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg><span>Salir rápido</span></button>
-
-<div class="menu-persistente">
+<!-- 2. MENÚ SUPERIOR -->
+<div class="menu-superior">
   <button class="item-menu" data-a="cambiar-perfil"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></button>
   <button class="item-menu" data-a="tipos"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Tipos</span></button>
   <button class="item-menu" data-a="recursos"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Recursos</span></button>
@@ -324,27 +275,37 @@
   <button class="item-menu" id="btn-limpiar"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg><span>Limpiar</span></button>
 </div>
 
+<!-- 3. ESTADO -->
+<div id="estado" class="estado">☁️ Conectando...</div>
+
+<!-- 4. CHAT -->
+<div class="chat-container" id="chat-container">
+  <main class="chat" id="chat"></main>
+</div>
+
+<!-- BOTÓN DE PÁNICO -->
+<button class="btn-panico" id="escape">
+  <svg width="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <span>Salir rápido</span>
+</button>
+
+<!-- 5. INPUT -->
 <form class="input-area" id="form">
   <div class="input-wrapper">
     <button type="button" class="btn-microfono" id="btn-mic" title="Hablar por micrófono">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
     </button>
     <input type="text" id="input" class="input-chat" placeholder="Escribe o usa el micrófono..." autocomplete="off">
     <button type="submit" class="btn-enviar">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </button>
   </div>
 </form>
 
-<footer>
-  <p>Emergencia: <strong>911</strong> · Línea Mujer: <strong>147</strong></p>
-</footer>
-
 <script>
-// El script es exactamente el mismo que ya tenías y funciona perfectamente.
-// Se ha mantenido intacto para no romper ninguna funcionalidad.
 (function() {
   const chat = document.getElementById('chat');
+  const chatContainer = document.getElementById('chat-container');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
   const estadoDiv = document.getElementById('estado');
@@ -367,7 +328,8 @@
     document.documentElement.style.setProperty('--fuente-tamano', zoomLevel + 'rem');
   };
 
-  function scrollToBottom() { chat.scrollTop = chat.scrollHeight; }
+  // Ahora el scroll se hace en el contenedor, no en el body
+  function scrollToBottom() { chatContainer.scrollTop = chatContainer.scrollHeight; }
 
   let escribiendoElement = null;
   function mostrarEscribiendo(show) {
